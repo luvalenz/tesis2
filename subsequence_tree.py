@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.cluster import AffinityPropagation
-import pydotplus as pydot
+#import pydotplus as pydot
 from collections import Counter
 from distance_utils import time_series_twed
 
@@ -10,7 +10,7 @@ class SubsequenceTree:
     def __init__(self, max_level, prototype_subsequences_list,
                  affinities, db_time_series):
         self.max_level = max_level
-        self.graph = pydot.Dot(graph_type='graph')
+        #self.graph = pydot.Dot(graph_type='graph')
         self.query_ts = None
         self.query_score_chart = None
         self.node_shortcuts = None
@@ -89,12 +89,12 @@ class SubsequenceTree:
             return self.original_time_series_ids
         return _get_original_time_series_ids
 
-    def save_graph(self):
-        self.generate_graph()
-        self.graph.write_png('graph.png')
-
-    def generate_graph(self):
-        self.root.add_to_graph(None, self.graph)
+    # def save_graph(self):
+    #     self.generate_graph()
+    #     self.graph.write_png('graph.png')
+    #
+    # def generate_graph(self):
+    #     self.root.add_to_graph(None, self.graph)
 
     def _build_tree(self, affinities, prototypes):
         self.root = Node(0, self.max_level, prototypes, affinities, None,
@@ -246,12 +246,12 @@ class Node:
                                    for subsequence in prototypes)
         self._inverted_file = Counter(original_time_series_id)
 
-    def add_to_graph(self, parent_graph_node, graph):
-        graph_node = pydot.Node(str(self))
-        graph.add_node(graph_node)
-        if parent_graph_node is not None:
-            graph.add_edge(pydot.Edge(parent_graph_node,
-                                      graph_node))
-        if self.children is not None:
-            for child in self.children:
-                child.add_to_graph(graph_node, graph)
+    # def add_to_graph(self, parent_graph_node, graph):
+    #     graph_node = pydot.Node(str(self))
+    #     graph.add_node(graph_node)
+    #     if parent_graph_node is not None:
+    #         graph.add_edge(pydot.Edge(parent_graph_node,
+    #                                   graph_node))
+    #     if self.children is not None:
+    #         for child in self.children:
+    #             child.add_to_graph(graph_node, graph)

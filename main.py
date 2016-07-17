@@ -14,7 +14,7 @@ def get_macho_lightcurve(path):
 
 if __name__ == '__main__':
     #root_path = '/home/lucas/Desktop/mackenzie_data/'
-    root_path = '/user/luvalenz/mackenzie_data'
+    root_path = '/user/luvalenz/mackenzie_data/'
     #load affinities
     print("loading affinities")
     affinites_path = root_path + 'twed_matrix_t_w=250_num20000_macho.npz'

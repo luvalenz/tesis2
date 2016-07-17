@@ -13,15 +13,16 @@ def get_macho_lightcurve(path):
     return TimeSeriesOriginal(time, magnitude, path)
 
 if __name__ == '__main__':
-
+    #root_path = '/home/lucas/Desktop/mackenzie_data/'
+    root_path = '/user/luvalenz/mackenzie_data'
     #load affinities
     print("loading affinities")
-    affinites_path = '/home/lucas/Desktop/mackenzie_data/twed_matrix_t_w=250_num20000_macho.npz'
+    affinites_path = root_path + 'twed_matrix_t_w=250_num20000_macho.npz'
     npzfile = np.load(affinites_path)
     affinities = - npzfile[npzfile.files[0]]
     #load sample
     print("loading sample")
-    sample_path = '/home/lucas/Desktop/mackenzie_data/lcs_samples_t_w=250_num1000_macho.pickle'
+    sample_path = root_path + 'lcs_samples_t_w=250_num1000_macho.pickle'
     with open(sample_path, 'rb') as f:
         u = pickle._Unpickler(f)
         u.encoding = 'latin1'

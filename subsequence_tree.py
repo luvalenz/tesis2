@@ -143,6 +143,9 @@ class Node:
         self.parent = parent
         self.get_original_time_series_ids_in_tree = original_time_series_ids_getter
         self._id = next_node_id_getter()
+        print("node {0}".format(self._id))
+        print("prototypes length = {0}".format(len(prototyes)))
+        print("affinities shape = {0}".format(affinities.shape))
         self.n_query_subsequences = 0
         self.children = None
         self._inverted_file = None

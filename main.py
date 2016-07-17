@@ -34,7 +34,6 @@ if __name__ == '__main__':
     max_level = 3
     print("building tree")
     st = SubsequenceTree(max_level, prototypes, affinities, [])
-    st.save_graph()
     print(st.query_vector)
     test_ts = get_macho_lightcurve('/home/lucas/MACHO training lightcurves/BE/lc_1.3567.1310.B.mjd')
     result = st.make_query(test_ts)

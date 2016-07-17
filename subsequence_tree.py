@@ -144,7 +144,7 @@ class Node:
         self.get_original_time_series_ids_in_tree = original_time_series_ids_getter
         self._id = next_node_id_getter()
         print("-- NODE {0} --".format(self._id))
-        print("level".format(level))
+        print("level {0}".format(level))
         print("prototypes length = {0}".format(len(prototypes)))
         print("affinities shape = {0}".format(affinities.shape))
         print("")
@@ -213,6 +213,7 @@ class Node:
         ap = AffinityPropagation(affinity='precomputed', verbose=True)
         ap.fit(affinities)
         n_clusters = len(ap.cluster_centers_indices_)
+        print("n clusters = {0}".format(n_clusters))
         cluster_centers = prototypes[ap.cluster_centers_indices_]
         labels = ap.labels_
         children = []

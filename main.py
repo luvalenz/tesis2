@@ -22,7 +22,7 @@ if __name__ == '__main__':
     affinities = - npzfile[npzfile.files[0]]
     #load sample
     print("loading sample")
-    sample_path = root_path + 'lcs_samples_t_w=250_num1000_macho.pickle'
+    sample_path = root_path + 'lcs_samples_t_w=250_num20000_macho.pickle'
     with open(sample_path, 'rb') as f:
         u = pickle._Unpickler(f)
         u.encoding = 'latin1'

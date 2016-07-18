@@ -210,7 +210,7 @@ class Node:
 
     def _generate_children(self, affinities,
                            next_node_id_getter, prototypes):
-        ap = AffinityPropagation(affinity='precomputed', verbose=True)
+        ap = AffinityPropagation(affinity='precomputed', verbose=True, max_iter=1000)
         ap.fit(affinities)
         n_clusters = len(ap.cluster_centers_indices_)
         print("n clusters = {0}".format(n_clusters))

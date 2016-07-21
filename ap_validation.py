@@ -28,7 +28,7 @@ def run_validation(affinities):
     return x, y, reg
 
 if __name__ == '__main__':
-    matrix_path = '/home/lucas/Desktop/mackenzie_data/twed_matrix_t_w=250_num20000_macho.npz'
+    matrix_path = '/user/luvalenz/mackenzie_data/twed_matrix_t_w=250_num20000_macho.npz'
     distances = get_distance_matrix(matrix_path)
     affinities = -distances
     print("running validation...")

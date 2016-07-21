@@ -64,7 +64,9 @@ class SubsequenceTree:
         not_zero_query_vector = self.query_vector[not_zero_node_ids]
         not_zero_d_matrix = self.d_matrix[:, not_zero_node_ids]
         score = np.sum(not_zero_query_vector*not_zero_d_matrix, axis=1)
-        return 2-2*score
+        score = 2-2*score
+        ts_with_score = np.column_stack((self.original_time_series_ids, score))
+        return ts_with_score[score < 2, :]
 
 
     def get_db_subsequences_dict(self):
@@ -102,9 +104,12 @@ class SubsequenceTree:
                          self.get_original_time_series_ids())
 
     def _populate_tree(self, db_time_series):
-        for ts in db_time_series:
+        print("populating tree")
+        for i, ts in enumerate(db_time_series):
+            print("{0} time series added".format(i))
             for subsequence in ts.run_sliding_window():
                 self._add_subsequence(subsequence)
+
 
     def _build_node_shorcuts(self):
         shortcut_dict = {}
@@ -127,9 +132,6 @@ class SubsequenceTree:
         self.d_matrix = np.nan_to_num(d_matrix)
 
     def _add_subsequence(self, subsequence):
-        id_ = subsequence._id
-        self.db_subsequences_dict[id_] = subsequence
-        self.db_subsequences_ids.append(id_)
         self.root.add_db_subsequence(subsequence)
 
 
@@ -245,7 +247,7 @@ class Node:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]
             nearest_child = self.children[np.argmin(distances)]
-            nearest_child.add_query_subsequence(subsequence)
+            nearest_child.add_db_subsequence(subsequence)
 
     def _generate_inverted_file(self, prototypes):
         original_time_series_id = (subsequence.original_id

@@ -1,9 +1,9 @@
 import numpy as np
-#from numba import jit, float64
+from numba import jit, float64
 
 
-#@jit(float64[:, :](float64[:, :], float64[:], float64[:], float64[:],
-#     float64[:], float64, float64), nopython=True)
+@jit(float64[:, :](float64[:, :], float64[:], float64[:], float64[:],
+    float64[:], float64, float64), nopython=True)
 def pairwise_tweds(TWED, A, A_times, B, B_times, lam=0.5, nu=1e-5):
     for i in range(1, len(A)):
         for j in range(1, len(B)):

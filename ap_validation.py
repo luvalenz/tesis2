@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.cluster import AffinityPropagation
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 def get_distance_matrix(file_path):

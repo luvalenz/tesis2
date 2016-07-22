@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.cluster import AffinityPropagation
-#import matplotlib.pyplot as plt
+import os
+import matplotlib.pyplot as plt
 
 
 def get_distance_matrix(file_path):
@@ -20,15 +21,34 @@ def run_affinity_propagation(affinities, preference_factor):
 
 
 def run_validation(affinities):
-    x = np.exp(np.arange(10))
+    x = np.exp(np.arange(np.ceil(np.log(len(affinities))) + 2))
     y = np.array([run_affinity_propagation(affinities, preference_factor)
                   for preference_factor in x])
     indices = np.where(x >= len(affinities))[0]
     reg = np.polyfit(np.log(x[indices]), np.log(y[indices]), 1)
     return x, y, reg
 
+
+def plot_results(x, y, reg, length):
+    log_length = np.log(length)
+    log_y_reg = np.poly1d(reg)(np.log(x))
+    log_y_reg[log_y_reg > log_length] = log_length
+    y_reg = np.exp(log_y_reg)
+    plt.plot(x, y, '.')
+    plt.plot(x, y_reg)
+    plt.show()
+    plt.plot(np.log(x), np.log(y), '.')
+    plt.plot(np.log(x), log_y_reg)
+    plt.show()
+
+
+
 if __name__ == '__main__':
-    matrix_path = '/user/luvalenz/mackenzie_data/twed_matrix_t_w=250_num20000_macho.npz'
+    root = '/user/luvalenz/mackenzie_data/'
+    #root = '/home/lucas/Desktop/mackenzie_data'
+    filename = 'twed_matrix_t_w=250_num20000_macho.npz'
+    #filename = 'twed_matrix_t_w=250_num2000_macho.npz'
+    matrix_path = os.path.join(root, filename)
     distances = get_distance_matrix(matrix_path)
     affinities = -distances
     print("running validation...")
@@ -36,6 +56,8 @@ if __name__ == '__main__':
     print("DONE")
     m, n = reg
     print(m, n)
+    plot_results(x, y, reg, len(affinities))
+
 
 
 

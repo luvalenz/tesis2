@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.cluster import AffinityPropagation
 import os
+import pandas as pd
 #import matplotlib.pyplot as plt
 
 
@@ -46,17 +47,22 @@ def run_validation(affinities):
 if __name__ == '__main__':
     root = '/user/luvalenz/mackenzie_data/'
     #root = '/home/lucas/Desktop/mackenzie_data'
-    filename = 'twed_matrix_t_w=250_num20000_macho.npz'
-    #filename = 'twed_matrix_t_w=250_num2000_macho.npz'
-    matrix_path = os.path.join(root, filename)
-    distances = get_distance_matrix(matrix_path)
-    affinities = -distances
-    print("running validation...")
-    x, y, reg = run_validation(affinities)
-    print("DONE")
-    m, n = reg
-    print(m, n)
-   # plot_results(x, y, reg, len(affinities))
+    ms = []
+    ns = []
+    lengths = [1000, 20000, 3000, 4000]
+    for i, l in enumerate(lengths):
+        filename = 'twed_matrix_t_w=250_num{0}_macho.npz'.format(l)
+        matrix_path = os.path.join(root, filename)
+        distances = get_distance_matrix(matrix_path)
+        affinities = -distances
+        print("running validation...")
+        x, y, reg = run_validation(affinities)
+        print("DONE")
+        m, n = reg
+        print(m, n)
+    df = pd.DataFrame({'lengths': lengths, 'ms': ms, 'ns': ns})
+    df.to_csv('parameters.csv', sep=';')
+        # plot_results(x, y, reg, len(affinities))
 
 
 

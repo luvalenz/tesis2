@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.cluster import AffinityPropagation
 import os
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 def get_distance_matrix(file_path):
@@ -29,17 +29,17 @@ def run_validation(affinities):
     return x, y, reg
 
 
-def plot_results(x, y, reg, length):
-    log_length = np.log(length)
-    log_y_reg = np.poly1d(reg)(np.log(x))
-    log_y_reg[log_y_reg > log_length] = log_length
-    y_reg = np.exp(log_y_reg)
-    plt.plot(x, y, '.')
-    plt.plot(x, y_reg)
-    plt.show()
-    plt.plot(np.log(x), np.log(y), '.')
-    plt.plot(np.log(x), log_y_reg)
-    plt.show()
+# def plot_results(x, y, reg, length):
+#     log_length = np.log(length)
+#     log_y_reg = np.poly1d(reg)(np.log(x))
+#     log_y_reg[log_y_reg > log_length] = log_length
+#     y_reg = np.exp(log_y_reg)
+#     plt.plot(x, y, '.')
+#     plt.plot(x, y_reg)
+#     plt.show()
+#     plt.plot(np.log(x), np.log(y), '.')
+#     plt.plot(np.log(x), log_y_reg)
+#     plt.show()
 
 
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     print("DONE")
     m, n = reg
     print(m, n)
-    plot_results(x, y, reg, len(affinities))
+   # plot_results(x, y, reg, len(affinities))
 
 
 

@@ -49,7 +49,7 @@ if __name__ == '__main__':
     #root = '/home/lucas/Desktop/mackenzie_data'
     ms = []
     ns = []
-    lengths = [1000, 20000, 3000]
+    lengths = [1000, 2000, 3000, 4000]
     for i, l in enumerate(lengths):
         filename = 'twed_matrix_t_w=250_num{0}_macho.npz'.format(l)
         matrix_path = os.path.join(root, filename)

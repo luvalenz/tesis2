@@ -45,8 +45,8 @@ def run_validation(affinities):
 
 
 if __name__ == '__main__':
-    root = '/user/luvalenz/mackenzie_data/'
-    #root = '/home/lucas/Desktop/mackenzie_data'
+    #root = '/user/luvalenz/mackenzie_data/'
+    root = '/home/lucas/Desktop/mackenzie_data'
     ms = []
     ns = []
     lengths = [1000, 2000, 3000, 4000]

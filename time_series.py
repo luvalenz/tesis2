@@ -36,13 +36,14 @@ class TimeSeriesOriginal(TimeSeries):
         i = 0
         while True:
             indices = np.where(np.logical_and(t >= start_time, t < end_time))[0]
-            x = self.time[indices]
-            y = self.magnitude[indices]
-            subsequence_id = '{0}.{1}'.format(self._id, i)
-            subsequence = TimeSeriesSubsequence(x, y, subsequence_id,
-                                                self._id)
-            subsequence.zeroify_time()
-            result.append(subsequence)
+            if len(indices) > 0:
+                x = self.time[indices]
+                y = self.magnitude[indices]
+                subsequence_id = '{0}.{1}'.format(self._id, i)
+                subsequence = TimeSeriesSubsequence(x, y, subsequence_id,
+                                                    self._id)
+                subsequence.zeroify_time()
+                result.append(subsequence)
             if end_time > t_last:
                 break
             start_time += time_step

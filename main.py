@@ -30,7 +30,7 @@ def results_are_equal(r1, r2):
 
 
 def build_tree(sample_path, affinities_path, db_path,
-               output_path, max_level):
+               output_path, max_level, clustering_threshold):
     with open(sample_path, 'rb') as f:
         u = pickle._Unpickler(f)
         u.encoding = 'latin1'
@@ -42,7 +42,7 @@ def build_tree(sample_path, affinities_path, db_path,
     affinities = - distances
     dataset = get_macho_dataset(db_path)
     print('building tree...')
-    st = SubsequenceTree(max_level, prototypes, affinities, dataset, max_level)
+    st = SubsequenceTree(max_level, prototypes, affinities, dataset, max_level, clustering_threshold)
     print('done')
     with open( output_path, "wb" ) as f:
         dill.dump(st,  f)
@@ -54,14 +54,15 @@ if __name__ == '__main__':
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'output')
-    n = 20000
+    n = 1000
     affinities_path = os.path.join(mac_data_path, 'twed_matrix_t_w=250_num{0}_macho.npz'.format(n))
     sample_path = os.path.join(mac_data_path, 'lcs_samples_t_w=250_num{0}_macho.pickle'.format(n))
-    max_level = 10
+    max_level = 1000
+    clustering_threshold = 10
     output_filename = 'sequence_tree_{0}samples_{1}levels.dill'.format(n, max_level)
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, affinities_path, db_path,
-               output_full_path, max_level)
+               output_full_path, max_level, clustering_threshold)
 
 
 

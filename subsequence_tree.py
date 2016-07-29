@@ -9,7 +9,8 @@ import pandas as pd
 class SubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
-                 affinities, db_time_series, approximate_branching_factor):
+                 affinities, db_time_series, approximate_branching_factor,
+                 clustering_threshold):
         self.max_level = max_level
         #self.graph = pydot.Dot(graph_type='graph')
         self.query_ts = None
@@ -22,7 +23,7 @@ class SubsequenceTree:
         self.approximate_branching_factor = approximate_branching_factor
         self.n_nodes = 0
         prototype_subsequences = np.array(prototype_subsequences_list)
-        self._build_tree(affinities, prototype_subsequences)
+        self._build_tree(affinities, prototype_subsequences, clustering_threshold)
         self._populate_tree(db_time_series)
         self._build_node_shorcuts()
         self._build_weights_vector()
@@ -103,10 +104,12 @@ class SubsequenceTree:
     # def generate_graph(self):
     #     self.root.add_to_graph(None, self.graph)
 
-    def _build_tree(self, affinities, prototypes):
+    def _build_tree(self, affinities, prototypes,
+                    clustering_threshold):
         self.root = Node(0, self.max_level, prototypes, affinities, None,
                          None, self.get_next_node_id(),
-                         self.get_original_time_series_ids())
+                         self.get_original_time_series_ids(),
+                         clustering_threshold)
 
     def _populate_tree(self, db_time_series):
         print("populating tree")
@@ -141,7 +144,8 @@ class SubsequenceTree:
 class Node:
 
     def __init__(self, level, max_level, prototypes, affinities, center,
-                 parent, next_node_id_getter, original_time_series_ids_getter):
+                 parent, next_node_id_getter, original_time_series_ids_getter,
+                 clustering_threshold):
         self.level = level
         self.max_level = max_level
         self.center = center
@@ -156,10 +160,11 @@ class Node:
         self.n_query_subsequences = 0
         self.children = None
         self._inverted_file = None
-        if level + 1 == max_level or len(prototypes) == 1:
+        if level + 1 == max_level or len(prototypes) <= clustering_threshold:
             self._generate_inverted_file(prototypes)
         else:
-            self._generate_children(affinities, next_node_id_getter, prototypes)
+            self._generate_children(affinities, next_node_id_getter, prototypes,
+                                    clustering_threshold)
 
     @property
     def is_leaf(self):
@@ -215,7 +220,7 @@ class Node:
                 child.add_shortcut_to_dict(shortcut_dict)
 
     def _generate_children(self, affinities,
-                           next_node_id_getter, prototypes):
+                           next_node_id_getter, prototypes, clustering_threshold):
         ap = AffinityPropagation(affinity='precomputed',
                                  preference=np.min(affinities))
         ap.fit(affinities)
@@ -232,7 +237,8 @@ class Node:
             child = Node(self.level + 1, self.max_level, child_prototypes,
                          child_affinities, center,
                          self, next_node_id_getter,
-                         self.get_original_time_series_ids_in_tree)
+                         self.get_original_time_series_ids_in_tree,
+                         clustering_threshold)
             children.append(child)
         self.children = children
 

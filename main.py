@@ -4,12 +4,12 @@ import dill
 import pandas as pd
 from time_series import TimeSeriesOriginal, TimeSeriesSubsequence
 import numpy as np
-import glob
+import glob2 as glob
 import os
 
 
 def get_macho_dataset(root, max_files=None):
-    paths = glob.iglob(os.path.join(root,'**/*.mjd'), recursive=True)
+    paths = glob.iglob(os.path.join(root,'**/*.mjd'))
     if max_files is not None:
         paths = list(paths)[:max_files]
     lightcurves = (get_macho_lightcurve(file_path)
@@ -49,8 +49,8 @@ def build_tree(sample_path, affinities_path, db_path,
 
 
 if __name__ == '__main__':
-    #root_path = '/home/lucas/tesis2'
-    root_path = '/user/luvalenz'
+    root_path = '/home/lucas/tesis2'
+    #root_path = '/user/luvalenz'
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'output')

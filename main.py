@@ -54,7 +54,7 @@ if __name__ == '__main__':
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'output')
-    n = 1000
+    n = 20000
     affinities_path = os.path.join(mac_data_path, 'twed_matrix_t_w=250_num{0}_macho.npz'.format(n))
     sample_path = os.path.join(mac_data_path, 'lcs_samples_t_w=250_num{0}_macho.pickle'.format(n))
     max_level = 1000

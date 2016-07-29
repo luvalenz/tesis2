@@ -1,6 +1,6 @@
 import numpy as np
 import random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 class TimeSeries:
@@ -10,9 +10,9 @@ class TimeSeries:
         self.magnitude = magnitude
         self._id = id_
 
-    def plot(self, color):
-        plt.plot(self.time, self.magnitude, '.', color=color)
-        plt.show()
+    # def plot(self, color):
+    #     plt.plot(self.time, self.magnitude, '.', color=color)
+    #     plt.show()
 
 
 class TimeSeriesOriginal(TimeSeries):

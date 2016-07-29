@@ -1,5 +1,6 @@
 from subsequence_tree import SubsequenceTree
 import pickle
+import dill
 import pandas as pd
 from time_series import TimeSeriesOriginal, TimeSeriesSubsequence
 import numpy as np
@@ -23,49 +24,45 @@ def get_macho_lightcurve(path):
     magnitude = df['Mag'].values
     return TimeSeriesOriginal(time, magnitude, path)
 
-if __name__ == '__main__':
-    root_path = '/home/lucas/Desktop/mackenzie_data/'
-    db_path = '/home/lucas/MACHO training lightcurves'
-    #root_path = '/user/luvalenz/mackenzie_data/'
-    #load affinities
-    print("loading affinities")
-    #affinites_path = root_path + 'twed_matrix_t_w=250_num20000_macho.npz'
-    affinites_path = root_path + 'twed_matrix_t_w=250_num1000_macho.npz'
-    npzfile = np.load(affinites_path)
-    affinities = - npzfile[npzfile.files[0]]
-    print("affinities shape = {0}".format(len(affinities)))
-    #load sample
-    print("loading sample")
-    #sample_path = root_path + 'lcs_samples_t_w=250_num20000_macho.pickle'
-    sample_path = root_path + 'lcs_samples_t_w=250_num1000_macho.pickle'
+def results_are_equal(r1, r2):
+    r1 = r1.values
+    r2 = r2.values
+    return np.all(r1 - r2 < 1e-3)
+
+
+def build_tree(sample_path, affinities_path, db_path,
+               output_path, max_level):
     with open(sample_path, 'rb') as f:
         u = pickle._Unpickler(f)
         u.encoding = 'latin1'
         sample = u.load()
-    print("sample length = {0}".format(len(sample)))
-    print(len(sample[0]))
-    #build prototypes
-    print("building prototypes")
     prototypes = [TimeSeriesSubsequence(time, magnitude, path, path)
                   for path, magnitude, time in zip(*sample)]
-    max_level = 3
-    #loading db lightcurves
-    dataset = get_macho_dataset(db_path, 100)
-    test_ts = get_macho_lightcurve('/home/lucas/MACHO training lightcurves/BE/lc_1.3567.1310.B.mjd')
-    test_ts.plot()
-    print("building tree")
-    st = SubsequenceTree(max_level, prototypes, affinities, dataset)
-    print(st.query_vector)
-    result = st.make_query(test_ts)
-    print(st.query_vector)
-    print("d matrix")
-    print(st.d_matrix)
-    print("inverted_files")
-    for i, node in enumerate(st.node_shortcuts):
-        print("{0}: {1}".format(i, node.inverted_file))
-    print("query result")
-    print(result)
-    print("query vector")
-    print(st.query_vector)
-    print("query result 2")
-    print(cdist(np.matrix(st.query_vector), st.d_matrix)**2)
+    npzfile = np.load(affinities_path)
+    distances = npzfile[npzfile.files[0]]
+    affinities = - distances
+    dataset = get_macho_dataset(db_path)
+    print('building tree...')
+    st = SubsequenceTree(max_level, prototypes, affinities, dataset, max_level)
+    print('done')
+    with open( output_path, "wb" ) as f:
+        dill.dump(st,  f)
+
+
+if __name__ == '__main__':
+    #root_path = '/home/lucas/tesis2'
+    root_path = '/user/luvalenz'
+    mac_data_path = os.path.join(root_path, 'mackenzie_data/')
+    db_path = os.path.join(root_path, 'macho_training_lightcurves')
+    output_path = os.path.join(root_path, 'output')
+    n = 1000
+    affinities_path = os.path.join(mac_data_path, 'twed_matrix_t_w=250_num{0}_macho.npz'.format(n))
+    sample_path = os.path.join(mac_data_path, 'lcs_samples_t_w=250_num{0}_macho.pickle'.format(n))
+    max_level = 10
+    output_filename = 'sequence_tree_{0}samples_{1}levels.dill'.format(n, max_level)
+    output_full_path = os.path.join(output_path, output_filename)
+    build_tree(sample_path, affinities_path, db_path,
+               output_full_path, max_level)
+
+
+

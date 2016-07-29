@@ -1,6 +1,6 @@
 import numpy as np
 import random
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 class TimeSeries:
@@ -10,9 +10,9 @@ class TimeSeries:
         self.magnitude = magnitude
         self._id = id_
 
-    # def plot(self):
-    #     plt.plot(self.time, self.magnitude, '.')
-    #     plt.show()
+    def plot(self, color):
+        plt.plot(self.time, self.magnitude, '.', color=color)
+        plt.show()
 
 
 class TimeSeriesOriginal(TimeSeries):
@@ -41,6 +41,7 @@ class TimeSeriesOriginal(TimeSeries):
             subsequence_id = '{0}.{1}'.format(self._id, i)
             subsequence = TimeSeriesSubsequence(x, y, subsequence_id,
                                                 self._id)
+            subsequence.zeroify_time()
             result.append(subsequence)
             if end_time > t_last:
                 break

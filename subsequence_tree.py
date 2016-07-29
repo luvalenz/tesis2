@@ -264,9 +264,10 @@ class Node:
             nearest_child.add_db_subsequence(subsequence)
 
     def _generate_inverted_file(self, prototypes):
-        original_time_series_id = (subsequence.original_id
-                                   for subsequence in prototypes)
-        self._inverted_file = Counter(original_time_series_id)
+        self._inverted_file = Counter()
+        # original_time_series_id = (subsequence.original_id
+        #                            for subsequence in prototypes)
+        # self._inverted_file = Counter(original_time_series_id)
 
     # def add_to_graph(self, parent_graph_node, graph):
     #     graph_node = pydot.Node(str(self))

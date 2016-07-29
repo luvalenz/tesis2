@@ -4,7 +4,6 @@ import dill
 import pandas as pd
 from time_series import TimeSeriesOriginal, TimeSeriesSubsequence
 import numpy as np
-from scipy.spatial.distance import cdist
 import glob
 import os
 

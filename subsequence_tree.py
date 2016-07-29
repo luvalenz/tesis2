@@ -226,6 +226,9 @@ class Node:
         ap.fit(affinities)
         n_clusters = len(ap.cluster_centers_indices_)
         print("n clusters = {0}".format(n_clusters))
+        if n_clusters == 1:
+            self._generate_inverted_file(prototypes)
+            return
         cluster_centers = prototypes[ap.cluster_centers_indices_]
         labels = ap.labels_
         children = []

@@ -9,7 +9,7 @@ import os
 
 
 def get_macho_dataset(root, max_files=None):
-    paths = glob.iglob(os.path.join(root,'**/*.mjd'))
+    paths = glob.iglob(os.path.join(root, '**/*.mjd'))
     if max_files is not None:
         paths = list(paths)[:max_files]
     lightcurves = (get_macho_lightcurve(file_path)
@@ -19,6 +19,7 @@ def get_macho_dataset(root, max_files=None):
 
 def get_macho_lightcurve(path):
     df = pd.read_csv(path, header=2, delimiter=' ')
+    print(path)
     time = df['#MJD'].values
     magnitude = df['Mag'].values
     return TimeSeriesOriginal(time, magnitude, path)
@@ -49,7 +50,7 @@ def build_tree(sample_path, affinities_path, db_path,
 
 
 if __name__ == '__main__':
-    #root_path = '/home/lucas/tesis2'
+    # root_path = '/home/lucas/tesis2'
     root_path = '/user/luvalenz'
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
@@ -63,6 +64,7 @@ if __name__ == '__main__':
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, affinities_path, db_path,
                output_full_path, max_level, clustering_threshold)
+
 
 
 

@@ -49,8 +49,8 @@ def build_tree(sample_path, affinities_path, db_path,
 
 
 if __name__ == '__main__':
-    root_path = '/home/lucas/tesis2'
-    #root_path = '/user/luvalenz'
+    #root_path = '/home/lucas/tesis2'
+    root_path = '/user/luvalenz'
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'output')

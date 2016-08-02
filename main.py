@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # sample_path = os.path.join(mac_data_path, 'lcs_samples_t_w=250_num{0}_macho_nocomplex.pickle'.format(n))
     affinities_path = os.path.join(lucas_data_path, 'subsequences_distances_n={0}.npz'.format(n))
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_n={0}.pickle'.format(n))
-    max_level = 10
+    max_level = 20
     clustering_threshold = 10000
     output_filename = 'sequence_tree_{0}samples_{1}levels_noNV.dill'.format(n, max_level)
     output_full_path = os.path.join(output_path, output_filename)

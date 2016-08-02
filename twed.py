@@ -12,7 +12,7 @@ def calculate_distances(subsequences):
 
 
 if __name__ == '__main__':
-    n_samples = 1000
+    n_samples = 20000
     input_path = '/home/lucas/tesis2/lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples)
     output_path = '/home/lucas/tesis2/lucas_data/subsequences_distances_n={0}.npz'.format(n_samples)
     with open(input_path, 'rb') as f:

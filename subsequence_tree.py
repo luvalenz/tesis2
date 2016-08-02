@@ -191,6 +191,8 @@ class Node:
 
     @property
     def weight(self):
+        if self.n_original_time_series_in_node == 0:
+            return 0
         return np.log(self.n_original_time_series_in_tree/
                       self.n_original_time_series_in_node)
 
@@ -264,10 +266,10 @@ class Node:
             nearest_child.add_db_subsequence(subsequence)
 
     def _generate_inverted_file(self, prototypes):
-        self._inverted_file = Counter()
         # original_time_series_id = (subsequence.original_id
         #                            for subsequence in prototypes)
         # self._inverted_file = Counter(original_time_series_id)
+        self._inverted_file = Counter()
 
     # def add_to_graph(self, parent_graph_node, graph):
     #     graph_node = pydot.Node(str(self))

@@ -1,6 +1,6 @@
 import numpy as np
 import random
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 class TimeSeries:
@@ -10,15 +10,17 @@ class TimeSeries:
         self.magnitude = magnitude
         self._id = id_
 
-    # def plot(self, color):
-    #     plt.plot(self.time, self.magnitude, '.', color=color)
-    #     plt.show()
+    def plot(self, color):
+        plt.plot(self.time, self.magnitude, '.', color=color)
+        plt.show()
 
 
 class TimeSeriesOriginal(TimeSeries):
 
-    def __init__(self, time, magnitude, id_):
+    def __init__(self, time, magnitude, id_, standarize=False):
         super().__init__(time, magnitude, id_)
+        if standarize:
+            self.standardize_magnitude()
 
     def standardize_magnitude(self):
         mean = self.magnitude.mean()
@@ -26,7 +28,7 @@ class TimeSeriesOriginal(TimeSeries):
         self.magnitude -= std
         self.magnitude /= mean
 
-    def run_sliding_window(self, time_window=250, time_step=50):
+    def run_sliding_window(self, time_window=250, time_step=10):
         t = self.time
         t_0 = t[0]
         t_last = t[-1]
@@ -51,7 +53,7 @@ class TimeSeriesOriginal(TimeSeries):
             i += 1
         return result
 
-    def get_random_subsequences(self, n, time_window=250, time_step=50):
+    def get_random_subsequences(self, n, time_window=250, time_step=10):
         subsequences = self.run_sliding_window(time_window, time_step)
         return random.sample(subsequences, n)
 

@@ -38,7 +38,7 @@ def sample_subsequences(paths_file_path, n_samples):
 
 
 if __name__ == '__main__':
-    n_samples = 1000
+    n_samples = 20000
     input_path = 'lightcurves.txt'
     output_path = '/tmp/luvalenz/lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples)
     sample = sample_subsequences(input_path, n_samples)

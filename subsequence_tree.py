@@ -228,38 +228,41 @@ class Node:
         ap = AffinityPropagation(affinity='precomputed',
                                  preference=np.min(affinities))
         ap.fit(affinities)
-        n_clusters = len(ap.cluster_centers_indices_)
-        print("n clusters = {0}".format(n_clusters))
-        if n_clusters is not None and n_clusters == 1:
-            self._generate_inverted_file()
-            return
-        children = []
-        if n_clusters is None:
+        indices = ap.cluster_centers_indices_
+        n_clusters = len(ap.cluster_centers_indices_) if indices is not None else None
+        if n_clusters is None or n_clusters == 1:
             cluster_centers = prototypes
-            for center in cluster_centers:
-                child_prototypes = [center]
-                child_affinities = None
-                child = Node(self.level + 1, self.max_level, child_prototypes,
+            self._generate_children_border_case(next_node_id_getter,
+                                                cluster_centers, clustering_threshold)
+            return
+        cluster_centers = prototypes[ap.cluster_centers_indices_]
+        labels = ap.labels_
+        children = []
+        for cluster_label, center in zip(range(n_clusters),
+                                              cluster_centers):
+            indices = np.where(labels==cluster_label)[0]
+            child_prototypes = prototypes[indices]
+            child_affinities = affinities[indices][:, indices]
+            child = Node(self.level + 1, self.max_level, child_prototypes,
                          child_affinities, center,
                          self, next_node_id_getter,
                          self.get_original_time_series_ids_in_tree,
                          clustering_threshold)
-                children.append(child)
-        else:
-            cluster_centers = prototypes[ap.cluster_centers_indices_]
-            labels = ap.labels_
-            children = []
-            for cluster_label, center in zip(range(n_clusters),
-                                                  cluster_centers):
-                indices = np.where(labels==cluster_label)[0]
-                child_prototypes = prototypes[indices]
-                child_affinities = affinities[indices][:, indices]
-                child = Node(self.level + 1, self.max_level, child_prototypes,
-                             child_affinities, center,
-                             self, next_node_id_getter,
-                             self.get_original_time_series_ids_in_tree,
-                             clustering_threshold)
-                children.append(child)
+            children.append(child)
+        self.children = children
+
+    def _generate_children_border_case(self, next_node_id_getter,
+                                       cluster_centers, clustering_threshold):
+        children = []
+        for center in cluster_centers:
+            child_prototypes = [center]
+            child_affinities = None
+            child = Node(self.level + 1, self.max_level, child_prototypes,
+                     child_affinities, center,
+                     self, next_node_id_getter,
+                     self.get_original_time_series_ids_in_tree,
+                     clustering_threshold)
+            children.append(child)
         self.children = children
 
     def add_query_subsequence(self, subsequence):

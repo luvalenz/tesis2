@@ -83,12 +83,10 @@ if __name__ == '__main__':
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'output')
     n = 20000
-    # affinities_path = os.path.join(mac_data_path, 'twed_matrix_t_w=250_num{0}_macho_nocomplex.npz'.format(n))
-    # sample_path = os.path.join(mac_data_path, 'lcs_samples_t_w=250_num{0}_macho_nocomplex.pickle'.format(n))
     affinities_path = os.path.join(lucas_data_path, 'subsequences_distances_n={0}.npz'.format(n))
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_n={0}.pickle'.format(n))
     max_level = 20
-    clustering_threshold = 10000
+    clustering_threshold = 1
     output_filename = 'sequence_tree_{0}samples_{1}levels_noNV.dill'.format(n, max_level)
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, affinities_path, db_path,

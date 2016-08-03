@@ -160,8 +160,10 @@ class Node:
         self.n_query_subsequences = 0
         self.children = None
         self._inverted_file = None
+        if clustering_threshold is None or clustering_threshold <= 1:
+            clustering_threshold = 1
         if level + 1 == max_level or len(prototypes) <= clustering_threshold:
-            self._generate_inverted_file(prototypes)
+            self._generate_inverted_file()
         else:
             self._generate_children(affinities, next_node_id_getter, prototypes,
                                     clustering_threshold)
@@ -228,23 +230,36 @@ class Node:
         ap.fit(affinities)
         n_clusters = len(ap.cluster_centers_indices_)
         print("n clusters = {0}".format(n_clusters))
-        if n_clusters == 1:
-            self._generate_inverted_file(prototypes)
+        if n_clusters is not None and n_clusters == 1:
+            self._generate_inverted_file()
             return
-        cluster_centers = prototypes[ap.cluster_centers_indices_]
-        labels = ap.labels_
         children = []
-        for cluster_label, center in zip(range(n_clusters),
-                                              cluster_centers):
-            indices = np.where(labels==cluster_label)[0]
-            child_prototypes = prototypes[indices]
-            child_affinities = affinities[indices][:, indices]
-            child = Node(self.level + 1, self.max_level, child_prototypes,
+        if n_clusters is None:
+            cluster_centers = prototypes
+            for center in cluster_centers:
+                child_prototypes = [center]
+                child_affinities = None
+                child = Node(self.level + 1, self.max_level, child_prototypes,
                          child_affinities, center,
                          self, next_node_id_getter,
                          self.get_original_time_series_ids_in_tree,
                          clustering_threshold)
-            children.append(child)
+                children.append(child)
+        else:
+            cluster_centers = prototypes[ap.cluster_centers_indices_]
+            labels = ap.labels_
+            children = []
+            for cluster_label, center in zip(range(n_clusters),
+                                                  cluster_centers):
+                indices = np.where(labels==cluster_label)[0]
+                child_prototypes = prototypes[indices]
+                child_affinities = affinities[indices][:, indices]
+                child = Node(self.level + 1, self.max_level, child_prototypes,
+                             child_affinities, center,
+                             self, next_node_id_getter,
+                             self.get_original_time_series_ids_in_tree,
+                             clustering_threshold)
+                children.append(child)
         self.children = children
 
     def add_query_subsequence(self, subsequence):
@@ -265,7 +280,7 @@ class Node:
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_db_subsequence(subsequence)
 
-    def _generate_inverted_file(self, prototypes):
+    def _generate_inverted_file(self):
         # original_time_series_id = (subsequence.original_id
         #                            for subsequence in prototypes)
         # self._inverted_file = Counter(original_time_series_id)

@@ -156,7 +156,7 @@ class Node:
         print("level {0}".format(level))
         print("prototypes length = {0}".format(len(prototypes)))
         shape = affinities.shape if affinities is not None else None
-        print("affinities shape = {0}".format(affinities.shape))
+        print("affinities shape = {0}".format(shape))
         print("")
         self.n_query_subsequences = 0
         self.children = None

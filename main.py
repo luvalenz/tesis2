@@ -61,7 +61,7 @@ def build_tree(sample_path, affinities_path, db_path,
     prototypes =  list(get_macho_lucas_prototypes(sample_path))
     npzfile = np.load(affinities_path)
     distances = npzfile[npzfile.files[0]]
-    affinities = - distances
+    affinities = - distances**2
     dataset = get_macho_dataset(db_path)
     print('building tree...')
     st = SubsequenceTree(max_level, prototypes, affinities, dataset, max_level, clustering_threshold)
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'output')
-    n = 20000
+    n = 1000
     affinities_path = os.path.join(lucas_data_path, 'subsequences_distances_n={0}.npz'.format(n))
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_n={0}.pickle'.format(n))
     max_level = 20

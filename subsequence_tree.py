@@ -152,7 +152,9 @@ class Node:
         self.parent = parent
         self.get_original_time_series_ids_in_tree = original_time_series_ids_getter
         self._id = next_node_id_getter()
+        parent_id = parent._id if parent is not None else None
         print("-- NODE {0} --".format(self._id))
+        print("parent = {0}".format(parent_id))
         print("level {0}".format(level))
         print("prototypes length = {0}".format(len(prototypes)))
         shape = affinities.shape if affinities is not None else None
@@ -224,13 +226,26 @@ class Node:
             for child in self.children:
                 child.add_shortcut_to_dict(shortcut_dict)
 
+    @staticmethod
+    def run_affinity_propagation(affinities):
+        smin = np.min(affinities)
+        smax = np.max(affinities)
+        candidate_preferences = np.linspace(smin, smax, 10)
+        ap = AffinityPropagation(affinity='precomputed')
+        for preference in candidate_preferences:
+            ap.preference = preference
+            ap.fit(affinities)
+            indices = ap.cluster_centers_indices_
+            if indices is not None and len(indices) > 1:
+                break
+        return ap
+
     def _generate_children(self, affinities,
                            next_node_id_getter, prototypes, clustering_threshold):
-        ap = AffinityPropagation(affinity='precomputed',
-                                 preference=np.min(affinities))
-        ap.fit(affinities)
+        ap = self.run_affinity_propagation(affinities)
         indices = ap.cluster_centers_indices_
         n_clusters = len(ap.cluster_centers_indices_) if indices is not None else None
+        print("n_clusters = {0}".format(n_clusters))
         if n_clusters is None or n_clusters == 1:
             cluster_centers = prototypes
             self._generate_children_border_case(next_node_id_getter,

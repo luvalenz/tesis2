@@ -27,7 +27,7 @@ def get_macho_lightcurve(path):
 if __name__ == '__main__':
     dataset_root = '/home/lucas/tesis2/macho_training_lightcurves/'
     #LOAD SUBSEQUENCE TREE
-    st_path = '/home/lucas/tesis2/output/sequence_tree_1000samples_1000levels_noNV.dill'
+    st_path = '/home/lucas/tesis2/output/sequence_tree_20000samples_20levels_noNV.dill'
     with open(st_path, 'rb') as f:
         st = dill.load(f)
     #LOAD A MACHO LIGHTCURVE

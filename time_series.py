@@ -19,8 +19,8 @@ class TimeSeriesOriginal(TimeSeries):
     def standardize_magnitude(self):
         mean = self.magnitude.mean()
         std = self.magnitude.std()
-        self.magnitude -= std
-        self.magnitude /= mean
+        self.magnitude -= mean
+        self.magnitude /= std
 
     def run_sliding_window(self, time_window=250, time_step=10):
         t = self.time

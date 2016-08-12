@@ -9,9 +9,10 @@ class TimeSeries:
         self.magnitude = magnitude
         self._id = id_
 
+
 class TimeSeriesOriginal(TimeSeries):
 
-    def __init__(self, time, magnitude, id_, standarize=False):
+    def __init__(self, time, magnitude, id_, standarize=True):
         super().__init__(time, magnitude, id_)
         if standarize:
             self.standardize_magnitude()
@@ -50,7 +51,6 @@ class TimeSeriesOriginal(TimeSeries):
     def get_random_subsequences(self, n, time_window=250, time_step=10):
         subsequences = self.run_sliding_window(time_window, time_step)
         return random.sample(subsequences, n)
-
 
 
 class TimeSeriesSubsequence(TimeSeries):

@@ -9,7 +9,7 @@ import pandas as pd
 class SubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
-                 affinities, db_time_series, approximate_branching_factor,
+                 affinities, db_time_series,
                  clustering_threshold):
         self.max_level = max_level
         #self.graph = pydot.Dot(graph_type='graph')
@@ -20,7 +20,6 @@ class SubsequenceTree:
         self.d_data_frame = None
         self._original_time_series_ids = None
         self._query_vector = None
-        self.approximate_branching_factor = approximate_branching_factor
         self.n_nodes = 0
         prototype_subsequences = np.array(prototype_subsequences_list)
         self._build_tree(affinities, prototype_subsequences, clustering_threshold)

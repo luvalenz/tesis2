@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 from time_series import TimeSeriesOriginal
 import pickle
-
+import os
+import sys
 
 def get_macho_relative_path(path):
     start = path.find('macho_training_lightcurves')
@@ -38,9 +39,11 @@ def sample_subsequences(paths_file_path, n_samples):
 
 
 if __name__ == '__main__':
-    n_samples = 20000
+    n_samples = int(sys.argv[1])
     input_path = 'lightcurves.txt'
-    output_path = '/tmp/luvalenz/lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples)
+    root = '/tmp/luvalenz/'
+    #root = '/home/lucas/tesis2'
+    output_path = os.path.join(root, 'lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples))
     sample = sample_subsequences(input_path, n_samples)
     with open(output_path, 'wb') as f:
         pickle.dump(sample, f, protocol=2)

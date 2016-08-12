@@ -3,7 +3,8 @@ import itertools
 from distance_utils import time_series_twed
 import pickle
 import numpy as np
-
+import os
+import sys
 
 def calculate_distances(subsequences):
     distances = [time_series_twed(i, j) for i, j in itertools.combinations(subsequences, 2)]
@@ -12,9 +13,11 @@ def calculate_distances(subsequences):
 
 
 if __name__ == '__main__':
-    n_samples = 20000
-    input_path = '/home/lucas/tesis2/lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples)
-    output_path = '/home/lucas/tesis2/lucas_data/subsequences_distances_n={0}.npz'.format(n_samples)
+    n_samples = int(sys.argv[1])
+    #root = '/home/lucas/tesis2'
+    root = '/tmp/luvalenz'
+    input_path = os.path.join(root, 'lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples))
+    output_path = os.path.join(root, 'lucas_data/subsequences_distances_n={0}.npz'.format(n_samples))
     with open(input_path, 'rb') as f:
         subsequences = pickle.load(f)
     distmatrix = calculate_distances(subsequences)

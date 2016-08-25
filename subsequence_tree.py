@@ -139,6 +139,9 @@ class SubsequenceTree:
     def _add_subsequence(self, subsequence):
         self.root.add_db_subsequence(subsequence)
 
+    def calculate_inverted_files(self):
+        return self.root.inverted_file
+
 
 class Node:
 
@@ -176,14 +179,12 @@ class Node:
 
     @property
     def inverted_file(self):
-        if self.is_leaf:
-            return self._inverted_file
-        else:
+        if self._inverted_file is None:
             inverted_file = Counter()
             for child in self.children:
                 inverted_file += child.inverted_file
-            return inverted_file
-
+            self._inverted_file = inverted_file
+        return self._inverted_file
 
     @property
     def n_original_time_series_in_node(self):

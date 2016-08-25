@@ -97,7 +97,7 @@ if __name__ == '__main__':
     results_per_query = int(sys.argv[3])
     st_path = os.path.join(root, 'models/{0}.dill'.format(model_name))
     output_path = os.path.join(root,
-                               'test_ouputs/{0}_{1}samples_per_class_{2}results_per_query.dill'.format(
+                               'test_outputs/{0}_{1}samples_per_class_{2}results_per_query.dill'.format(
                                    model_name, samples_per_class, results_per_query
                                ))
     with open(st_path, 'rb') as f:

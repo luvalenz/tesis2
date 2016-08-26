@@ -5,6 +5,7 @@ import pickle
 import os
 import sys
 
+
 def get_macho_relative_path(path):
     start = path.find('macho_training_lightcurves')
     if start == -1:
@@ -28,9 +29,10 @@ def get_macho_lightcurve(path):
     return TimeSeriesOriginal(time, magnitude, get_macho_relative_path(path), True)
 
 
-def sample_subsequences(paths_file_path, n_samples):
+def sample_subsequences(root, paths_file_path, n_samples):
     subsequences = []
     paths = sample_lightcurves(paths_file_path, n_samples)
+    paths = [os.path.join(root, path) for path in paths]
     lcs = (get_macho_lightcurve(path) for path in paths)
     for lc in lcs:
         subsequences += lc.get_random_subsequences(1)
@@ -41,9 +43,9 @@ def sample_subsequences(paths_file_path, n_samples):
 if __name__ == '__main__':
     n_samples = int(sys.argv[1])
     input_path = 'lightcurves.txt'
-    root = '/tmp/luvalenz/'
-    #root = '/home/lucas/tesis2'
+    #root = '/mnt/nas/GrimaRepo/luvalenz'
+    root = '/home/lucas/tesis2'
     output_path = os.path.join(root, 'lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples))
-    sample = sample_subsequences(input_path, n_samples)
+    sample = sample_subsequences(root, input_path, n_samples)
     with open(output_path, 'wb') as f:
         pickle.dump(sample, f, protocol=2)

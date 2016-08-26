@@ -15,7 +15,8 @@ def calculate_distances(subsequences):
 if __name__ == '__main__':
     n_samples = int(sys.argv[1])
     #root = '/home/lucas/tesis2'
-    root = '/tmp/luvalenz'
+    # root = '/tmp/luvalenz'
+    root = '/mnt/nas/GrimaRepo/luvalenz'
     input_path = os.path.join(root, 'lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples))
     output_path = os.path.join(root, 'lucas_data/subsequences_distances_n={0}.npz'.format(n_samples))
     with open(input_path, 'rb') as f:

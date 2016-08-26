@@ -43,8 +43,8 @@ def sample_subsequences(root, paths_file_path, n_samples):
 if __name__ == '__main__':
     n_samples = int(sys.argv[1])
     input_path = 'lightcurves.txt'
-    #root = '/mnt/nas/GrimaRepo/luvalenz'
-    root = '/home/lucas/tesis2'
+    root = '/mnt/nas/GrimaRepo/luvalenz'
+    #root = '/home/lucas/tesis2'
     output_path = os.path.join(root, 'lucas_data/subsequences_sample_n={0}.pickle'.format(n_samples))
     sample = sample_subsequences(root, input_path, n_samples)
     with open(output_path, 'wb') as f:

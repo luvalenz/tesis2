@@ -82,7 +82,7 @@ if __name__ == '__main__':
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
-    output_path = os.path.join(root_path, 'output')
+    output_path = os.path.join(root_path, 'models')
     n = int(sys.argv[1])
     affinities_path = os.path.join(lucas_data_path, 'subsequences_distances_n={0}.npz'.format(n))
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_n={0}.pickle'.format(n))

@@ -64,13 +64,24 @@ class SubsequenceTree:
         self.next_subsequence_id += 1
         return id_
 
-    def make_query(self, time_series):
+    def make_query(self, time_series, timer=None):
+        if timer is not None:
+            timer.start()
         subsequences = time_series.run_sliding_window()
+        if timer is not None:
+            timer.stop()
+            timer.start()
         for node in self.node_shortcuts:
             node.n_query_subsequences = 0
+        if timer is not None:
+            timer.stop()
+            timer.start()
         self._query_vector = None
         for subsequence in subsequences:
             self.root.add_query_subsequence(subsequence)
+        if timer is not None:
+            timer.stop()
+
         not_zero_node_ids = np.where(self.query_vector != 0)[0]
         not_zero_query_vector = self.query_vector[not_zero_node_ids]
         not_zero_ts_ids = self._queried_time_series_ids

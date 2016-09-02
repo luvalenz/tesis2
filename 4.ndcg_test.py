@@ -64,8 +64,8 @@ def batch_queries(tree, lightcurves, classes, n):
 
 if __name__ == '__main__':
     #LOAD SUBSEQUENCE TREE
-    root = '/home/lucas/tesis2'
-    #root = '/mnt/nas/GrimaRepo/luvalenz'
+    #root = '/home/lucas/tesis2'
+    root = '/mnt/nas/GrimaRepo/luvalenz'
     model_name = sys.argv[1]#'sequence_tree_1000samples_20levels'
     samples_per_class = int(sys.argv[2])
     results_per_query = int(sys.argv[3])

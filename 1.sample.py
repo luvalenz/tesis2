@@ -44,7 +44,7 @@ if __name__ == '__main__':
     input_path = sys.argv[1]
     n_samples = int(sys.argv[2])
     root = '/mnt/nas/GrimaRepo/luvalenz'
-    root = '/home/lucas/tesis2'
+    #root = '/home/lucas/tesis2'
     output_path = os.path.join(root,
                                'lucas_data/subsequences_sample_{0}_n={1}.pickle'.format(input_path,
                                                                                         n_samples))

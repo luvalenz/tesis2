@@ -81,14 +81,23 @@ class SubsequenceTree:
             self.root.add_query_subsequence(subsequence)
         if timer is not None:
             timer.stop()
-
+            timer.start()
         not_zero_node_ids = np.where(self.query_vector != 0)[0]
         not_zero_query_vector = self.query_vector[not_zero_node_ids]
         not_zero_ts_ids = self._queried_time_series_ids
         not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
+        if timer is not None:
+            timer.stop()
+            timer.start()
         score = np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         score = 2-2*score
-        return pd.DataFrame(score, index=not_zero_ts_ids)
+        if timer is not None:
+            timer.stop()
+            timer.start()
+        result = pd.DataFrame(score, index=not_zero_ts_ids)
+        if timer is not None:
+            timer.stop()
+        return result
 
     def get_db_subsequences_dict(self):
         def _get_db_subsequences_dict():

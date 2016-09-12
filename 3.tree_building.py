@@ -83,16 +83,19 @@ if __name__ == '__main__':
     root_path = '/mnt/nas/GrimaRepo/luvalenz'
     lc_list_path = sys.argv[1]
     n = int(sys.argv[2])
+    semi_standardize = True
+    standardize = False
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'models')
 
-    distances_path = os.path.join(lucas_data_path, 'subsequences_distances_{0}_n={1}.npz'.format(lc_list_path, n))
-    sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}.pickle'.format(lc_list_path, n))
+    distances_path = os.path.join(lucas_data_path, 'subsequences_distances_{0}_n={1}_semistd{2}_std{3}.npz'.format(lc_list_path, n, semi_standardize, standardize))
+    sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}_semistd{2}_std{3}.pickle'.format(lc_list_path, n, semi_standardize, standardize))
     max_level = 20
     clustering_threshold = 1
-    output_filename = 'sequence_tree_{0}_{1}samples_{2}levels.dill'.format(lc_list_path, n, max_level)
+    output_filename = 'sequence_tree_{0}_{1}samples_semistd{2}_std{3}_{4}levels.dill'.format(lc_list_path, n,
+                                                                                             semi_standardize, standardize, max_level)
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, distances_path, db_path,
                output_full_path, max_level, clustering_threshold)

@@ -15,11 +15,13 @@ def calculate_distances(subsequences):
 if __name__ == '__main__':
     lc_list_path = sys.argv[1]
     n_samples = int(sys.argv[2])
+    semi_standardize = True
+    standardize = False
     root = '/mnt/nas/GrimaRepo/luvalenz'
-    input_path = 'lucas_data/subsequences_sample_{0}_n={1}.pickle'
-    input_path = os.path.join(root, input_path.format(lc_list_path, n_samples))
-    output_path = 'lucas_data/subsequences_distances_{0}_n={1}.npz'
-    output_path = os.path.join(root, output_path.format(lc_list_path, n_samples))
+    input_path = 'lucas_data/subsequences_sample_{0}_n={1}_semistd{2}_std{3}.pickle'
+    input_path = os.path.join(root, input_path.format(lc_list_path, n_samples, semi_standardize, standardize))
+    output_path = 'lucas_data/subsequences_distances_{0}_n={1}_semistd{2}_std{3}.npz'
+    output_path = os.path.join(root, output_path.format(lc_list_path, n_samples, semi_standardize, standardize))
     with open(input_path, 'rb') as f:
         subsequences = pickle.load(f)
     distmatrix = calculate_distances(subsequences)

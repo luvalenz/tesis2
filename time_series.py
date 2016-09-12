@@ -12,15 +12,27 @@ class TimeSeries:
 
 class TimeSeriesOriginal(TimeSeries):
 
-    def __init__(self, time, magnitude, id_, standarize=True):
+    def __init__(self, time, magnitude, id_,
+                 semi_standardize=True,
+                 standardize_std=True):
         super().__init__(time, magnitude, id_)
-        if standarize:
-            self.standardize_magnitude()
+        if semi_standardize or standardize_std:
+            self.standardize_mean()
+        if standardize_std:
+            self.standardize_std()
 
-    def standardize_magnitude(self):
+    # def standardize_magnitude(self):
+    #     mean = self.magnitude.mean()
+    #     std = self.magnitude.std()
+    #     self.magnitude -= mean
+    #     self.magnitude /= std
+
+    def standardize_mean(self):
         mean = self.magnitude.mean()
-        std = self.magnitude.std()
         self.magnitude -= mean
+
+    def standardize_std(self):
+        std = self.magnitude.std()
         self.magnitude /= std
 
     def run_sliding_window(self, time_window=250, time_step=10):

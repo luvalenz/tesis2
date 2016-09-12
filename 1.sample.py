@@ -20,20 +20,23 @@ def sample_lightcurves(paths_file_path, n_samples):
     return np.random.choice(paths, n_samples)
 
 
-def get_macho_lightcurve(path):
+def get_macho_lightcurve(path, semi_standardize, standardize):
     if path[-1] == '\n':
         path = path[:-1]
     df = pd.read_csv(path, header=2, delimiter=' ')
     time = df['#MJD'].values
     magnitude = df['Mag'].values
-    return TimeSeriesOriginal(time, magnitude, get_macho_relative_path(path), True)
+    return TimeSeriesOriginal(time, magnitude, get_macho_relative_path(path),
+                              semi_standardize, standardize)
 
 
-def sample_subsequences(root, paths_file_path, n_samples):
+def sample_subsequences(root, paths_file_path, n_samples,
+                        semi_standardize, standardize):
     subsequences = []
     paths = sample_lightcurves(paths_file_path, n_samples)
     paths = [os.path.join(root, path) for path in paths]
-    lcs = (get_macho_lightcurve(path) for path in paths)
+    lcs = (get_macho_lightcurve(path, semi_standardize, standardize)
+           for path in paths)
     for lc in lcs:
         subsequences += lc.get_random_subsequences(1)
     return subsequences
@@ -43,11 +46,16 @@ def sample_subsequences(root, paths_file_path, n_samples):
 if __name__ == '__main__':
     input_path = sys.argv[1]
     n_samples = int(sys.argv[2])
+    semi_standardize = True
+    standardize = False
     root = '/mnt/nas/GrimaRepo/luvalenz'
     #root = '/home/lucas/tesis2'
-    output_path = os.path.join(root,
-                               'lucas_data/subsequences_sample_{0}_n={1}.pickle'.format(input_path,
-                                                                                        n_samples))
+    output_filename = 'lucas_data/subsequences_sample_' \
+                      '{0}_n={1}_semistd{2}_std{3}.pickle'.format(input_path,
+                                                                  n_samples,
+                                                                  semi_standardize,
+                                                                  standardize)
+    output_path = os.path.join(root, output_filename)
     sample = sample_subsequences(root, input_path, n_samples)
     with open(output_path, 'wb') as f:
         pickle.dump(sample, f, protocol=2)

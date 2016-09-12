@@ -27,6 +27,19 @@ def build_kdtree(classes, n_components=None):
     return new_df, kdtree, labels
 
 
+def build_mackenzie_kdtree(root, classes, data_file_name):
+    feature_space_path = os.path.join(root, 'mackenzie_data/{0}'.format(data_file_name))
+    df = pandas.read_csv(feature_space_path)
+    df = df[~ df.iloc[:, 0].isnull()]
+    index = df.values[:, -2]
+    db = df.values[:, :-2]
+    numeric_labels = df.values[:, -1].astype(int)
+    labels = [classes[label] for label in numeric_labels]
+    kdtree = KDTree(db)
+    new_df = pandas.DataFrame(db, index=index)
+    return new_df, kdtree, labels
+
+
 def batch_queries(df, kdtree, labels, sample_ids, classes, n_results):
     results = {}
     times = []
@@ -40,6 +53,7 @@ def batch_queries(df, kdtree, labels, sample_ids, classes, n_results):
 def query(df, kdtree, labels, query_id, n_results):
     start = time.time()
     lc_features = np.matrix(df.loc[query_id].values)
+    print(lc_features)
     dist, ind = kdtree.query(lc_features, n_results)
     end = time.time()
     result_indices = list(ind.flatten())
@@ -72,11 +86,14 @@ if __name__ == '__main__':
     samples_per_class = int(sys.argv[1])
     results_per_query = int(sys.argv[2])
     n_components = None
-    output_path = os.path.join(root,
-                           'test_outputs/fatsfeatures_pca{0}_{1}samples_per_class_{2}results_per_query.dill'.format(
-                               n_components, samples_per_class, results_per_query))
+    # output_filename = 'test_outputs/fatsfeatures_pca{0}_{1}samples_per_class_{2}results_per_query.dill'.format(
+    #                            n_components, samples_per_class, results_per_query)
+    data_filename = 'affinity_s10t_w250_alpha_1.0_pool_max_scale_False_macho_part1of1.csv'
+    output_filename = 'test_outputs/macfeatures_{0}samples_per_class_{1}results_per_query.dill'.format(samples_per_class, results_per_query)
+    output_path = os.path.join(root, output_filename)
     classes = [None, 'BE', 'CEPH', 'EB', 'LPV', 'ML', 'NV', 'QSO', 'RRL']
-    df, kdtree, labels = build_kdtree(classes, n_components)
+    #df, kdtree, labels = build_kdtree(classes, n_components)
+    df, kdtree, labels = build_mackenzie_kdtree(root, classes, data_filename)
     classes = classes[1:]
     results = {}
     times = {}

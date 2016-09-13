@@ -15,8 +15,8 @@ def calculate_distances(subsequences):
 if __name__ == '__main__':
     lc_list_path = sys.argv[1]
     n_samples = int(sys.argv[2])
-    semi_standardize = True
-    standardize = False
+    semi_standardize = False
+    standardize = True
     root = '/mnt/nas/GrimaRepo/luvalenz'
     input_path = 'lucas_data/subsequences_sample_{0}_n={1}_semistd{2}_std{3}.pickle'
     input_path = os.path.join(root, input_path.format(lc_list_path, n_samples, semi_standardize, standardize))

@@ -46,8 +46,8 @@ def sample_subsequences(root, paths_file_path, n_samples,
 if __name__ == '__main__':
     input_path = sys.argv[1]
     n_samples = int(sys.argv[2])
-    semi_standardize = True
-    standardize = False
+    semi_standardize = False
+    standardize = True
     root = '/mnt/nas/GrimaRepo/luvalenz'
     #root = '/home/lucas/tesis2'
     output_filename = 'lucas_data/subsequences_sample_' \

@@ -83,6 +83,8 @@ if __name__ == '__main__':
     root_path = '/mnt/nas/GrimaRepo/luvalenz'
     lc_list_path = sys.argv[1]
     n = int(sys.argv[2])
+    semi_standardize = False
+    standardize = False
     if len(sys.argv) > 3:
         if sys.argv[3] == 'semi':
             semi_standardize = True

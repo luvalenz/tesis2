@@ -47,7 +47,14 @@ if __name__ == '__main__':
     input_path = sys.argv[1]
     n_samples = int(sys.argv[2])
     semi_standardize = False
-    standardize = True
+    standardize = False
+    if len(sys.argv) > 3:
+        if sys.argv[3] == 'semi':
+            semi_standardize = True
+            print('semi standarized')
+        if sys.argv[3] == 'std':
+            standardize = True
+            print('standarized')
     root = '/mnt/nas/GrimaRepo/luvalenz'
     #root = '/home/lucas/tesis2'
     output_filename = 'lucas_data/subsequences_sample_' \

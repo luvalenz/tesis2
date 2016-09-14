@@ -83,8 +83,13 @@ if __name__ == '__main__':
     root_path = '/mnt/nas/GrimaRepo/luvalenz'
     lc_list_path = sys.argv[1]
     n = int(sys.argv[2])
-    semi_standardize = False
-    standardize = True
+    if len(sys.argv) > 3:
+        if sys.argv[3] == 'semi':
+            semi_standardize = True
+            print('semi standarized')
+        if sys.argv[3] == 'std':
+            standardize = True
+            print('standarized')
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')

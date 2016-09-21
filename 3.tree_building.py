@@ -109,8 +109,12 @@ if __name__ == '__main__':
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}_semistd{2}_std{3}.pickle'.format(lc_list_path, n, semi_standardize, standardize))
     max_level = 20
     clustering_threshold = 1
-    output_filename = 'sequence_tree_{0}_{1}samples_semistd{2}_std{3}_{4}levels.dill'.format(lc_list_path, n,
-                                                                                             semi_standardize, standardize, max_level)
+    not_weighted_str = ''
+    if not weighted:
+        not_weighted_str = '_notweighted'
+    output_filename = 'sequence_tree_{0}_{1}samples_semistd{2}_std{3}_{4}levels{5}.dill'.format(lc_list_path, n,
+                                                                                             semi_standardize, standardize,
+                                                                                                max_level, not_weighted_str)
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, distances_path, db_path,
                output_full_path, max_level, clustering_threshold, weighted=weighted)

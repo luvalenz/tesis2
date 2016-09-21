@@ -95,7 +95,7 @@ if __name__ == '__main__':
         if sys.argv[3] == 'std':
             standardize = True
             print('standarized')
-    if len(sys.argv > 4):
+    if len(sys.argv) > 4:
         if sys.argv[4] == 'not':
             weighted = False
             print('not weighted tree')

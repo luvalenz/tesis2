@@ -59,7 +59,8 @@ def get_macho_lucas_prototypes(sample_path):
 
 
 def build_tree(sample_path, affinities_path, db_path,
-               output_path, max_level, clustering_threshold):
+               output_path, max_level, clustering_threshold,
+               weighted=True):
     #prototypes =  list(get_macho_prototypes(sample_path))
     prototypes =  list(get_macho_lucas_prototypes(sample_path))
     npzfile = np.load(affinities_path)
@@ -67,7 +68,8 @@ def build_tree(sample_path, affinities_path, db_path,
     affinities = - distances**2
     dataset = get_macho_dataset(db_path)
     print('building tree...')
-    st = SubsequenceTree(max_level, prototypes, affinities, dataset, clustering_threshold)
+    st = SubsequenceTree(max_level, prototypes, affinities, dataset, clustering_threshold,
+                         weighted)
     for s in st.node_shortcuts:
         if s.is_leaf:
             print(s.n_original_time_series_in_node)
@@ -85,6 +87,7 @@ if __name__ == '__main__':
     n = int(sys.argv[2])
     semi_standardize = False
     standardize = False
+    weighted = True
     if len(sys.argv) > 3:
         if sys.argv[3] == 'semi':
             semi_standardize = True
@@ -92,6 +95,11 @@ if __name__ == '__main__':
         if sys.argv[3] == 'std':
             standardize = True
             print('standarized')
+    if len(sys.argv > 4):
+        if sys.argv[4] == 'not':
+            weighted = False
+            print('not weighted tree')
+
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
@@ -105,6 +113,6 @@ if __name__ == '__main__':
                                                                                              semi_standardize, standardize, max_level)
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, distances_path, db_path,
-               output_full_path, max_level, clustering_threshold)
+               output_full_path, max_level, clustering_threshold, weighted=weighted)
 
 

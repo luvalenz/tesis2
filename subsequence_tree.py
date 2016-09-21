@@ -10,7 +10,7 @@ class SubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
                  affinities, db_time_series,
-                 clustering_threshold):
+                 clustering_threshold, weighted=True):
         self.max_level = max_level
         #self.graph = pydot.Dot(graph_type='graph')
         self.query_ts = None
@@ -21,6 +21,7 @@ class SubsequenceTree:
         self._original_time_series_ids = None
         self._query_vector = None
         self.n_nodes = 0
+        self._weighted = weighted
         prototype_subsequences = np.array(prototype_subsequences_list)
         self._build_tree(affinities, prototype_subsequences, clustering_threshold)
         self._populate_tree(db_time_series)
@@ -128,7 +129,7 @@ class SubsequenceTree:
         self.root = Node(0, self.max_level, prototypes, affinities, None,
                          None, self.get_next_node_id(),
                          self.get_original_time_series_ids(),
-                         clustering_threshold)
+                         clustering_threshold, weighted=self._weighted)
 
     def _populate_tree(self, db_time_series):
         print("populating tree")
@@ -167,8 +168,9 @@ class Node:
 
     def __init__(self, level, max_level, prototypes, affinities, center,
                  parent, next_node_id_getter, original_time_series_ids_getter,
-                 clustering_threshold):
+                 clustering_threshold, weighted=True):
         self.level = level
+        self._weighted = weighted
         self.max_level = max_level
         self.center = center
         self.parent = parent
@@ -216,10 +218,13 @@ class Node:
 
     @property
     def weight(self):
-        if self.n_original_time_series_in_node == 0:
-            return 0
-        return np.log(self.n_original_time_series_in_tree/
-                      self.n_original_time_series_in_node)
+        if self._weighted:
+            if self.n_original_time_series_in_node == 0:
+                return 0
+            return np.log(self.n_original_time_series_in_tree/
+                          self.n_original_time_series_in_node)
+        else:
+            return 1
 
     @property
     def m_vector(self):

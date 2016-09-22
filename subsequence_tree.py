@@ -218,13 +218,15 @@ class Node:
 
     @property
     def weight(self):
-        if self._weighted:
-            if self.n_original_time_series_in_node == 0:
-                return 0
-            return np.log(self.n_original_time_series_in_tree/
-                          self.n_original_time_series_in_node)
-        else:
-            return 1
+        w = 0
+        if self.n_original_time_series_in_node != 0:
+            w = np.log(self.n_original_time_series_in_tree/
+                       self.n_original_time_series_in_node)
+        try:
+            if not self._weighted:
+                w = 1
+        except AttributeError:
+            print("Attribute Error caught")
 
     @property
     def m_vector(self):

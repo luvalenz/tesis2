@@ -227,6 +227,7 @@ class Node:
                 w = 1
         except AttributeError:
             print("Attribute Error caught")
+            print("weight = {0}".format(w))
         return w
 
     @property

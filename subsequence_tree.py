@@ -227,6 +227,7 @@ class Node:
                 w = 1
         except AttributeError:
             print("Attribute Error caught")
+        return w
 
     @property
     def m_vector(self):

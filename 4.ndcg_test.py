@@ -69,10 +69,15 @@ if __name__ == '__main__':
     model_name = sys.argv[1]#'sequence_tree_100samples_20levels'
     samples_per_class = int(sys.argv[2])
     results_per_query = int(sys.argv[3])
+    prune = False
+    pruned_str = ''
+    if len(sys.argv) > 4 and sys.argv[4] == 'prune':
+        prune = True
+        pruned_str = '_pruned'
     st_path = os.path.join(root, 'models/{0}.dill'.format(model_name))
     output_path = os.path.join(root,
-                               'test_outputs/times_{0}_{1}samples_per_class_{2}results_per_query.dill'.format(
-                                   model_name, samples_per_class, results_per_query
+                               'test_outputs/times_{0}_{1}samples_per_class_{2}results_per_query{5}.dill'.format(
+                                   model_name, samples_per_class, results_per_query, pruned_str
                                ))
     with open(st_path, 'rb') as f:
         tree = dill.load(f)
@@ -82,6 +87,10 @@ if __name__ == '__main__':
     classes = ['BE', 'ML', 'NV', 'QSO', 'CEPH', 'EB', 'LPV', 'RRL']
     results = {}
     times = {}
+    if prune:
+        print('prunning...')
+        tree.prune()
+        print('done')
     tree.calculate_inverted_files()
     for class_ in classes:
         print('running tests for class {0}'.format(class_))

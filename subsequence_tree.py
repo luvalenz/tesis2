@@ -55,6 +55,11 @@ class SubsequenceTree:
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
 
+    def prune(self):
+        self._build_node_shorcuts(True)
+        self._build_weights_vector()
+        self._build_d_data_frame()
+
     def _queried_time_series_ids_iterator(self):
         for node in self.node_shortcuts:
             if node.is_leaf and node.n_query_subsequences > 0:
@@ -138,17 +143,18 @@ class SubsequenceTree:
             for subsequence in ts.run_sliding_window():
                 self._add_subsequence(subsequence)
 
-    def _build_node_shorcuts(self):
+    def _build_node_shorcuts(self, just_leaves=False):
         shortcut_dict = {}
         self.root.add_shortcut_to_dict(shortcut_dict)
-        shortcut_list = [shortcut_dict[i] for i in range(self.n_nodes)]
+        shortcut_list = [v for v in shortcut_dict.values()
+                         if not just_leaves or v.is_leaf]
         self.node_shortcuts = shortcut_list
 
     def _build_weights_vector(self):
         weights_list = [node.weight for node in self.node_shortcuts]
         self.weights = np.array(weights_list)
 
-    def _build_d_data_frame(self):
+    def _build_d_data_frame(self, just_leaves=False):
         d_list = [node.d_vector for node in self.node_shortcuts]
         d_matrix = np.column_stack(d_list)
         d_norm = np.linalg.norm(d_matrix, axis=1)

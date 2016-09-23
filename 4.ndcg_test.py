@@ -76,7 +76,7 @@ if __name__ == '__main__':
         pruned_str = '_pruned'
     st_path = os.path.join(root, 'models/{0}.dill'.format(model_name))
     output_path = os.path.join(root,
-                               'test_outputs/times_{0}_{1}samples_per_class_{2}results_per_query{5}.dill'.format(
+                               'test_outputs/times_{0}_{1}samples_per_class_{2}results_per_query{3}.dill'.format(
                                    model_name, samples_per_class, results_per_query, pruned_str
                                ))
     with open(st_path, 'rb') as f:

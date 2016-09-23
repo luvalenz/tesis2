@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
     distances_path = os.path.join(lucas_data_path, 'subsequences_distances_{0}_n={1}_semistd{2}_std{3}.npz'.format(lc_list_path, n, semi_standardize, standardize))
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}_semistd{2}_std{3}.pickle'.format(lc_list_path, n, semi_standardize, standardize))
-    max_level = 20
+    max_level = 40
     clustering_threshold = 1
     not_weighted_str = ''
     if not weighted:

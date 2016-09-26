@@ -10,6 +10,6 @@ do
     for n in "${ns[@]}"
     do
         screen_name = $std$ns
-        screen -S $SCREEN_NAME -dm bash -c 'cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py 2 250 10 20 std weighted'
+        screen -S $screen_name -dm bash -c 'cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py {$n} 250 10 20 {$std} weighted'
     done
 done

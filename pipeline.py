@@ -18,7 +18,7 @@ def execute_pipleline(n_prototipes, window_size, step):
     print('DONE')
 
 if __name__ == '__main__':
-    n = 10
+    n = 2
     window = 250
     step = 10
     execute_pipleline(n, window, step)

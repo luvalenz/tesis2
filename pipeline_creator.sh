@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-
 #standarized, semi, and not
-
-standardization=('std' 'semi' 'not')
-ns=('100' '500' '1000' '5000')
+standardization=("std" "semi" "not")
+ns=("100" "500" "1000" "5000")
 
 for std in "${standardization[@]}"
 do

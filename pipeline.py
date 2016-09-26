@@ -1,4 +1,5 @@
 import os
+import sys
 
 def execute_pipleline(n_prototipes, window_size, step, max_level):
     call1 = 'python 1.sample.py lightcurves.R.txt {0} std {1} {2}'.format(n_prototipes, window_size, step)
@@ -23,5 +24,9 @@ if __name__ == '__main__':
     window = 250
     step = 10
     max_level = 20
+    n = int(sys.argv[1])
+    window = int(sys.argv[2])
+    step = int(sys.argv[3])
+    max_level = int(sys.argv[4])
     execute_pipleline(n, window, step, max_level)
 

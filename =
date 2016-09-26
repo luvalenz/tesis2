@@ -1,0 +1,143 @@
+Script started on lun 26 sep 2016 18:13:39 CLT
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ssh luvalenz@hercules.ing.puc.cl
+luvalenz@hercules.ing.puc.cl's password: 
+
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ssh luvalenz@hercules.ing.puc.clecho $a$b[K[5P$a$becho $a$b^C
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ^C
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ./pipeline_creator.sh 
+./pipeline_creator.sh: line 11: scrpt: command not found
+std100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+std100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+std100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+std100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+semi100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+semi100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+semi100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+semi100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+not100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+not100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+not100
+
+./pipeline_creator.sh: line 11: scrpt: command not found
+not100
+
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ./pipeline_creator.sh 
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 std weighted
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 std weighted
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 std weighted
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 std weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 semi weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 semi weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 semi weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 semi weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 not weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 not weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 not weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 not weighted
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ 
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ./pipeline_creator.sh 
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 std weighted
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 std weighted
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 std weighted
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 std weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 semi weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 semi weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 semi weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 semi weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 not weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 not weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 not weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 not weighted
+]0;lucas@lucas-pc: ~/PycharmProjects/tesis2lucas@lucas-pc:~/PycharmProjects/tesis2$ ./pipeline_creator.sh 
+std100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 std weighted
+std500
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 std weighted
+std1000
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 std weighted
+std5000
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 std weighted
+semi100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 semi weighted
+semi500
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 semi weighted
+semi1000
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 1000 250 10 20 semi weighted
+semi5000
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 5000 250 10 20 semi weighted
+not100
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 100 250 10 20 not weighted
+not500
+cd /home/lucas/tesis2; source venv_caleuche/bin/activate; python pipeline.py 500 250 10 20 not weight

@@ -9,6 +9,8 @@ do
     do
         screen_name=$std$n
         script="cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py ${n} 250 10 20 ${std} weighted"
+        echo $screen_name
+        echo $script
         screen -S $screen_name -dm bash -c $script
     done
 done

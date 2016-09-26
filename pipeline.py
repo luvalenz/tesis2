@@ -2,10 +2,11 @@ import os
 import sys
 
 
-def execute_pipleline(n_prototipes, window_size, step, max_level):
-    call1 = 'python 1.sample.py lightcurves.R.txt {0} std {1} {2}'.format(n_prototipes, window_size, step)
-    call2 = 'python 2.twed.py lightcurves.R.txt {0} std {1} {2}'.format(n_prototipes, window_size, step)
-    call3 = 'python 3.tree_building.py lightcurves.R.txt {0} std weighted {1} {2} {3}'.format(n_prototipes, window_size,
+def execute_pipleline(n_prototipes, window_size, step, max_level, standardization, weight):
+    call1 = 'python 1.sample.py lightcurves.R.txt {0} {1} {2} {3}'.format(n_prototipes, standardization, window_size, step)
+    call2 = 'python 2.twed.py lightcurves.R.txt {0} {1} {2} {3}'.format(n_prototipes, standardization, window_size, step)
+    call3 = 'python 3.tree_building.py lightcurves.R.txt {0} {1} {2} {3} {4} {5}'.format(n_prototipes, standardization,
+                                                                                              weight, window_size,
                                                                                               step, max_level)
     model_name = 'sequence_tree_lightcurves.R.txt_{0}samples_semistdFalse_stdTrue_20levels_{1}_{2}'.format(n_prototipes,
                                                                                                           window_size, step)
@@ -25,5 +26,7 @@ if __name__ == '__main__':
     window = int(sys.argv[2])
     step = int(sys.argv[3])
     max_level = int(sys.argv[4])
-    execute_pipleline(n, window, step, max_level)
+    standardization = sys.argv[5]
+    weight = sys.argv[6]
+    execute_pipleline(n, window, step, max_level, standardization, weight)
 

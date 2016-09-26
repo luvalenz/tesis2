@@ -9,8 +9,8 @@ import os
 import sys
 
 
-def get_macho_dataset(root, max_files=None):
-    paths = glob.iglob(os.path.join(root, '**/*.mjd'))
+def get_macho_dataset(root, max_files=None, band='R'):
+    paths = glob.iglob(os.path.join(root, '**/*.R.mjd'))
     if max_files is not None:
         paths = list(paths)[:max_files]
     lightcurves = (get_macho_lightcurve(file_path)

@@ -2,8 +2,8 @@
 
 #standarized, semi, and not
 
-declare -a standardization=('std' 'semi' 'not')
-declare -a ns=('100' '500' '1000' '5000')
+standardization=('std' 'semi' 'not')
+ns=('100' '500' '1000' '5000')
 
 for std in "${standardization[@]}"
 do

@@ -6,4 +6,4 @@
 #a = 'hola'
 
 
-screen -dm bash -c 'cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py'
+screen -dm bash -c 'cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py 2 250 10 20'

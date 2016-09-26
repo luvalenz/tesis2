@@ -1,9 +1,10 @@
 import os
 
-def execute_pipleline(n_prototipes, window_size, step):
+def execute_pipleline(n_prototipes, window_size, step, max_level):
     call1 = 'python 1.sample.py lightcurves.R.txt {0} std {1} {2}'.format(n_prototipes, window_size, step)
     call2 = 'python 2.twed.py lightcurves.R.txt {0} std {1} {2}'.format(n_prototipes, window_size, step)
-    call3 = 'python 3.tree_building.py lightcurves.R.txt {0} std weighted {1} {2}'.format(n_prototipes, window_size, step)
+    call3 = 'python 3.tree_building.py lightcurves.R.txt {0} std weighted {1} {2} {3}'.format(n_prototipes, window_size,
+                                                                                              step, max_level)
     model_name = 'sequence_tree_lightcurves.R.txt_{0}samples_semistdFalse_stdTrue_20levels_{1}_{2}.dill'.format(n_prototipes,
                                                                                                           window_size, step)
     call4 = 'python 4.ndcg_test.py {0} 100 20'.format(model_name)
@@ -21,5 +22,6 @@ if __name__ == '__main__':
     n = 2
     window = 250
     step = 10
-    execute_pipleline(n, window, step)
+    max_level = 20
+    execute_pipleline(n, window, step, max_level)
 

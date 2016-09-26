@@ -90,6 +90,7 @@ if __name__ == '__main__':
     weighted = True
     window_size = 250
     step = 10
+    max_level = 20
     if len(sys.argv) > 3:
         if sys.argv[3] == 'semi':
             semi_standardize = True
@@ -104,14 +105,13 @@ if __name__ == '__main__':
     if len(sys.argv) > 5:
         window_size = int(sys.argv[5])
         step = int(sys.argv[6])
+        max_level = int(sys.argv[7])
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'models')
-
     distances_path = os.path.join(lucas_data_path, 'subsequences_distances_{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.npz'.format(lc_list_path, n, semi_standardize, standardize, window_size, step))
     sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.pickle'.format(lc_list_path, n, semi_standardize, standardize, window_size, step))
-    max_level = np.inf
     clustering_threshold = 1
     not_weighted_str = ''
     if not weighted:

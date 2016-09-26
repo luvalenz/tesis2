@@ -31,14 +31,15 @@ def get_macho_lightcurve(path, semi_standardize, standardize):
 
 
 def sample_subsequences(root, paths_file_path, n_samples,
-                        semi_standardize, standardize):
+                        semi_standardize, standardize,
+                        window, step):
     subsequences = []
     paths = sample_lightcurves(paths_file_path, n_samples)
     paths = [os.path.join(root, path) for path in paths]
     lcs = (get_macho_lightcurve(path, semi_standardize, standardize)
            for path in paths)
     for lc in lcs:
-        subsequences += lc.get_random_subsequences(1)
+        subsequences += lc.get_random_subsequences(1, window, step)
     return subsequences
 
 
@@ -48,6 +49,8 @@ if __name__ == '__main__':
     n_samples = int(sys.argv[2])
     semi_standardize = False
     standardize = False
+    window_size = 250
+    step = 10
     if len(sys.argv) > 3:
         if sys.argv[3] == 'semi':
             semi_standardize = True
@@ -55,13 +58,15 @@ if __name__ == '__main__':
         if sys.argv[3] == 'std':
             standardize = True
             print('standarized')
+    if len(sys.argv) > 4:
+        window_size = int(sys.argv[4])
+        step = int(sys.argv[5])
     root = '/mnt/nas/GrimaRepo/luvalenz'
     #root = '/home/lucas/tesis2'
     output_filename = 'lucas_data/subsequences_sample_' \
-                      '{0}_n={1}_semistd{2}_std{3}.pickle'.format(input_path,
-                                                                  n_samples,
-                                                                  semi_standardize,
-                                                                  standardize)
+                      '{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.pickle'.format(input_path,
+                                                                  n_samples, semi_standardize,
+                                                                  standardize, window_size, step)
     output_path = os.path.join(root, output_filename)
     sample = sample_subsequences(root, input_path, n_samples, semi_standardize, standardize)
     with open(output_path, 'wb') as f:

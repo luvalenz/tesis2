@@ -88,6 +88,8 @@ if __name__ == '__main__':
     semi_standardize = False
     standardize = False
     weighted = True
+    window_size = 250
+    step = 10
     if len(sys.argv) > 3:
         if sys.argv[3] == 'semi':
             semi_standardize = True
@@ -99,22 +101,25 @@ if __name__ == '__main__':
         if sys.argv[4] == 'not':
             weighted = False
             print('not weighted tree')
-
+    if len(sys.argv) > 5:
+        window_size = int(sys.argv[5])
+        step = int(sys.argv[6])
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')
     output_path = os.path.join(root_path, 'models')
 
-    distances_path = os.path.join(lucas_data_path, 'subsequences_distances_{0}_n={1}_semistd{2}_std{3}.npz'.format(lc_list_path, n, semi_standardize, standardize))
-    sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}_semistd{2}_std{3}.pickle'.format(lc_list_path, n, semi_standardize, standardize))
-    max_level = 40
+    distances_path = os.path.join(lucas_data_path, 'subsequences_distances_{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.npz'.format(lc_list_path, n, semi_standardize, standardize, window_size, step))
+    sample_path = os.path.join(lucas_data_path, 'subsequences_sample_{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.pickle'.format(lc_list_path, n, semi_standardize, standardize, window_size, step))
+    max_level = np.inf
     clustering_threshold = 1
     not_weighted_str = ''
     if not weighted:
         not_weighted_str = '_notweighted'
-    output_filename = 'sequence_tree_{0}_{1}samples_semistd{2}_std{3}_{4}levels{5}.dill'.format(lc_list_path, n,
+    output_filename = 'sequence_tree_{0}_{1}samples_semistd{2}_std{3}_{4}levels{5}_{6}_{7}.dill'.format(lc_list_path, n,
                                                                                              semi_standardize, standardize,
-                                                                                                max_level, not_weighted_str)
+                                                                                                max_level, not_weighted_str,
+                                                                                                        window_size, step)
     output_full_path = os.path.join(output_path, output_filename)
     build_tree(sample_path, distances_path, db_path,
                output_full_path, max_level, clustering_threshold, weighted=weighted)

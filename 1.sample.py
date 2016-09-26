@@ -68,6 +68,7 @@ if __name__ == '__main__':
                                                                   n_samples, semi_standardize,
                                                                   standardize, window_size, step)
     output_path = os.path.join(root, output_filename)
-    sample = sample_subsequences(root, input_path, n_samples, semi_standardize, standardize)
+    sample = sample_subsequences(root, input_path, n_samples, semi_standardize, standardize,
+                                 window_size, step)
     with open(output_path, 'wb') as f:
         pickle.dump(sample, f, protocol=2)

@@ -8,8 +8,7 @@ do
     for n in "${ns[@]}"
     do
         screen_name=$std$n
-        #echo $screen_name
-        echo "cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py ${n} 250 10 20 ${std} weighted"
-        #screen -S $screen_name -dm bash -c "cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py ${n} 250 10 20 ${std} weighted"
+        echo $screen_name
+        screen -S $screen_name -dm bash -c "cd $HOME/tesis2; source venv_caleuche/bin/activate; python pipeline.py ${n} 250 10 20 ${std} weighted"
     done
 done

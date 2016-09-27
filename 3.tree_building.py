@@ -105,7 +105,11 @@ if __name__ == '__main__':
     if len(sys.argv) > 5:
         window_size = int(sys.argv[5])
         step = int(sys.argv[6])
-        max_level = int(sys.argv[7])
+        max_level = sys.argv[7]
+    if max_level == 'null':
+        max_level = np.null
+    else:
+        max_level = int(max_level)
     mac_data_path = os.path.join(root_path, 'mackenzie_data/')
     lucas_data_path = os.path.join(root_path, 'lucas_data/')
     db_path = os.path.join(root_path, 'macho_training_lightcurves')

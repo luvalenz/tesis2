@@ -26,7 +26,8 @@
 
 #different levels
 ns=("100" "500" "1000" "5000")
-levels=("10" "30" "40" "null")
+#levels=("10" "30" "40" "null")
+levels=("null")
 
 for n in "${ns[@]}"
 do

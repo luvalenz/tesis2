@@ -26,7 +26,7 @@ if __name__ == '__main__':
     n = int(sys.argv[1])
     window = int(sys.argv[2])
     step = int(sys.argv[3])
-    max_level = int(sys.argv[4])
+    max_level = sys.argv[4]
     standardization = sys.argv[5]
     weight = sys.argv[6]
     execute_pipleline(n, window, step, max_level, standardization, weight)

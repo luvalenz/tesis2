@@ -10,7 +10,10 @@ class SubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
                  affinities, db_time_series,
-                 clustering_threshold, weighted=True):
+                 time_window, time_step,
+                 clustering_threshold=1, weighted=True):
+        self.time_window = time_window
+        self.time_step = time_step
         self.max_level = max_level
         #self.graph = pydot.Dot(graph_type='graph')
         self.query_ts = None
@@ -73,7 +76,7 @@ class SubsequenceTree:
     def make_query(self, time_series, timer=None):
         if timer is not None:
             timer.start()
-        subsequences = time_series.run_sliding_window()
+        subsequences = time_series.run_sliding_window(self.time_window, self.time_step)
         if timer is not None:
             timer.stop()
             timer.start()
@@ -139,9 +142,9 @@ class SubsequenceTree:
     def _populate_tree(self, db_time_series):
         print("populating tree")
         for i, ts in enumerate(db_time_series):
-            print("{0} time series added".format(i))
-            for subsequence in ts.run_sliding_window():
+            for subsequence in ts.run_sliding_window(self.time_window, self.time_step):
                 self._add_subsequence(subsequence)
+            print("{0} time series added".format(i))
 
     def _build_node_shorcuts(self, just_leaves=False):
         shortcut_dict = {}

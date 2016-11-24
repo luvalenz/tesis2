@@ -1,42 +1,46 @@
-from scipy.spatial.distance import pdist, squareform
-import itertools
-from distance_utils import time_series_twed
-import pickle
-import numpy as np
-import os
+import argparse
 import sys
+import os
+from distance_utils import time_series_twed
+from scipy.spatial.distance import squareform
+import itertools
+import pickle
 
-def calculate_distances(subsequences):
-    distances = [time_series_twed(i, j) for i, j in itertools.combinations(subsequences, 2)]
-    return squareform(distances)
 
 
+parser = argparse.ArgumentParser(
+    description='Calculate distances of subsequences')
+parser.add_argument('--input_dir', required=True, type=str)
+parser.add_argument('--output_dir', required=True, type=str)
+parser.add_argument('--dataset', required=True, type=str)
+parser.add_argument('--n_samples', required=True, type=int)
+parser.add_argument('--time_window', type=float, default=250)
+parser.add_argument('--time_step', type=int, default=10)
 
-if __name__ == '__main__':
-    lc_list_path = sys.argv[1]
-    n_samples = int(sys.argv[2])
-    semi_standardize = False
-    standardize = False
-    window_size = 250
-    step = 10
-    if len(sys.argv) > 3:
-        if sys.argv[3] == 'semi':
-            semi_standardize = True
-            print('semi standarized')
-        if sys.argv[3] == 'std':
-            standardize = True
-            print('standarized')
-    if len(sys.argv) > 4:
-        window_size = int(sys.argv[4])
-        step = int(sys.argv[5])
-    root = '/mnt/nas/GrimaRepo/luvalenz'
-    input_path = 'lucas_data/subsequences_sample_{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.pickle'
-    input_path = os.path.join(root, input_path.format(lc_list_path, n_samples, semi_standardize,
-                                                      standardize, window_size, step))
-    output_path = 'lucas_data/subsequences_distances_{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.npz'
-    output_path = os.path.join(root, output_path.format(lc_list_path, n_samples, semi_standardize,
-                                                        standardize, window_size, step))
-    with open(input_path, 'rb') as f:
-        subsequences = pickle.load(f)
-    distmatrix = calculate_distances(subsequences)
-    np.savez(output_path, distmatrix)
+args = parser.parse_args(sys.argv[1:])
+
+input_dir = args.input_dir
+output_dir = args.output_dir
+dataset = args.dataset
+n_samples = args.n_samples
+time_window = args.time_window
+time_step = args.time_step
+
+input_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
+                                                      time_window, time_step)
+input_path = os.path.join(input_dir, input_filename)
+output_filename = 'twed_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
+                                                      time_window, time_step)
+output_path = os.path.join(output_dir, output_filename)
+
+with open(input_path, 'rb') as f:
+    subsequences = pickle.load(f)
+
+distances = [time_series_twed(i, j) for i, j in itertools.combinations(subsequences, 2)]
+distance_matrix = squareform(distances)
+ids = [sub.id for sub in subsequences]
+
+output = {'ids': ids, 'distances': distance_matrix}
+
+with open(output_path, 'wb') as f:
+    pickle.dump(output, f, protocol=2)

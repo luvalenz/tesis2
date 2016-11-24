@@ -1,74 +1,54 @@
-import numpy as np
-import pandas as pd
-from time_series import TimeSeriesOriginal
-import pickle
-import os
+import argparse
 import sys
-
-
-def get_macho_relative_path(path):
-    start = path.find('macho_training_lightcurves')
-    if start == -1:
-        start = path.find('MACHO training lightcurves')
-    path = path[start:]
-    return path[path.find('/') + 1:]
-
-
-def sample_lightcurves(paths_file_path, n_samples):
-    with open(paths_file_path, 'r') as paths_file:
-        paths = paths_file.readlines()
-    return np.random.choice(paths, n_samples)
-
-
-def get_macho_lightcurve(path, semi_standardize, standardize):
-    if path[-1] == '\n':
-        path = path[:-1]
-    df = pd.read_csv(path, header=2, delimiter=' ')
-    time = df['#MJD'].values
-    magnitude = df['Mag'].values
-    return TimeSeriesOriginal(time, magnitude, get_macho_relative_path(path),
-                              semi_standardize, standardize)
-
-
-def sample_subsequences(root, paths_file_path, n_samples,
-                        semi_standardize, standardize,
-                        window, step):
-    subsequences = []
-    paths = sample_lightcurves(paths_file_path, n_samples)
-    paths = [os.path.join(root, path) for path in paths]
-    lcs = (get_macho_lightcurve(path, semi_standardize, standardize)
-           for path in paths)
-    for lc in lcs:
-        subsequences += lc.get_random_subsequences(1, window, step)
-    return subsequences
+import os
+import glob2 as glob
+import random
+import pickle
+import time_series_utils
 
 
 
-if __name__ == '__main__':
-    input_path = sys.argv[1]
-    n_samples = int(sys.argv[2])
-    semi_standardize = False
-    standardize = False
-    window_size = 250
-    step = 10
-    if len(sys.argv) > 3:
-        if sys.argv[3] == 'semi':
-            semi_standardize = True
-            print('semi standarized')
-        if sys.argv[3] == 'std':
-            standardize = True
-            print('standarized')
-    if len(sys.argv) > 4:
-        window_size = int(sys.argv[4])
-        step = int(sys.argv[5])
-    root = '/mnt/nas/GrimaRepo/luvalenz'
-    #root = '/home/lucas/tesis2'
-    output_filename = 'lucas_data/subsequences_sample_' \
-                      '{0}_n={1}_semistd{2}_std{3}_window{4}_step{5}.pickle'.format(input_path,
-                                                                  n_samples, semi_standardize,
-                                                                  standardize, window_size, step)
-    output_path = os.path.join(root, output_filename)
-    sample = sample_subsequences(root, input_path, n_samples, semi_standardize, standardize,
-                                 window_size, step)
-    with open(output_path, 'wb') as f:
-        pickle.dump(sample, f, protocol=2)
+parser = argparse.ArgumentParser(
+    description='Get samples from lightcurves.')
+parser.add_argument('--input_dir', default='', type=str)
+parser.add_argument('--input_paths_file', default='', type=str)
+parser.add_argument('--output_dir', required=True, type=str)
+parser.add_argument('--dataset', required=True, type=str)
+parser.add_argument('--n_samples', required=True, type=int)
+parser.add_argument('--time_window', type=float, default=250)
+parser.add_argument('--time_step', type=int, default=10)
+
+args = parser.parse_args(sys.argv[1:])
+
+input_dir = args.input_dir
+input_paths_file = args.input_paths_file
+output_dir = args.output_dir
+dataset = args.dataset
+n_samples = args.n_samples
+time_window = args.time_window
+time_step = args.time_step
+
+output_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
+                                                      time_window, time_step)
+output_path = os.path.join(output_dir, output_filename)
+
+# Sampling lightcurves in input path
+if input_dir != '':
+    lightcurves_paths = list(glob.iglob(os.path.join(input_dir, '**/*')))
+else:
+    with open(input_paths_file, 'r') as f:
+        lightcurves_paths = f.readlines()
+    lightcurves_paths = [path for p in lightcurves_paths[:-1]]
+lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
+lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+
+subsequences_sample = [lc.get_random_subsequence(time_window)
+                       for lc in lightcurves_sample]
+
+with open(output_path, 'wb') as f:
+    pickle.dump(subsequences_sample, f, protocol=2)
+
+
+
+
+

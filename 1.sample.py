@@ -40,8 +40,7 @@ if input_dir != '':
 else:
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
-    print(lightcurves_paths[:10])
-    lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p)]
+    lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
 
 if class_file == '':
     lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)

@@ -26,7 +26,11 @@ def read_class_table(path):
 
 def stratified_sample(class_file_path, paths, n_samples):
     table = read_class_table(class_file_path)
+    print('original table')
+    print(table)
     add_paths_to_class_table(table, paths)
+    print('table with paths')
+    print(table)
     table = table[table['path'] != 0]
     X = table['path'].values
     y = table['class'].values

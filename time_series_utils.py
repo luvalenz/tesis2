@@ -24,13 +24,17 @@ def read_class_table(path):
     return pd.read_csv(path, sep=' ', index_col=0)
 
 
-def stratified_sample(class_file_path, paths):
+def stratified_sample(class_file_path, paths, n_samples):
     table = read_class_table(class_file_path)
     add_paths_to_class_table(table, paths)
     table = table[table['path'] != 0]
     X = table['path'].values
     y = table['class'].values
-    sss = StratifiedShuffleSplit(n_splits=1, test_size=20000, random_state=0)
+    print('X')
+    print(X)
+    print('y')
+    print(y)
+    sss = StratifiedShuffleSplit(n_splits=1, test_size=n_samples, random_state=0)
     for train_index, test_index in sss.split(X, y):
         return X[test_index].tolist()
 

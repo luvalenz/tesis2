@@ -24,8 +24,8 @@ def read_class_table(path):
 
 
 def stratified_sample(class_file_path, paths):
-    table = pd.read_csv(class_file_path, sep=' ', index_col=0)
-    add_paths_to_class_table(class_file_path, paths)
+    table = read_class_table(class_file_path)
+    add_paths_to_class_table(table, paths)
     table = table[table['path'] != 0]
     X = table.index.values
     y = table['class'].values
@@ -45,11 +45,7 @@ def get_lightcurve_id(fp):
 
 
 def add_paths_to_class_table(class_table, paths):
-    print('class_table type')
-    print(type(class_table))
     index = class_table.index
-    print('index')
-    print(index)
     class_table['path'] = pd.Series(np.zeros_like(index.values), index=index)
     for p in enumerate(paths):
         id_ = get_lightcurve_id(p)

@@ -6,32 +6,16 @@ import os
 import glob2 as glob
 
 
-
 def read_file(path):
-    print('READING FILE')
-    print('path')
-    print(path)
     df = pd.read_csv(path, comment='#', sep=' ', header=None)
-    print('df')
-    print(df)
     not_nan_cols = np.where(~np.isnan(df.iloc[0]))[0]
     df = df[not_nan_cols]
-    id_ = os.path.basename(path)
-    print('id')
-    print(id_)
+    id_ = get_lightcurve_id(path)
     time = df.iloc[:, 0].values
     magnitude = df.iloc[:, 1].values
-    print('time')
-    print(time)
-    print('magnitude')
-    print(magnitude)
     not_nan = np.where(~np.logical_or(np.isnan(time), np.isnan(magnitude)))[0]
     time = time[not_nan]
     magnitude = magnitude[not_nan]
-    print('not nan time')
-    print(time)
-    print('not nan magnitude')
-    print(magnitude)
     ts = TimeSeriesOriginal(time, magnitude, id_)
     return ts
 

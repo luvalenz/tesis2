@@ -1,8 +1,10 @@
 from time_series import TimeSeriesOriginal
+from sklearn.model_selection import StratifiedShuffleSplit
 import pandas as pd
 import numpy as np
 import os
 import glob2 as glob
+
 
 
 def read_file(path):
@@ -15,6 +17,40 @@ def read_file(path):
     not_nan = np.where(~np.logical_or(np.isnan(time), np.isnan(magnitude)))[0]
     ts = TimeSeriesOriginal(time[not_nan], magnitude[not_nan], id_)
     return ts
+
+
+def read_class_table(path):
+    return pd.read_csv(path, sep=' ', index_col=0)
+
+
+def stratified_sample(class_file_path, paths):
+    table = pd.read_csv(class_file_path, sep=' ', index_col=0)
+    add_paths_to_class_table(class_file_path, paths)
+    table = table[table['path'] != 0]
+    X = table.index.values
+    y = table['class'].values
+    sss = StratifiedShuffleSplit(n_splits=1, test_size=20000, random_state=0)
+    for train_index, test_index in sss.split(X, y):
+        return X[test_index].tolist()
+
+
+def get_lightcurve_id(fp):
+    basename = os.path.basename(fp)
+    filename = '.'.join(basename.split('.')[:-1])
+    if filename.startswith('lc_'):
+        filename = filename[3:]
+    if filename.endswith('.B') or filename.endswith('.R'):
+        filename = filename[:-2]
+    return filename
+
+
+def add_paths_to_class_table(class_table, paths):
+    index = class_table.index
+    class_table['path'] = pd.Series(np.zeros_like(index.values), index=index)
+    for p in enumerate(paths):
+        id_ = get_lightcurve_id(p)
+        if id_ in class_table.index:
+            class_table.loc[id_, 'path'] = p
 
 
 def read_dataset(root):

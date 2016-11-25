@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser(
     description='Get samples from lightcurves.')
 parser.add_argument('--input_dir', default='', type=str)
 parser.add_argument('--input_paths_file', default='', type=str)
+parser.add_argument('--class_file', default='', type=str)
 parser.add_argument('--output_dir', required=True, type=str)
 parser.add_argument('--dataset', required=True, type=str)
 parser.add_argument('--n_samples', required=True, type=int)
@@ -22,6 +23,7 @@ args = parser.parse_args(sys.argv[1:])
 
 input_dir = args.input_dir
 input_paths_file = args.input_paths_file
+class_file = args.class_file
 output_dir = args.output_dir
 dataset = args.dataset
 n_samples = args.n_samples
@@ -39,7 +41,12 @@ else:
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
     lightcurves_paths = [path for p in lightcurves_paths[:-1]]
-lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
+
+if class_file == '':
+    lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
+else:
+    class_table = time_series_utils.read_class_table(class_file)
+    lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths)
 lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
 
 subsequences_sample = [lc.get_random_subsequence(time_window)

@@ -45,7 +45,11 @@ def get_lightcurve_id(fp):
 
 
 def add_paths_to_class_table(class_table, paths):
+    print('class_table type')
+    print(type(class_table))
     index = class_table.index
+    print('index')
+    print(index)
     class_table['path'] = pd.Series(np.zeros_like(index.values), index=index)
     for p in enumerate(paths):
         id_ = get_lightcurve_id(p)

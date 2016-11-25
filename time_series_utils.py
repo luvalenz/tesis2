@@ -26,18 +26,10 @@ def read_class_table(path):
 
 def stratified_sample(class_file_path, paths, n_samples):
     table = read_class_table(class_file_path)
-    print('original table')
-    print(table)
     add_paths_to_class_table(table, paths)
-    print('table with paths')
-    print(table)
     table = table[table['path'] != 0]
     X = table['path'].values
     y = table['class'].values
-    print('X')
-    print(X)
-    print('y')
-    print(y)
     sss = StratifiedShuffleSplit(n_splits=1, test_size=n_samples, random_state=0)
     for train_index, test_index in sss.split(X, y):
         return X[test_index].tolist()
@@ -54,10 +46,14 @@ def get_lightcurve_id(fp):
 
 
 def add_paths_to_class_table(class_table, paths):
+    print('paths')
+    print(paths)
     index = class_table.index
     class_table['path'] = pd.Series(np.zeros_like(index.values), index=index)
     for p in paths:
+        print(p)
         id_ = get_lightcurve_id(p)
+        print(id_)
         if id_ in class_table.index:
             class_table.loc[id_, 'path'] = p
 

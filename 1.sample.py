@@ -46,7 +46,7 @@ if class_file == '':
     lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
 else:
     lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths)
-print(lightcurves_paths)
+
 lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
 
 subsequences_sample = [lc.get_random_subsequence(time_window)

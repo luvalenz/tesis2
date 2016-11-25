@@ -27,7 +27,7 @@ def stratified_sample(class_file_path, paths):
     table = read_class_table(class_file_path)
     add_paths_to_class_table(table, paths)
     table = table[table['path'] != 0]
-    X = table.index.values
+    X = table['path'].values
     y = table['class'].values
     sss = StratifiedShuffleSplit(n_splits=1, test_size=20000, random_state=0)
     for train_index, test_index in sss.split(X, y):

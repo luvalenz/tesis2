@@ -58,7 +58,9 @@ def complexity_coeff(lc_a, times_a, lc_b, times_b):
                           np.sqrt(np.power(np.diff(times_b), 2)))
     return max(complexity_1, complexity_2)/min(complexity_1, complexity_2)
 
+
 def time_series_twed(ts1, ts2, lam=0.5, nu=1e-5):
+    print('Calculating twed between {0} and {1}'.format(ts1, ts2))
     time1 = ts1.time
     magnitude1 = ts1.magnitude
     time2 = ts2.time

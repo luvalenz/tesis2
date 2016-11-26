@@ -9,6 +9,9 @@ class TimeSeries:
         self.magnitude = magnitude
         self.id = id_
 
+    def __str__(self):
+        return self.id
+
 
 class TimeSeriesOriginal(TimeSeries):
 

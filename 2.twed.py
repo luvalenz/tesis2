@@ -43,4 +43,4 @@ ids = [sub.id for sub in subsequences]
 output = {'ids': ids, 'distances': distance_matrix}
 
 with open(output_path, 'wb') as f:
-    pickle.dump(output, f, protocol=2)
+    pickle.dump(output, f, protocol=4)

@@ -9,7 +9,8 @@ import dill
 parser = argparse.ArgumentParser(
     description='Build subsequence tree')
 parser.add_argument('--sample_dir', required=True, type=str)
-parser.add_argument('--distances_dir', required=True, type=str)
+parser.add_argument('--input_paths_file', default='', type=str)
+parser.add_argument('--distances_dir', default='', type=str)
 parser.add_argument('--dataset_dir', required=True, type=str)
 parser.add_argument('--output_dir', required=True, type=str)
 parser.add_argument('--dataset', required=True, type=str)
@@ -21,6 +22,7 @@ parser.add_argument('--max_level', required=True, type=int)
 args = parser.parse_args(sys.argv[1:])
 
 sample_dir = args.sample_dir
+input_paths_file = args.input_paths_file
 distances_dir = args.distances_dir
 dataset_dir = args.dataset_dir
 output_dir = args.output_dir
@@ -56,7 +58,15 @@ else:
 distances = distances_dict['distances']
 affinities = -distances**2
 
-dataset = time_series_utils.read_dataset(dataset_dir)
+
+if dataset_dir != '':
+    dataset = time_series_utils.read_dataset(dataset_dir)
+else:
+    with open(input_paths_file, 'r') as f:
+        lightcurves_paths = f.readlines()
+    lightcurves_paths = (p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1]))
+    dataset = (time_series_utils.read_dataset(p) for p in lightcurves_paths)
+
 print('building tree...')
 tree = SubsequenceTree(max_level, sample, affinities, dataset, time_window, time_step)
 

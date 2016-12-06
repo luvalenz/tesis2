@@ -7,7 +7,6 @@ import itertools
 import pickle
 
 
-
 parser = argparse.ArgumentParser(
     description='Calculate distances of subsequences')
 parser.add_argument('--input_dir', required=True, type=str)

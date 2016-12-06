@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(
     description='Build subsequence tree')
 parser.add_argument('--sample_dir', required=True, type=str)
 parser.add_argument('--input_paths_file', default='', type=str)
-parser.add_argument('--distances_dir', requred=True, type=str)
+parser.add_argument('--distances_dir', required=True, type=str)
 parser.add_argument('--dataset_dir', default='', type=str)
 parser.add_argument('--output_dir', required=True, type=str)
 parser.add_argument('--dataset', required=True, type=str)

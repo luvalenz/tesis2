@@ -34,23 +34,30 @@ output_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
 output_path = os.path.join(output_dir, output_filename)
 
-# Sampling lightcurves in input path
+print('getting paths...')
 if input_dir != '':
     lightcurves_paths = list(glob.iglob(os.path.join(input_dir, '**/*')))
 else:
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
     lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
+print('DONE')
 
+print('Sampling lightcurves...')
 if class_file == '':
     lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
 else:
     lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths, n_samples)
 
+print('DONE')
+print('Opening lightcurves...')
 lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+print('DONE')
 
+print('Getting subsequences...')
 subsequences_sample = [lc.get_random_subsequence(time_window)
                        for lc in lightcurves_sample]
+print('DONE')
 
 with open(output_path, 'wb') as f:
     pickle.dump(subsequences_sample, f, protocol=2)

@@ -41,7 +41,7 @@ else:
     with open(input_paths_file, 'r') as f:
         #lightcurves_paths = f.readlines()
         lightcurves_paths = []
-        for i in range(10):
+        for i in range(20001):
             lightcurves_paths.append(f.readline())
     lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
 print('DONE')

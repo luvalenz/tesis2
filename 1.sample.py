@@ -39,7 +39,10 @@ if input_dir != '':
     lightcurves_paths = list(glob.iglob(os.path.join(input_dir, '**/*')))
 else:
     with open(input_paths_file, 'r') as f:
-        lightcurves_paths = f.readlines()
+        #lightcurves_paths = f.readlines()
+        lightcurves_paths = []
+        for i in range(10):
+            lightcurves_paths.append(f.readline())
     lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
 print('DONE')
 

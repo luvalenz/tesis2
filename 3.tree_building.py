@@ -65,7 +65,7 @@ else:
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
     lightcurves_paths = (p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1]))
-    dataset = (time_series_utils.read_dataset(p) for p in lightcurves_paths)
+    dataset = (time_series_utils.read_file(p) for p in lightcurves_paths)
 
 print('building tree...')
 tree = SubsequenceTree(max_level, sample, affinities, dataset, time_window, time_step)

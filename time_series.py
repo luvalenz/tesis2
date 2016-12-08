@@ -49,7 +49,9 @@ class TimeSeriesOriginal(TimeSeries):
     def get_random_subsequence(self, time_window):
         print('taking subsequence')
         print(self.id)
+        print(type(self.time))
         print(self.time)
+        print(type(self.magnitude))
         print(self.magnitude)
         t_f = self.time[-1]
         t_0 = self.time[0]

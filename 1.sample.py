@@ -39,22 +39,18 @@ if input_dir != '':
     lightcurves_paths = list(glob.iglob(os.path.join(input_dir, '**/*')))
 else:
     with open(input_paths_file, 'r') as f:
-        #lightcurves_paths = f.readlines()
-        lightcurves_paths = []
-        for i in range(20001):
-            lightcurves_paths.append(f.readline())
+        lightcurves_paths = f.readlines()
     lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
 print('DONE')
 
-# print('Sampling lightcurves...')
-# if class_file == '':
-#     lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
-# else:
-#     lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths, n_samples)
-#
-# print('DONE')
+print('Sampling lightcurves...')
+if class_file == '':
+    lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
+else:
+    lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths, n_samples)
 
-lightcurves_paths_sample = lightcurves_paths
+print('DONE')
+
 print('Opening lightcurves...')
 lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
 print('DONE')

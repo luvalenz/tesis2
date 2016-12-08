@@ -7,7 +7,7 @@ import glob2 as glob
 
 
 def read_file(path):
-    df = pd.read_csv(path, comment='#', sep=' ', header=None)
+    df = pd.read_csv(path, comment='#', sep=' ', header=None, skipinitialspace=True)
     not_nan_cols = np.where(~np.isnan(df.iloc[0]))[0]
     df = df[not_nan_cols]
     id_ = get_lightcurve_id(path)

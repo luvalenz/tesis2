@@ -44,20 +44,24 @@ else:
 print('DONE')
 
 print('Sampling lightcurves...')
+extended_n_samples = int(1.2*n_samples)
 if class_file == '':
-    lightcurves_paths_sample = random.sample(lightcurves_paths, n_samples)
+    lightcurves_paths_sample = random.sample(lightcurves_paths, extended_n_samples)
 else:
-    lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths, n_samples)
+    lightcurves_paths_sample = time_series_utils.stratified_sample(class_file, lightcurves_paths, extended_n_samples)
 
 print('DONE')
 
 print('Opening lightcurves...')
 lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+lightcurves_sample = (lc for lc in lightcurves_sample if len(lc) >= time_window)
 print('DONE')
 
 print('Getting subsequences...')
 subsequences_sample = [lc.get_random_subsequence(time_window)
-                       for lc in lightcurves_sample]
+                       for lc in lightcurves_sample][:n_samples]
+
+print('Sample\'s actual length = {0}'.format(len(subsequences_sample)))
 print('DONE')
 
 with open(output_path, 'wb') as f:

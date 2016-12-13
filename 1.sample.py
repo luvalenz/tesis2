@@ -42,7 +42,16 @@ else:
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
     print('\tCheching paths existance')
-    lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
+    aux = []
+    for p in lightcurves_paths:
+        print(p)
+        if os.path.exists(p[:-1]):
+            print('exists')
+            aux.append(p[:-1])
+        else:
+            print('doesn\'t exist')
+    lightcurves_paths = aux
+        #[p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
 print('DONE')
 
 print('Sampling lightcurves...')

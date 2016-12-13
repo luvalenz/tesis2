@@ -34,12 +34,14 @@ output_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
 output_path = os.path.join(output_dir, output_filename)
 
-print('getting paths...')
+print('Getting paths...')
 if input_dir != '':
     lightcurves_paths = list(glob.iglob(os.path.join(input_dir, '**/*')))
 else:
+    print('\tReading file')
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
+    print('\tCheching paths existance')
     lightcurves_paths = [p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
 print('DONE')
 

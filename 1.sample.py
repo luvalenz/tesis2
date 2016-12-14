@@ -40,18 +40,9 @@ if input_dir != '':
 else:
     print('\tReading file')
     with open(input_paths_file, 'r') as f:
-        lightcurves_paths = f.readlines()
-    print('\tCheching paths existance')
-    aux = []
-    for p in lightcurves_paths:
-        print(p)
-        if os.path.exists(p[:-1]):
-            print('exists')
-            aux.append(p[:-1])
-        else:
-            print('doesn\'t exist')
-    lightcurves_paths = aux
-        #[p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1])]
+        lightcurves_paths_ = f.readlines()
+    print('\tChecking paths existance')
+    lightcurves_paths = [p[:-1] for p in lightcurves_paths_ if os.path.exists(p[:-1])]
 print('DONE')
 
 print('Sampling lightcurves...')
@@ -64,8 +55,8 @@ else:
 print('DONE')
 
 print('Opening lightcurves...')
-lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
-lightcurves_sample = (lc for lc in lightcurves_sample if len(lc) >= time_window)
+lightcurves_sample_ = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+lightcurves_sample = (lc for lc in lightcurves_sample_ if len(lc) >= time_window)
 print('DONE')
 
 print('Getting subsequences...')

@@ -59,6 +59,11 @@ lightcurves_sample_ = (time_series_utils.read_file(path) for path in lightcurves
 lightcurves_sample = (lc for lc in lightcurves_sample_ if len(lc) >= time_window)
 print('DONE')
 
+
+for lc in lightcurves_sample:
+    print(lc)
+    print(len(lc))
+
 print('Getting subsequences...')
 subsequences_sample = [lc.get_random_subsequence(time_window)
                        for lc in lightcurves_sample][:n_samples]

@@ -42,7 +42,7 @@ else:
     with open(input_paths_file, 'r') as f:
         lightcurves_paths_ = f.readlines()
     print('\tChecking paths existance')
-    lightcurves_paths = [p[:-1] for i, p in zip(range(50), lightcurves_paths_) if os.path.exists(p[:-1])]
+    lightcurves_paths = [p[:-1] for p in lightcurves_paths_ if os.path.exists(p[:-1])]
 print('DONE')
 
 print('Sampling lightcurves...')
@@ -55,17 +55,9 @@ else:
 print('DONE')
 
 print('Opening lightcurves...')
-lightcurves_sample_ = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
-
-for lc in lightcurves_sample_:
-    print(lc)
-    print(len(lc))
-
-lightcurves_sample = (lc for lc in lightcurves_sample_ if len(lc) >= time_window)
+lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+lightcurves_sample = (lc for lc in lightcurves_sample if lc.total_time >= time_window)
 print('DONE')
-
-
-
 
 print('Getting subsequences...')
 subsequences_sample = [lc.get_random_subsequence(time_window)

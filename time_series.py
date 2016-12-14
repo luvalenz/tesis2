@@ -24,7 +24,8 @@ class TimeSeriesOriginal(TimeSeries):
         if standardize_std:
             self.standardize_std()
 
-    def __len__(self):
+    @property
+    def total_time(self):
         return self.time[-1] - self.time[0]
 
     def standardize_mean(self):

@@ -55,7 +55,7 @@ else:
 print('DONE')
 
 print('Opening lightcurves...')
-lightcurves_sample_ = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+lightcurves_sample_ = (time_series_utils.read_file(path) for i, path in zip(range(10), lightcurves_paths_sample))
 lightcurves_sample = (lc for lc in lightcurves_sample_ if len(lc) >= time_window)
 print('DONE')
 

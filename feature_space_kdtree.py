@@ -8,6 +8,29 @@ import sys
 import dill
 import numpy as np
 import random
+import glob2
+import os
+import pandas as pd
+
+
+class FatsKDTreeSearcher:
+
+    def __init__(self, data_frame):
+        self.data = data_frame
+        self.kdtree = KDTree(data_frame)
+
+    @classmethod
+    def build(cls, root_path):
+        paths = glob2.glob(os.path.join(root_path, '**', '*.csv'))
+        data_frames = [pd.read_csv(p) for p in paths]
+        df = pd.concat(data_frames)
+        return cls(df)
+
+
+
+
+
+
 
 
 def build_kdtree(classes, n_components=None):

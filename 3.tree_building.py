@@ -42,11 +42,16 @@ output_filename = 'tree_{0}_{1}_{2}_{3}_{4}.dill'.format(dataset, n_samples,
                                                         time_window, time_step, max_level)
 output_path = os.path.join(output_dir, output_filename)
 
+print('Opening samples file...')
 with open(sample_path, 'rb') as f:
     sample = pickle.load(f)
+print('DONE')
+print('Opening distances file...')
 with open(distances_path, 'rb') as f:
     distances_dict = pickle.load(f)
+print('DONE')
 
+print('Checking file correctnesss...')
 sample_ids = [subsequence.id for subsequence in sample]
 distances_ids = distances_dict['ids']
 if sample_ids == distances_ids:
@@ -54,25 +59,33 @@ if sample_ids == distances_ids:
 else:
     print('Sample file doesn\'t correspond to distances file')
     exit()
+print('DONE')
 
 distances = distances_dict['distances']
 affinities = -distances**2
 
 
 if dataset_dir != '':
+    print('Reading dataset...')
     dataset = time_series_utils.read_dataset(dataset_dir)
+    print('DONE')
 else:
+    print('Reading file paths')
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
+    print('DONE')
+    print('Reading dataset...')
     lightcurves_paths = (p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1]))
     dataset = (time_series_utils.read_file(p) for p in lightcurves_paths)
     dataset = (lc for lc in dataset if len(lc) >= time_window)
+    print('DONE')
 
-print('building tree...')
+print('Building tree...')
 tree = SubsequenceTree(max_level, sample, affinities, dataset, time_window, time_step)
+print('DONE')
 
+print('Saving tree...')
 with open( output_path, 'wb' ) as f:
     dill.dump(tree,  f)
-
 print('DONE')
 

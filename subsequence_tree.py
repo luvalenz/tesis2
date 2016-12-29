@@ -141,8 +141,14 @@ class SubsequenceTree:
 
     def _populate_tree(self, db_time_series):
         print("populating tree")
+        print('time window')
+        print(self.time_window)
+        print('time step')
+        print(self.time_step)
         for i, ts in enumerate(db_time_series):
+            print(ts)
             for subsequence in ts.run_sliding_window(self.time_window, self.time_step):
+                print(subsequence)
                 self._add_subsequence(subsequence)
             print("{0} time series added".format(i))
 

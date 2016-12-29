@@ -2,6 +2,8 @@ import numpy as np
 from numba import jit, float64
 
 
+# This functions were taken from https://github.com/cmackenziek/tsfl
+
 @jit(float64[:, :](float64[:, :], float64[:], float64[:], float64[:],
     float64[:], float64, float64), nopython=True)
 def pairwise_tweds(TWED, A, A_times, B, B_times, lam=0.5, nu=1e-5):

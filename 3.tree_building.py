@@ -77,7 +77,7 @@ else:
     print('Reading dataset...')
     lightcurves_paths = (p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1]))
     dataset = (time_series_utils.read_file(p) for p in lightcurves_paths)
-    dataset = (lc for lc in dataset if len(lc) >= time_window)
+    dataset = (lc for lc in dataset if lc.total_time >= time_window)
     print('DONE')
 
 print('Building tree...')

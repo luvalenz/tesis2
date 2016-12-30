@@ -145,6 +145,8 @@ class SubsequenceTree:
         print(self.time_window)
         print('time step')
         print(self.time_step)
+        print(type(db_time_series))
+        print(db_time_series)
         for i, ts in enumerate(db_time_series):
             print(ts)
             for subsequence in ts.run_sliding_window(self.time_window, self.time_step):

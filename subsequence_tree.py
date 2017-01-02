@@ -150,7 +150,7 @@ class SubsequenceTree:
         for i, ts in enumerate(db_time_series):
             print(ts)
             for subsequence in ts.run_sliding_window(self.time_window, self.time_step):
-                print(subsequence)
+                #print(subsequence)
                 self._add_subsequence(subsequence)
             print("{0} time series added".format(i))
 

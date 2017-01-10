@@ -62,7 +62,7 @@ else:
 print('DONE')
 
 distances = distances_dict['distances']
-affinities = -distances**2
+affinities = -distances
 
 
 if dataset_dir != '':

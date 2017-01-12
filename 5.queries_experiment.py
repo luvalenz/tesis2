@@ -5,17 +5,6 @@ import glob2 as glob
 import os
 import random
 
-def get_stratified_sample(dataset_dir, classes_df, n):
-    classes = set(classes_df['class'])
-    n_classes = len(classes)
-    n_per_class = int(n/n_classes)
-    sample = []
-    for class_ in classes:
-        filenames = classes_df[classes_df['class'] == class_]['filename'].tolist()
-        class_sample = random.sample(filenames, n_per_class)
-        sample += class_sample
-
-
 
 def get_non_stratified_sample(dataset_dir, n):
     paths = list(glob.iglob(os.path.join(dataset_dir, '**/*')))
@@ -39,8 +28,11 @@ class_dict_path = args.class_dict_path
 n_queries= args.n_queries
 
 
-if class_dict_path
-lcs = [get_macho_lightcurve(path) for path in lcs_paths]
+if class_dict_path == '':
+    lcs = get_non_stratified_sample(dataset_dir, n_queries)
+else:
+    lcs = time_series_utils.stratified_sample(dataset_dir, classes_df, n_queries)
+
 
 
 test_output = {'results': results, 'times': times}

@@ -20,6 +20,10 @@ def read_file(path):
     return ts
 
 
+def read_files(paths):
+    return (read_file(path) for path in paths)
+
+
 def read_class_table(path):
     return pd.read_csv(path, sep=' ', index_col=0)
 

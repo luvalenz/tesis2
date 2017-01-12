@@ -103,7 +103,8 @@ class SubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        result = pd.DataFrame(score, index=not_zero_ts_ids)
+        order = np.argsort(score)
+        result = not_zero_d_dataframe[order]
         if timer is not None:
             timer.stop()
         return result

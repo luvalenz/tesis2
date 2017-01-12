@@ -85,7 +85,7 @@ tree = SubsequenceTree(max_level, sample, affinities, dataset, time_window, time
 print('DONE')
 
 print('Saving tree...')
-with open( output_path, 'wb' ) as f:
+with open( output_path, 'wb') as f:
     dill.dump(tree,  f)
 print('DONE')
 

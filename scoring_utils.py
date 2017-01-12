@@ -1,5 +1,7 @@
 import numpy as np
 import time
+from searchers import QueryResult
+from scipy import stats
 
 def relevance(retrieved_labels, relevant_label):
     return np.array(retrieved_labels) ==  relevant_label
@@ -25,6 +27,9 @@ def ndcg(retrieved, relevant_label, n):
         padding = length - n
         ndcg_score = np.concatenate((ndcg_score, -1*np.ones(padding)))
     return ndcg_score
+
+
+
 
 
 class Timer:

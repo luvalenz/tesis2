@@ -1,20 +1,27 @@
-import glob2
-import os
-import pandas as pd
-from sklearn.neighbors import KDTree
-import numpy as np
-import time
-from scoring_utils import Timer
+from scoring_utils import Timer, ndcg
+from scipy import stats
 
 
 class QueryResult:
 
-    def __init__(self, ranking, times):
+    def __init__(self, target, ranking, times):
+        self.target = target
         self.ranking = ranking
         self.times = times
 
+    def ndcg(self, class_table):
+        target_class = class_table.loc[self.target.id, 'class']
+        ranking_classes = class_table.loc[self.ranking]['class'].values
+        return target_class, ndcg(ranking_classes, target_class, len(ranking_classes))
 
-class SubseuquenceSearcher(object):
+    def kendall_tau(self, other_query_result):
+        return stats.kendalltau(self.ranking, other_query_result.ranking)
+
+    def __len__(self):
+        return len(self.ranking)
+
+
+class SubseuquenceSearcher:
 
     data_type = 'float64'
 
@@ -26,5 +33,5 @@ class SubseuquenceSearcher(object):
         result = self.st.make_query(time_series, timer)
         ranking = result.index.tolist()
         times = timer.elapsed_times
-        return QueryResult(ranking, times)
+        return QueryResult(time_series.id, ranking, times)
 

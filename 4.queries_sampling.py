@@ -26,7 +26,7 @@ def query_labeled_sample(classes_df, n_per_class):
     classes = set(classes_df['class'])
     sample = []
     for class_ in classes:
-        paths = classes_df[classes_df['class'] == class_]['id'].tolist()
+        paths = classes_df[classes_df['class'] == class_].index.tolist()
         try:
             class_sample = np.random.choice(paths, n_per_class, replace=False)
         except ValueError:

@@ -28,15 +28,27 @@ def read_class_table(path):
     return pd.read_csv(path, sep=' ', index_col=0)
 
 
-def stratified_sample(class_file_path, paths, n_samples):
-    table = read_class_table(class_file_path)
-    add_paths_to_class_table(table, paths)
-    table = table[table['path'] != 0]
-    X = table['path'].values
-    y = table['class'].values
+def stratified_sample(class_table, n_samples):
+    X = class_table['path'].values
+    y = class_table['class'].values
     sss = StratifiedShuffleSplit(n_splits=1, test_size=n_samples, random_state=0)
     for train_index, test_index in sss.split(X, y):
         return X[test_index].tolist()
+
+def nonstratified_sample(paths_file_path, n):
+    with open(paths_file_path) as f:
+        num_lines = sum(1 for line in f)
+    sample_indices = np.sort(np.random.choice(num_lines, n, replace=False))
+    pointer = 0
+    sample = []
+    with open(paths_file_path) as f:
+        for i, line in enumerate(f):
+            if pointer == n:
+                break
+            if i == sample_indices[pointer]:
+                sample.append(line[:-1])
+                pointer += 1
+    return sample
 
 
 def get_lightcurve_id(fp):

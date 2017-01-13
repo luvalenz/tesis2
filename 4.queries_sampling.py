@@ -63,7 +63,7 @@ else:
 
 lcs = time_series_utils.read_files(paths)
 
-basename = 'sample_{0}_{1}_{2}.dill'.format(name, sample_type, n_queries)
+basename = 'querysample_{0}_{1}_{2}.dill'.format(name, sample_type, n_queries)
 output_path = os.path.join(output_dir, basename)
 
 with open(output_path, 'wb') as f:

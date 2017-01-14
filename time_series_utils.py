@@ -44,9 +44,10 @@ def read_class_table(path):
 def stratified_sample(class_table, n_samples):
     X = class_table['path'].values
     y = class_table['class'].values
-    sss = StratifiedShuffleSplit(n_splits=1, test_size=n_samples, random_state=0)
-    for train_index, test_index in sss.split(X, y):
-        return X[test_index].tolist()
+    if n_samples < len(y):
+        sss = StratifiedShuffleSplit(n_splits=1, test_size=n_samples, random_state=0)
+        for train_index, test_index in sss.split(X, y):
+            return X[test_index].tolist()
 
 def nonstratified_sample(paths_file_path, n):
     with open(paths_file_path) as f:

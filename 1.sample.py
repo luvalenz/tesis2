@@ -3,8 +3,7 @@ import sys
 import os
 import pickle
 import time_series_utils
-import pandas as pd
-
+import random
 
 
 parser = argparse.ArgumentParser(
@@ -38,9 +37,16 @@ print('Sampling lightcurves...')
 extended_n_samples = int(1.2*n_samples)
 if class_table_path == '':
     relative_paths_sample = time_series_utils.nonstratified_sample(input_paths_file, extended_n_samples)
+
 else:
     class_table = time_series_utils.read_class_table(class_table_path)
-    relative_paths_sample = time_series_utils.stratified_sample(class_table, extended_n_samples)
+    if n_samples > len(class_table):
+        n_repetitions = n_samples // len(class_table) + 1
+        relative_paths_sample = n_repetitions * class_table['path'].tolist()
+        random.shuffle(relative_paths_sample)
+        relative_paths_sample[:n_samples]
+    else:
+        relative_paths_sample = time_series_utils.stratified_sample(class_table, extended_n_samples)
 
 print('DONE')
 

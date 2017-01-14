@@ -37,15 +37,17 @@ output_path = os.path.join(output_dir, output_filename)
 print('Sampling lightcurves...')
 extended_n_samples = int(1.2*n_samples)
 if class_table_path == '':
-    lightcurves_paths_sample = time_series_utils.nonstratified_sample(input_paths_file, extended_n_samples)
+    relative_paths_sample = time_series_utils.nonstratified_sample(input_paths_file, extended_n_samples)
 else:
-    class_table = pd.read_csv(class_table_path)
-    lightcurves_paths_sample = time_series_utils.stratified_sample(class_table, extended_n_samples)
+    class_table = time_series_utils.read_class_table(class_table_path)
+    relative_paths_sample = time_series_utils.stratified_sample(class_table, extended_n_samples)
 
 print('DONE')
 
+abs_paths = (os.path.join(dataset_root, path) for path in relative_paths_sample)
+
 print('Opening lightcurves...')
-lightcurves_sample = (time_series_utils.read_file(path) for path in lightcurves_paths_sample)
+lightcurves_sample = (time_series_utils.read_file(path) for path in abs_paths)
 lightcurves_sample = (lc for lc in lightcurves_sample if lc.total_time >= time_window)
 print('DONE')
 

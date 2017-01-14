@@ -6,8 +6,21 @@ import os
 import glob2 as glob
 
 
+def get_nonvalid_rows(path):
+    nonvalid_rows = 0
+    with open(path, 'r') as f:
+        for line in f:
+            stripped_line = line[:-1].strip()
+            n_cols = len(stripped_line.split(' '))
+            if n_cols == 3:
+                break
+            nonvalid_rows += 1
+    return nonvalid_rows
+
+
 def read_file(path):
-    df = pd.read_csv(path, comment='#', sep=' ', header=None, skipinitialspace=True)
+    nonvalid_rows = get_nonvalid_rows(path)
+    df = pd.read_csv(path, comment='#', sep=' ', header=None, skipinitialspace=True, skiprows=nonvalid_rows)
     not_nan_cols = np.where(~np.isnan(df.iloc[0]))[0]
     df = df[not_nan_cols]
     id_ = get_lightcurve_id(path)

@@ -40,7 +40,7 @@ if class_table_path == '':
 
 else:
     class_table = time_series_utils.read_class_table(class_table_path)
-    if n_samples > len(class_table):
+    if extended_n_samples > len(class_table):
         n_repetitions = n_samples // len(class_table) + 1
         relative_paths_sample = n_repetitions * class_table['path'].tolist()
         random.shuffle(relative_paths_sample)

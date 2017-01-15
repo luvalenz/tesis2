@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(
     description='Build subsequence tree')
 parser.add_argument('--sample_dir', required=True, type=str)
 parser.add_argument('--input_paths_file', default='', type=str)
-parser.add_argument('--distances_dir', required=True, type=str)
+parser.add_argument('--distances_root', required=True, type=str)
 parser.add_argument('--dataset_dir', default='', type=str)
 parser.add_argument('--output_dir', required=True, type=str)
 parser.add_argument('--dataset', required=True, type=str)
@@ -18,19 +18,22 @@ parser.add_argument('--n_samples', required=True, type=int)
 parser.add_argument('--time_window', type=float, default=250)
 parser.add_argument('--time_step', type=int, default=10)
 parser.add_argument('--max_level', required=True, type=int)
+parser.add_argument('--class_table_path', default='', type=str)
 
 args = parser.parse_args(sys.argv[1:])
 
 sample_dir = args.sample_dir
 input_paths_file = args.input_paths_file
+
 distances_dir = args.distances_dir
-dataset_dir = args.dataset_dir
+dataset_root = args.dataset_root
 output_dir = args.output_dir
 dataset = args.dataset
 n_samples = args.n_samples
 time_window = args.time_window
 time_step = args.time_step
 max_level = args.max_level
+class_table_path = args.class_table_path
 
 sample_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
@@ -65,20 +68,28 @@ distances = distances_dict['distances']
 affinities = -distances
 
 
-if dataset_dir != '':
-    print('Reading dataset...')
-    dataset = time_series_utils.read_dataset(dataset_dir)
-    print('DONE')
-else:
+
+if input_paths_file != '':
     print('Reading file paths')
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
     print('DONE')
     print('Reading dataset...')
-    lightcurves_paths = (p[:-1] for p in lightcurves_paths if os.path.exists(p[:-1]))
+    lightcurves_paths = (os.path.join(dataset_root, p[:-1]) for p in lightcurves_paths if os.path.exists(p[:-1]))
     dataset = (time_series_utils.read_file(p) for p in lightcurves_paths)
-    dataset = (lc for lc in dataset if lc.total_time >= time_window)
     print('DONE')
+elif class_table_path  != '':
+    print('Reading dataset...')
+    class_table = time_series_utils.read_class_table(class_table_path)
+    lightcurves_paths = class_table['path'].values
+    dataset = (time_series_utils.read_file(p) for p in lightcurves_paths)
+    print('DONE')
+else:
+    print('Reading dataset...')
+    dataset = time_series_utils.read_dataset(dataset_root)
+    print('DONE')
+
+dataset = (lc for lc in dataset if lc.total_time >= time_window)
 
 print('Building tree...')
 tree = SubsequenceTree(max_level, sample, affinities, dataset, time_window, time_step)

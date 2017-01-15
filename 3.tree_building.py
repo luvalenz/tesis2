@@ -82,6 +82,7 @@ elif class_table_path  != '':
     print('Reading dataset...')
     class_table = time_series_utils.read_class_table(class_table_path)
     lightcurves_paths = class_table['path'].values
+    lightcurves_paths = (os.path.join(dataset_root, p) for p in lightcurves_paths)
     dataset = (time_series_utils.read_file(p) for p in lightcurves_paths)
     print('DONE')
 else:

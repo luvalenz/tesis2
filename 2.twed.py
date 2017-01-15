@@ -13,7 +13,7 @@ parser.add_argument('--input_dir', required=True, type=str)
 parser.add_argument('--output_dir', required=True, type=str)
 parser.add_argument('--dataset', required=True, type=str)
 parser.add_argument('--n_samples', required=True, type=int)
-parser.add_argument('--time_window', type=float, default=250)
+parser.add_argument('--time_window', type=int, default=250)
 parser.add_argument('--time_step', type=int, default=10)
 
 args = parser.parse_args(sys.argv[1:])

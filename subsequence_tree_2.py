@@ -160,7 +160,10 @@ class BottomUpSubsequenceTree:
         nodes = []
         for i, center in enumerate(upper_centers):
             children = lower_nodes[np.where(labels == i)[0]]
-            nodes.append(Node(center, children, self.get_next_node_id(), self.get_original_time_series_ids()))
+            if len(children) == 1:
+                nodes.append(children[0])
+            else:
+                nodes.append(Node(center, children, self.get_next_node_id(), self.get_original_time_series_ids()))
         return nodes
 
     def _populate_tree(self, db_time_series):

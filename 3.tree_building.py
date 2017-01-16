@@ -97,9 +97,11 @@ dataset = (lc for lc in dataset if lc.total_time >= time_window)
 
 print('Building tree...')
 if tree_type == 2:
+    print('BOTTOM UP APPROACH')
     tree = BottomUpSubsequenceTree(max_level, sample, affinities,
                                    dataset, time_window, time_step)
 else:
+    print('TOP DOWN APPROACH')
     tree = SubsequenceTree(max_level, sample, affinities,
                            dataset, time_window, time_step)
 print('DONE')

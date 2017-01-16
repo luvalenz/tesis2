@@ -208,16 +208,16 @@ class BottomUpSubsequenceTree:
 
     def run_affinity_propagation(self, affinities, leaves):
         affinities_list = squareform(affinities)
-        for percentile in range(50, 100):
+        preference = np.median(affinities_list)
+        while branching_factor > self.max_branching_factor
             ap = AffinityPropagation(affinity='precomputed')
-            ap.preference = np.percentile(affinities_list, percentile)
+            ap.preference = preference
             ap.fit(affinities)
             if leaves:
                 branching_factor = 0
             else:
                 branching_factor = max(Counter(ap.labels_).values())
-            if branching_factor <= self.max_branching_factor:
-                break
+            preference += (np.max(affinities_list) - np.min(affinities_list))/10
             print('branching factor = {0}'.format(branching_factor))
         print('labels')
         print(Counter(ap.labels_))

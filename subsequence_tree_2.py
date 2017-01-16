@@ -129,7 +129,7 @@ class BottomUpSubsequenceTree:
 
     def _build_tree(self, affinities, subsequences):
         print('Building layer 0')
-        center_indices, labels = self.run_affinity_propagation(affinities)
+        center_indices, labels = self.run_affinity_propagation(affinities, True)
         centers = subsequences[center_indices]
         affinities = affinities[center_indices][:, center_indices]
         nodes = self._build_leaves(centers)
@@ -137,7 +137,7 @@ class BottomUpSubsequenceTree:
         levels = 1
         while len(nodes) > self.max_branching_factor:
             print('Building layer {0}'.format(levels))
-            center_indices, labels = self.run_affinity_propagation(affinities)
+            center_indices, labels = self.run_affinity_propagation(affinities, False)
             centers = centers[center_indices]
             affinities = affinities[center_indices][:, center_indices]
             nodes = self._build_layer(nodes, centers, labels)
@@ -210,7 +210,9 @@ class BottomUpSubsequenceTree:
             ap = AffinityPropagation(affinity='precomputed')
             ap.preference = np.percentile(affinities_list, percentile)
             ap.fit(affinities)
-            branching_factor = max(Counter(ap.labels_))
+            branching_factor = np.inf
+            if not leaves:
+                branching_factor = max(Counter(ap.labels_))
             if branching_factor <= self.max_branching_factor:
                 break
         print('branching factor = {0}'.format(branching_factor))

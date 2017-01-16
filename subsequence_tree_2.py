@@ -11,7 +11,7 @@ class BottomUpSubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
                  affinities, db_time_series,
-                 time_window, time_step, weighted=True, max_branching_factor=5):
+                 time_window, time_step, weighted=True, max_branching_factor=20):
         self.time_window = time_window
         self.time_step = time_step
         self.max_level = max_level
@@ -204,14 +204,13 @@ class BottomUpSubsequenceTree:
     def calculate_inverted_files(self):
         return self.root.inverted_file
 
-    def run_affinity_propagation(self, affinities):
+    def run_affinity_propagation(self, affinities, leaves):
         affinities_list = squareform(affinities)
         for percentile in range(50, 100):
             ap = AffinityPropagation(affinity='precomputed')
             ap.preference = np.percentile(affinities_list, percentile)
             ap.fit(affinities)
-            indices = ap.cluster_centers_indices_
-            branching_factor = len(affinities)//len(indices)
+            branching_factor = max(Counter(ap.labels_))
             if branching_factor <= self.max_branching_factor:
                 break
         print('branching factor = {0}'.format(branching_factor))

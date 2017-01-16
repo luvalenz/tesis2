@@ -213,7 +213,7 @@ class BottomUpSubsequenceTree:
             if leaves:
                 branching_factor = 0
             else:
-                branching_factor = max(Counter(ap.labels_))
+                branching_factor = max(Counter(ap.labels_).values())
             if branching_factor <= self.max_branching_factor:
                 break
             print('branching factor = {0}'.format(branching_factor))

@@ -301,13 +301,15 @@ class Node:
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_query_subsequence(subsequence)
 
-    def add_db_subsequence(self, subsequence):
+    def add_db_subsequence(self, subsequence, level=0):
         if self.is_leaf:
             counter = Counter({subsequence.original_id: 1})
             self._inverted_file += counter
         else:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]
+            print('level {0}'.print(level))
+            print('{0} distances compared'.format(len(distances)))
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_db_subsequence(subsequence)
 

@@ -138,12 +138,14 @@ class BottomUpSubsequenceTree:
         centers = subsequences[center_indices]
         affinities = affinities[center_indices][:, center_indices]
         nodes = self._build_leaves(centers)
+        print("{} nodes".format(len(nodes)))
         levels = 1
         while nodes > 5:
             print('Building layer {0}'.format(levels))
             center_indices, labels = self.run_affinity_propagation(affinities)
             centers = centers[center_indices]
             nodes = self._build_layer(nodes, centers, labels)
+            print("{} nodes".format(len(nodes)))
         if len(nodes) == 1:
             self.root = nodes[0]
         else:

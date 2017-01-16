@@ -178,7 +178,6 @@ class BottomUpSubsequenceTree:
                 print('adding {0} subsequences'.format(j))
                 j += 1
                 self._add_subsequence(subsequence)
-
             print("{0} time series added".format(i))
 
     def _build_node_shorcuts(self, just_leaves=False):
@@ -202,7 +201,6 @@ class BottomUpSubsequenceTree:
                                        index=self.original_time_series_ids)
 
     def _add_subsequence(self, subsequence):
-
         self.root.add_db_subsequence(subsequence)
 
     def calculate_inverted_files(self):

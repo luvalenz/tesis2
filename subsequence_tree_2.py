@@ -135,7 +135,7 @@ class BottomUpSubsequenceTree:
         nodes = self._build_leaves(centers)
         print("{} nodes".format(len(nodes)))
         levels = 1
-        while len(nodes) > 5:
+        while len(nodes) > self.max_branching_factor:
             print('Building layer {0}'.format(levels))
             center_indices, labels = self.run_affinity_propagation(affinities)
             centers = centers[center_indices]

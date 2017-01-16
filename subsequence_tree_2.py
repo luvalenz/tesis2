@@ -217,7 +217,8 @@ class BottomUpSubsequenceTree:
             if leaves:
                 branching_factor = 0
             else:
-                branching_factor = max(Counter(ap.labels_).values())
+               # branching_factor = max(Counter(ap.labels_).values())
+                branching_factor = len(affinities.shape[0])//len(ap.cluster_centers_indices_)
             preference += (np.max(affinities_list) - np.min(affinities_list))/500
             print('branching factor = {0}'.format(branching_factor))
         print('labels')

@@ -67,11 +67,6 @@ class BottomUpSubsequenceTree:
             if node.is_leaf and node.n_query_subsequences > 0:
                 yield node.inverted_file.keys()
 
-    def get_next_subsequence_id(self):
-        id_ = self.next_subsequence_id
-        self.next_subsequence_id += 1
-        return id_
-
     def make_query(self, time_series, timer=None):
         if timer is not None:
             timer.start()
@@ -163,7 +158,7 @@ class BottomUpSubsequenceTree:
         nodes = []
         for i, center in enumerate(upper_centers):
             children = lower_nodes[np.where(labels == i)[0]]
-            nodes.append(Node(center, children, self.get_next_subsequence_id(), self.get_original_time_series_ids()))
+            nodes.append(Node(center, children, self.get_next_node_id(), self.get_original_time_series_ids()))
         return nodes
 
     def _populate_tree(self, db_time_series):

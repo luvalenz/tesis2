@@ -173,10 +173,7 @@ class BottomUpSubsequenceTree:
         print(db_time_series)
         for i, ts in enumerate(db_time_series):
             print(ts)
-            j = 1
             for subsequence in ts.run_sliding_window(self.time_window, self.time_step):
-                print('adding {0} subsequences'.format(j))
-                j += 1
                 self._add_subsequence(subsequence)
             print("{0} time series added".format(i))
 
@@ -218,7 +215,7 @@ class BottomUpSubsequenceTree:
                 branching_factor = 0
             else:
                 branching_factor = max(Counter(ap.labels_).values())
-            preference += (np.max(affinities_list) - np.min(affinities_list))/50
+            preference += (np.max(affinities_list) - np.min(affinities_list))/100
             print('branching factor = {0}'.format(branching_factor))
         print('labels')
         print(Counter(ap.labels_))

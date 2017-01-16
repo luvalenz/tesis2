@@ -3,6 +3,7 @@ import sys
 import os
 import time_series_utils
 from subsequence_tree import SubsequenceTree
+from subsequence_tree_2 import BottomUpSubsequenceTree
 import pickle
 import dill
 
@@ -19,6 +20,7 @@ parser.add_argument('--time_window', type=float, default=250)
 parser.add_argument('--time_step', type=int, default=10)
 parser.add_argument('--max_level', required=True, type=int)
 parser.add_argument('--class_table_path', default='', type=str)
+parser.add_argument('--tree_type', default=0, type=int)
 
 args = parser.parse_args(sys.argv[1:])
 
@@ -34,6 +36,7 @@ time_window = args.time_window
 time_step = args.time_step
 max_level = args.max_level
 class_table_path = args.class_table_path
+tree_type = args.tree_type
 
 sample_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
@@ -93,7 +96,12 @@ else:
 dataset = (lc for lc in dataset if lc.total_time >= time_window)
 
 print('Building tree...')
-tree = SubsequenceTree(max_level, sample, affinities, dataset, time_window, time_step)
+if tree_type == 2:
+    tree = BottomUpSubsequenceTree(max_level, sample, affinities,
+                                   dataset, time_window, time_step)
+else:
+    tree = SubsequenceTree(max_level, sample, affinities,
+                           dataset, time_window, time_step)
 print('DONE')
 
 print('Saving tree...')

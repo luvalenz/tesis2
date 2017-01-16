@@ -312,8 +312,8 @@ class Node:
         else:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]
-            #print('level {0}'.format(level))
-            #print('{0} distances compared'.format(len(distances)))
+            print('level {0}'.format(level))
+            print('{0} distances compared'.format(len(distances)))
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_db_subsequence(subsequence, level+1)
 

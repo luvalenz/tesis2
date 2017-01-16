@@ -210,8 +210,9 @@ class BottomUpSubsequenceTree:
             ap = AffinityPropagation(affinity='precomputed')
             ap.preference = np.percentile(affinities_list, percentile)
             ap.fit(affinities)
-            branching_factor = np.inf
-            if not leaves:
+            if leaves:
+                branching_factor = 0
+            else:
                 branching_factor = max(Counter(ap.labels_))
             if branching_factor <= self.max_branching_factor:
                 break

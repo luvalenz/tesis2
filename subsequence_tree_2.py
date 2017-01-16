@@ -211,7 +211,7 @@ class BottomUpSubsequenceTree:
             ap.preferences = np.percentile(affinities_list, percentile)
             ap.fit(affinities)
             indices = ap.cluster_centers_indices_
-            branching_factor = len(indices)//len(affinities)
+            branching_factor = len(affinities)//len(indices)
             print('branching factor = {0}'.format(branching_factor))
             if branching_factor <= self.max_branching_factor:
                 break

@@ -44,8 +44,9 @@ sample_path = os.path.join(sample_dir, sample_filename)
 distances_filename = 'twed_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                        time_window, time_step)
 distances_path = os.path.join(distances_dir, distances_filename)
-output_filename = 'tree_{0}_{1}_{2}_{3}_{4}.dill'.format(dataset, n_samples,
-                                                        time_window, time_step, max_level)
+output_filename = 'tree_{0}_{1}_{2}_{3}_{4}_{5}.dill'.format(dataset, n_samples,
+                                                        time_window, time_step, max_level,
+                                                        tree_type)
 output_path = os.path.join(output_dir, output_filename)
 
 print('Opening samples file...')

@@ -173,9 +173,12 @@ class BottomUpSubsequenceTree:
         print(db_time_series)
         for i, ts in enumerate(db_time_series):
             print(ts)
+            j = 1
             for subsequence in ts.run_sliding_window(self.time_window, self.time_step):
-                #print(subsequence)
+                print('adding {0} subsequences'.format(j))
+                j += 1
                 self._add_subsequence(subsequence)
+
             print("{0} time series added".format(i))
 
     def _build_node_shorcuts(self, just_leaves=False):
@@ -199,6 +202,7 @@ class BottomUpSubsequenceTree:
                                        index=self.original_time_series_ids)
 
     def _add_subsequence(self, subsequence):
+
         self.root.add_db_subsequence(subsequence)
 
     def calculate_inverted_files(self):
@@ -310,8 +314,6 @@ class Node:
             counter = Counter({subsequence.original_id: 1})
             self._inverted_file += counter
         else:
-            print('level {0}'.format(level))
-            print('{0} distances to compare'.format(len(self.children)))
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]
             nearest_child = self.children[np.argmin(distances)]

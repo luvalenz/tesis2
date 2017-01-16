@@ -208,7 +208,7 @@ class BottomUpSubsequenceTree:
         affinities_list = squareform(affinities)
         for percentile in range(50, 100):
             ap = AffinityPropagation(affinity='precomputed')
-            ap.preferences = np.percentile(affinities_list, percentile)
+            ap.preference = np.percentile(affinities_list, percentile)
             ap.fit(affinities)
             indices = ap.cluster_centers_indices_
             branching_factor = len(affinities)//len(indices)

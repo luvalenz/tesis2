@@ -139,13 +139,14 @@ class BottomUpSubsequenceTree:
             print('Building layer {0}'.format(levels))
             center_indices, labels = self.run_affinity_propagation(affinities)
             centers = centers[center_indices]
+            affinities = affinities[center_indices][:, center_indices]
             nodes = self._build_layer(nodes, centers, labels)
             print("{} nodes".format(len(nodes)))
+            levels += 1
         if len(nodes) == 1:
             self.root = nodes[0]
         else:
             self.root = Node(None, nodes, self.get_next_node_id(), self.get_original_time_series_ids())
-            levels += 1
         if levels > self.max_level:
             self.prune()
 

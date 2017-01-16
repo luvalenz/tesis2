@@ -209,7 +209,7 @@ class BottomUpSubsequenceTree:
     def run_affinity_propagation(self, affinities, leaves):
         affinities_list = squareform(affinities)
         preference = np.median(affinities_list)
-        while branching_factor > self.max_branching_factor
+        while branching_factor > self.max_branching_factor:
             ap = AffinityPropagation(affinity='precomputed')
             ap.preference = preference
             ap.fit(affinities)

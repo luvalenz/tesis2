@@ -38,6 +38,10 @@ max_level = args.max_level
 class_table_path = args.class_table_path
 tree_type = args.tree_type
 
+approach = 'topdown'
+if tree_type == 2:
+    approach = 'bottomup'
+
 sample_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
 sample_path = os.path.join(sample_dir, sample_filename)
@@ -46,7 +50,7 @@ distances_filename = 'twed_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
 distances_path = os.path.join(distances_dir, distances_filename)
 output_filename = 'tree_{0}_{1}_{2}_{3}_{4}_{5}.dill'.format(dataset, n_samples,
                                                         time_window, time_step, max_level,
-                                                        tree_type)
+                                                        approach)
 output_path = os.path.join(output_dir, output_filename)
 
 print('Opening samples file...')

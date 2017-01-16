@@ -216,7 +216,7 @@ class BottomUpSubsequenceTree:
                 branching_factor = max(Counter(ap.labels_))
             if branching_factor <= self.max_branching_factor:
                 break
-        print('branching factor = {0}'.format(branching_factor))
+            print('branching factor = {0}'.format(branching_factor))
         print('labels')
         print(Counter(ap.labels_))
         return ap.cluster_centers_indices_, ap.labels_

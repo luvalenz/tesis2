@@ -155,6 +155,7 @@ class BottomUpSubsequenceTree:
                 for center in leaf_centers]
 
     def _build_layer(self, lower_nodes, upper_centers, labels):
+        lower_nodes = np.array(lower_nodes)
         nodes = []
         for i, center in enumerate(upper_centers):
             children = lower_nodes[np.where(labels == i)[0]]

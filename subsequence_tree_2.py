@@ -311,7 +311,7 @@ class Node:
             print('level {0}'.format(level))
             print('{0} distances compared'.format(len(distances)))
             nearest_child = self.children[np.argmin(distances)]
-            nearest_child.add_db_subsequence(subsequence)
+            nearest_child.add_db_subsequence(subsequence, level+1)
 
     def _generate_inverted_file(self):
         self._inverted_file = Counter()

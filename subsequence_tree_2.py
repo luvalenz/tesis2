@@ -212,7 +212,7 @@ class BottomUpSubsequenceTree:
             ap.fit(affinities)
             indices = ap.cluster_centers_indices_
             branching_factor = len(indices)//len(affinities)
-            branching_factor('branching factor = {0}'.format(branching_factor))
+            print('branching factor = {0}'.format(branching_factor))
             if branching_factor <= self.max_branching_factor:
                 break
         return ap.cluster_centers_indices_, ap.labels_

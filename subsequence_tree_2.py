@@ -229,8 +229,6 @@ class Node:
         self.center = center
         self.get_original_time_series_ids_in_tree = original_time_series_ids_getter
         self._id = next_node_id_getter()
-        print("-- NODE {0} --".format(self._id))
-        print("")
         self.n_query_subsequences = 0
         self.children = children
         self._inverted_file = None

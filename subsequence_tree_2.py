@@ -11,7 +11,7 @@ class BottomUpSubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
                  affinities, db_time_series,
-                 time_window, time_step, weighted=True, max_branching_factor=20):
+                 time_window, time_step, weighted=True, max_branching_factor=30):
         self.time_window = time_window
         self.time_step = time_step
         self.max_level = max_level

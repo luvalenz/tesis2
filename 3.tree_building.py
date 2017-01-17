@@ -106,7 +106,7 @@ if tree_type == 2:
     print('BOTTOM UP APPROACH')
     tree = BottomUpSubsequenceTree(max_level, sample, affinities,
                                    dataset, time_window, time_step)
-elif tree_type == 2:
+elif tree_type == 3:
     print('BOTTOM UP type 3 APPROACH')
     tree = Tree3(max_level, sample, affinities,
                                dataset, time_window, time_step)

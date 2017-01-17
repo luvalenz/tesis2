@@ -4,6 +4,7 @@ import os
 import time_series_utils
 from subsequence_tree import SubsequenceTree
 from subsequence_tree_2 import BottomUpSubsequenceTree
+from subsequence_tree_3 import BottomUpSubsequenceTree as Tree3
 import pickle
 import dill
 
@@ -105,6 +106,10 @@ if tree_type == 2:
     print('BOTTOM UP APPROACH')
     tree = BottomUpSubsequenceTree(max_level, sample, affinities,
                                    dataset, time_window, time_step)
+elif tree_type == 2:
+    print('BOTTOM UP type 3 APPROACH')
+    tree = Tree3(max_level, sample, affinities,
+                               dataset, time_window, time_step)
 else:
     print('TOP DOWN APPROACH')
     tree = SubsequenceTree(max_level, sample, affinities,

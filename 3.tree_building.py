@@ -119,7 +119,7 @@ elif tree_type == 3:
                                dataset, time_window, time_step)
 elif tree_type == 4:
     print('K MEDIOIDS APPROACH')
-    tree = (max_level, sample, distances,
+    tree = KMedioidsSubsequenceTree(max_level, sample, distances,
                                dataset, time_window, time_step, branching_factor)
 else:
     print('TOP DOWN APPROACH')

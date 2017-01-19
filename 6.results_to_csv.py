@@ -30,6 +30,7 @@ times = []
 
 
 for result in results:
+    print(result.target)
     print(result.ranking)
     print(result.preprocessed_ranking)
     break

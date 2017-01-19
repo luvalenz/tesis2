@@ -29,9 +29,10 @@ ndcgs = []
 times = []
 
 
-
 for result in results:
-    print(result)
+    print(result.ranking)
+    print(result.preprocessed_ranking)
+    break
     target_id = result.target
     target_class, ndcg = result.ndcg(class_table)
     target_ids.append(target_id)

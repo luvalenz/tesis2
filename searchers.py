@@ -1,5 +1,6 @@
 from scoring_utils import Timer, ndcg
 from scipy import stats
+import numpy as np
 
 
 class QueryResult:
@@ -11,8 +12,9 @@ class QueryResult:
         
     @property
     def preprocessed_ranking(self):
+        ranking = np.array(self.ranking).flatten().tolist()
         pr = []
-        for e in self.ranking:
+        for e in ranking:
            pr.append(e[3:] if e.startswith('lc_') else e)
         return pr
 

@@ -118,6 +118,7 @@ elif tree_type == 3:
     tree = Tree3(max_level, sample, affinities,
                                dataset, time_window, time_step)
 elif tree_type == 4:
+    print('K MEDIOIDS APPROACH')
     tree = (max_level, sample, distances,
                                dataset, time_window, time_step, branching_factor)
 else:

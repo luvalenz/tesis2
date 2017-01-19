@@ -134,8 +134,7 @@ class KMedioidsSubsequenceTree:
     # def generate_graph(self):
     #     self.root.add_to_graph(None, self.graph)
 
-    def _build_tree(self, distances, prototypes,
-                    clustering_threshold):
+    def _build_tree(self, distances, prototypes):
         self.root = Node(0, self.max_level, prototypes, distances, None,
                          None, self.get_next_node_id(),
                          self.get_original_time_series_ids(), self.branching_factor, weighted=self._weighted)

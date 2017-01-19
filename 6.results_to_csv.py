@@ -36,6 +36,7 @@ for result in results:
     target_classes.append(target_class)
     ndcgs.append(ndcg)
     times.append(result.times)
+    break
 
 ndcg_df = pd.DataFrame(ndcgs)
 times_df = pd.DataFrame(times)
@@ -48,8 +49,8 @@ times_df['class'] = target_classes
 
 results_basename = os.path.splitext(os.path.basename(results_path))[0]
 
-ndcg_basename = 'ndcg__{0}.csv'.join(results_basename)
-times_basename = 'times__{0}.csv'.join(results_basename)
+ndcg_basename = 'ndcg__{0}.csv'.format(results_basename)
+times_basename = 'times__{0}.csv'.format(results_basename)
 ndcg_output_path = os.path.join(output_dir, ndcg_basename)
 times_output_path = os.path.join(output_dir, ndcg_basename)
 

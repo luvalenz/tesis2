@@ -1,7 +1,5 @@
 import numpy as np
 import time
-from searchers import QueryResult
-from scipy import stats
 
 def relevance(retrieved_labels, relevant_label):
     return np.array(retrieved_labels) ==  relevant_label

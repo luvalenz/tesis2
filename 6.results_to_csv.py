@@ -36,7 +36,6 @@ for result in results:
     target_classes.append(target_class)
     ndcgs.append(ndcg)
     times.append(result.times)
-    break
 
 ndcg_df = pd.DataFrame(ndcgs)
 times_df = pd.DataFrame(times)

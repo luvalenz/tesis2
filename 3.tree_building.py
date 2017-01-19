@@ -48,7 +48,7 @@ if tree_type == 2:
 elif tree_type == 3:
     approach = 'bottomup_t3'
 elif tree_type == 4:
-    'kmedioids'
+    approach = 'kmedioids_bf'.format(branching_factor)
 
 sample_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)

@@ -5,6 +5,7 @@ import time_series_utils
 from subsequence_tree import SubsequenceTree
 from subsequence_tree_2 import BottomUpSubsequenceTree
 from subsequence_tree_3 import BottomUpSubsequenceTree as Tree3
+from subsequence_tree_4 import KMedioidsSubsequenceTree
 import pickle
 import dill
 
@@ -22,6 +23,7 @@ parser.add_argument('--time_step', type=int, default=10)
 parser.add_argument('--max_level', required=True, type=int)
 parser.add_argument('--class_table_path', default='', type=str)
 parser.add_argument('--tree_type', default=0, type=int)
+parser.add_argument('--branching_factor', default=5, type=int)
 
 args = parser.parse_args(sys.argv[1:])
 
@@ -38,10 +40,15 @@ time_step = args.time_step
 max_level = args.max_level
 class_table_path = args.class_table_path
 tree_type = args.tree_type
+branching_factor = args.branching_factor
 
 approach = 'topdown'
 if tree_type == 2:
     approach = 'bottomup'
+elif tree_type == 3:
+    approach = 'bottomup_t3'
+elif tree_type == 4:
+    'kmedioids'
 
 sample_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
@@ -110,6 +117,9 @@ elif tree_type == 3:
     print('BOTTOM UP type 3 APPROACH')
     tree = Tree3(max_level, sample, affinities,
                                dataset, time_window, time_step)
+elif tree_type == 4:
+    tree = (max_level, sample, distances,
+                               dataset, time_window, time_step, branching_factor)
 else:
     print('TOP DOWN APPROACH')
     tree = SubsequenceTree(max_level, sample, affinities,

@@ -28,7 +28,10 @@ target_classes = []
 ndcgs = []
 times = []
 
+
+
 for result in results:
+    print(result)
     target_id = result.target
     target_class, ndcg = result.ndcg(class_table)
     target_ids.append(target_id)

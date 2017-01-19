@@ -18,10 +18,10 @@ class QueryResult:
            pr.append(e[3:] if e.startswith('lc_') else e)
         return pr
 
-    def ndcg(self, class_table):
+    def ndcg(self, class_table, length=20):
         target_class = class_table.loc[self.target, 'class']
         ranking_classes = class_table.loc[self.preprocessed_ranking]['class'].values
-        return target_class, ndcg(ranking_classes, target_class, len(ranking_classes))
+        return target_class, ndcg(ranking_classes, target_class, length)
 
     def kendall_tau(self, other_query_result):
         return stats.kendalltau(self.preprocessed_ranking, other_query_result.ranking)

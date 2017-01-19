@@ -30,10 +30,6 @@ times = []
 
 
 for result in results:
-    print(result.target)
-    print(result.ranking)
-    print(result.preprocessed_ranking)
-    break
     target_id = result.target
     target_class, ndcg = result.ndcg(class_table)
     target_ids.append(target_id)
@@ -45,10 +41,10 @@ ndcg_df = pd.DataFrame(ndcgs)
 times_df = pd.DataFrame(times)
 
 ndcg_df['id'] = target_ids
-ndcg_df['class'] = target_class
+ndcg_df['class'] = target_classes
 
 times_df['id'] = target_ids
-times_df['class'] = target_class
+times_df['class'] = target_classes
 
 results_basename = os.path.splitext(os.path.basename(results))[0]
 

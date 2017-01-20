@@ -51,7 +51,7 @@ results_basename = os.path.splitext(os.path.basename(results_path))[0]
 ndcg_basename = 'ndcg__{0}.csv'.format(results_basename)
 times_basename = 'times__{0}.csv'.format(results_basename)
 ndcg_output_path = os.path.join(output_dir, ndcg_basename)
-times_output_path = os.path.join(output_dir, ndcg_basename)
+times_output_path = os.path.join(output_dir, times_basename)
 
 ndcg_df.to_csv(ndcg_output_path)
 times_df.to_csv(times_output_path)

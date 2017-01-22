@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser(
     description='Build subsequence tree')
 parser.add_argument('--results_path', required=True, type=str)
 parser.add_argument('--output_dir', required=True, type=str)
+parser.add_argument('--class_table_path', required=True, type=str)
 
 args = parser.parse_args(sys.argv[1:])
 

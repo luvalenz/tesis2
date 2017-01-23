@@ -92,7 +92,7 @@ class BottomUpSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        score = np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        score = -np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         if timer is not None:
             timer.stop()

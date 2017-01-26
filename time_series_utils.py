@@ -12,7 +12,7 @@ def get_nonvalid_rows(path):
         for line in f:
             stripped_line = line[:-1].strip()
             n_cols = len(stripped_line.split(' '))
-            if n_cols == 3:
+            if n_cols >= 3:
                 break
             nonvalid_rows += 1
     return nonvalid_rows

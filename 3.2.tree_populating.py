@@ -15,8 +15,8 @@ parser.add_argument('--dataset_root', default='', type=str)
 parser.add_argument('--input_paths_file', default='', type=str)
 parser.add_argument('--class_table_path', default='', type=str)
 parser.add_argument('--tree_path', required=True, type=str)
-parser.add_argument('--part', required=True, type=str)
-parser.add_argument('--n_parts', required=True, type=str)
+parser.add_argument('--part', required=True, type=int)
+parser.add_argument('--n_parts', required=True, type=int)
 
 
 args = parser.parse_args(sys.argv[1:])

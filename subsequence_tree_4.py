@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn.cluster import AffinityPropagation
 #import pydotplus as pydot
 from collections import Counter
 from distance_utils import time_series_twed
@@ -10,8 +9,8 @@ import kmedoids
 class KMedioidsSubsequenceTree:
 
     def __init__(self, max_level, prototype_subsequences_list,
-                 distances, db_time_series,
-                 time_window, time_step, branching_factor, weighted=True):
+                 distances, time_window, time_step,
+                 branching_factor, weighted=True):
         self.time_window = time_window
         self.time_step = time_step
         self.max_level = max_level
@@ -28,14 +27,38 @@ class KMedioidsSubsequenceTree:
         self._weighted = weighted
         prototype_subsequences = np.array(prototype_subsequences_list)
         self._build_tree(distances, prototype_subsequences)
-        self._populate_tree(db_time_series)
         self._build_node_shorcuts()
+
+    def populate_from_tree_sum(self, tree_list):
+        self.weights = None
+        self.d_data_frame = None
+        self._original_time_series_ids = None
+        self._query_vector = None
+        local_leaves = [node for node in self.node_shortcuts if node.is_leaf]
+        for local_leaf in local_leaves:
+            local_leaf.generate_inverted_file()
+        for tree in tree_list:
+            tree_leaves = [node for node in tree.node_shortcuts is node.is_leaf]
+            for local_leaf, tree_leaf in zip(local_leaves, tree_leaves):
+                print('leaf')
+                print(local_leaf.id)
+                print(tree_leaf.id)
+                local_leaf.add_to_inverted_file(tree_leaf.inverted_file)
+
+    def populate(self, db_time_series):
+        self.weights = None
+        self.d_data_frame = None
+        self._original_time_series_ids = None
+        self._populate_tree(db_time_series)
         self._build_weights_vector()
         self._build_d_data_frame()
+
+
 
     @property
     def n_subsequences(self):
         return len(self.db_subsequences_dict)
+
 
     @property
     def original_time_series_ids(self):
@@ -58,6 +81,7 @@ class KMedioidsSubsequenceTree:
     @property
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
+
 
     def prune(self):
         self._build_node_shorcuts(True)
@@ -183,9 +207,13 @@ class KMedioidsSubsequenceTree:
 
 class Node:
 
+    next_id = 0
+
     def __init__(self, level, max_level, prototypes, distances, center,
                  parent, next_node_id_getter, original_time_series_ids_getter,
                  branching_factor, weighted=True):
+        self.id = self.__class__.next_id
+        self.__class__.next_id += 1
         self.level = level
         self._weighted = weighted
         self.max_level = max_level
@@ -206,7 +234,7 @@ class Node:
         self.children = None
         self._inverted_file = None
         if level + 1 == max_level or distances.shape[0] < self.branching_factor:
-            self._generate_inverted_file()
+            self.generate_inverted_file()
         else:
             self._generate_children(distances, next_node_id_getter, prototypes)
 
@@ -270,7 +298,7 @@ class Node:
             for child in self.children:
                 child.add_shortcut_to_dict(shortcut_dict)
 
-    def run_kmedioids(self, distances):
+    def run_kmedoids(self, distances):
         center_indices, labels_dict = kmedoids.kMedoids(distances, self.branching_factor)
         labels = np.empty(distances.shape[0]).astype(int)
         for key, value in labels_dict.items():
@@ -279,7 +307,7 @@ class Node:
 
     def _generate_children(self, distances,
                            next_node_id_getter, prototypes):
-        center_indices, labels = self.run_kmedioids(distances)
+        center_indices, labels = self.run_kmedoids(distances)
         cluster_centers = prototypes[center_indices]
         n_clusters = len(center_indices)
         children = []
@@ -315,11 +343,14 @@ class Node:
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_db_subsequence(subsequence)
 
-    def _generate_inverted_file(self):
+    def generate_inverted_file(self):
         # original_time_series_id = (subsequence.original_id
         #                            for subsequence in prototypes)
         # self._inverted_file = Counter(original_time_series_id)
         self._inverted_file = Counter()
+
+    def add_to_inverted_file(self, inverted_file):
+        self._inverted_file += inverted_file
 
     # def add_to_graph(self, parent_graph_node, graph):
     #     graph_node = pydot.Node(str(self))

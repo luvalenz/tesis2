@@ -13,8 +13,8 @@ def plot(values, names, y_label, plot_title, path):
     plt.xticks(list(range(1, len(names) + 1)), names, rotation=90)
     plt.ylabel(y_label)
     plt.title(plot_title)
-  #  plt.show()
-    plt.savefig(path)
+    plt.show()
+    # plt.savefig(path)
 
 parser = argparse.ArgumentParser(
     description='Build subsequence tree')

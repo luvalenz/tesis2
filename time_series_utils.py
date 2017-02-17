@@ -84,7 +84,14 @@ def add_paths_to_class_table(class_table, paths):
             class_table.loc[id_, 'path'] = p
 
 
-def read_dataset(root):
-    file_paths = glob.iglob(os.path.join(root, '**/*.*'))
+def read_files(file_paths, part=None, n_parts=None):
+    if part is not None:
+        chunk_length = len(file_paths) / n_parts
+        if part == n_parts - 1:
+            return file_paths[part*chunk_length:]
+        else:
+            return file_paths[part*chunk_length:(part+1)*chunk_length]
     for path in file_paths:
         yield read_file(path)
+
+

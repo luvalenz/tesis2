@@ -11,7 +11,6 @@ import dill
 
 parser = argparse.ArgumentParser(
     description='Build subsequence tree')
-parser.add_argument('--sample_dir', required=True, type=str)
 parser.add_argument('--dataset_root', default='', type=str)
 parser.add_argument('--input_paths_file', default='', type=str)
 parser.add_argument('--class_table_path', default='', type=str)
@@ -22,7 +21,6 @@ parser.add_argument('--n_parts', required=True, type=str)
 
 args = parser.parse_args(sys.argv[1:])
 
-sample_dir = args.sample_dir
 dataset_root = args.dataset_root
 input_paths_file = args.input_paths_file
 class_table_path = args.class_table_path

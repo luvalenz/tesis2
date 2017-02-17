@@ -16,14 +16,11 @@ parser.add_argument('--n_samples', required=True, type=int)
 parser.add_argument('--time_window', type=int, default=250)
 parser.add_argument('--time_step', type=int, default=10)
 parser.add_argument('--max_level', required=True, type=int)
-parser.add_argument('--class_table_path', default='', type=str)
 parser.add_argument('--branching_factor', default=3, type=int)
 
 args = parser.parse_args(sys.argv[1:])
 
 sample_dir = args.sample_dir
-input_paths_file = args.input_paths_file
-
 distances_dir = args.distances_dir
 output_dir = args.output_dir
 dataset = args.dataset

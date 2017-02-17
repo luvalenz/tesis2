@@ -88,9 +88,9 @@ def read_files(file_paths, part=None, n_parts=None):
     if part is not None:
         chunk_length = len(file_paths) / n_parts
         if part == n_parts - 1:
-            return file_paths[part*chunk_length:]
+            file_paths = file_paths[part*chunk_length:]
         else:
-            return file_paths[part*chunk_length:(part+1)*chunk_length]
+            file_paths = file_paths[part*chunk_length:(part+1)*chunk_length]
     for path in file_paths:
         yield read_file(path)
 

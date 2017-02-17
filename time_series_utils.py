@@ -88,7 +88,7 @@ def read_files(file_paths, part=None, n_parts=None):
     print('Getting chunk of data...')
     len1 = len(file_paths)
     if part is not None:
-        chunk_length = len(file_paths) / n_parts
+        chunk_length = int(len(file_paths) // n_parts)
         if part == n_parts - 1:
             file_paths = file_paths[part*chunk_length:]
         else:

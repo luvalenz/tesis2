@@ -31,7 +31,6 @@ n_samples = args.n_samples
 time_window = args.time_window
 time_step = args.time_step
 max_level = args.max_level
-tree_type = args.tree_type
 branching_factor = args.branching_factor
 
 sample_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,

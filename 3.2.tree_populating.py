@@ -52,12 +52,16 @@ with open(tree_path, 'rb') as f:
 
 dataset = (lc for lc in dataset if lc.total_time >= tree.time_window)
 
+output_path = tree_path + '.part{}of{}'.format(part, n_parts)
+
+print(output_path)
+
 tree.populate(dataset)
 
 print('DONE')
 
 print('Saving tree...')
-with open( tree_path + '.part{}of{}'.format(part, n_parts), 'wb') as f:
+with open(output_path, 'wb') as f:
     dill.dump(tree,  f)
 print('DONE')
 

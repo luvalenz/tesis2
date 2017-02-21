@@ -50,8 +50,8 @@ print('DONE')
 with open(tree_path, 'rb') as f:
     tree = dill.load(f)
 
+
 dataset = (lc for lc in dataset if lc.total_time >= tree.time_window)
-dataset = (lc for i, lc in enumerate(dataset) if i < 10)
 
 output_path = tree_path + '.part{}of{}'.format(part, n_parts)
 

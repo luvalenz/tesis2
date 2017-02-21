@@ -28,6 +28,8 @@ tree_path = args.tree_path
 part = args.part
 n_parts = args.n_parts
 
+print('part{}  of {}'.format(part, n_parts))
+
 
 if input_paths_file != '':
     print('Reading file paths')

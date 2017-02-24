@@ -44,6 +44,8 @@ class KMedioidsSubsequenceTree:
                 print(local_leaf.id)
                 print(tree_leaf.id)
                 local_leaf.add_to_inverted_file(tree_leaf.inverted_file)
+        self._build_weights_vector()
+        self._build_d_data_frame()
 
     def populate(self, db_time_series):
         self.weights = None

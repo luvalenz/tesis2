@@ -30,8 +30,6 @@ input_tree_path = args.input_tree_path
 n_parts = args.n_parts
 
 
-
-
 with open(input_tree_path, 'rb') as f:
     tree = dill.load(f)
 

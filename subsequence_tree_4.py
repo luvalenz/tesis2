@@ -38,7 +38,7 @@ class KMedioidsSubsequenceTree:
         for local_leaf in local_leaves:
             local_leaf.generate_inverted_file()
         for tree in tree_list:
-            tree_leaves = [node for node in tree.node_shortcuts is node.is_leaf]
+            tree_leaves = [node for node in tree.node_shortcuts if node.is_leaf]
             for local_leaf, tree_leaf in zip(local_leaves, tree_leaves):
                 print('leaf')
                 print(local_leaf.id)
@@ -247,6 +247,7 @@ class Node:
         if self._inverted_file is None:
             inverted_file = Counter()
             for child in self.children:
+                inverted_file += child.inverted_file
                 inverted_file += child.inverted_file
             self._inverted_file = inverted_file
         return self._inverted_file

@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(
     description='Build subsequence tree')
 
 parser.add_argument('--input_tree_path', default='', type=str)
-parser.add_argument('--n_parts', required=True, type=str)
+parser.add_argument('--n_parts', required=True, type=int)
 
 
 args = parser.parse_args(sys.argv[1:])

@@ -11,8 +11,10 @@ import dill
 
 
 def get_partial_trees(input_tree_path, n_parts):
-    for part in n_parts:
-        with open(input_tree_path + '.part{}of{}'.format(part, n_parts), 'rb') as f:
+    for part in range(n_parts):
+        part_filename = input_tree_path + '.part{}of{}'.format(part, n_parts)
+        print(part_filename)
+        with open(part_filename, 'rb') as f:
             partial_tree = dill.load(f)
         yield partial_tree
 

@@ -192,6 +192,7 @@ class KMedioidsSubsequenceTree:
         self.weights = np.array(weights_list)
 
     def _build_d_data_frame(self, just_leaves=False):
+        print('{} nodes'.format(len(self.node_shortcuts)))
         print('building d list')
         d_list = [node.d_vector for node in self.node_shortcuts]
         print('DONE')

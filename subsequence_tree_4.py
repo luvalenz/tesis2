@@ -263,11 +263,17 @@ class Node:
 
     @property
     def n_original_time_series_in_node(self):
-        return len(self.inverted_file)
+        print('getting n_original_time_series_in_node')
+        n = len(self.inverted_file)
+        print('DONE')
+        return n
 
     @property
     def n_original_time_series_in_tree(self):
-        return len(self.get_original_time_series_ids_in_tree())
+        print('getting n_original_time_series_in_tree...')
+        n = len(self.get_original_time_series_ids_in_tree())
+        print('DONE')
+        return n
 
     @property
     def weight(self):

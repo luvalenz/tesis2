@@ -271,6 +271,7 @@ class Node:
 
     @property
     def weight(self):
+        print('Calculating weight in node {}... '.format(self.id))
         w = 0
         if self.n_original_time_series_in_node != 0:
             w = np.log(self.n_original_time_series_in_tree/
@@ -281,6 +282,7 @@ class Node:
         except AttributeError:
             print("Attribute Error caught")
             print("weight = {0}".format(w))
+        print('DONE')
         return w
 
     @property

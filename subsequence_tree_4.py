@@ -285,11 +285,13 @@ class Node:
 
     @property
     def m_vector(self):
+        print('building m vector in node {}'.format(self.id))
         m = np.zeros(self.n_original_time_series_in_tree)
         ids = self.get_original_time_series_ids_in_tree()
         for key, value in self.inverted_file.items():
             index = ids.index(key)
             m[index] = value
+        print('DONE')
         return m
 
     @property

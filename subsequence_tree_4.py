@@ -2,8 +2,8 @@ import numpy as np
 #import pydotplus as pydot
 from collections import Counter
 from distance_utils import time_series_twed
-import pandas as pd
 import kmedoids
+import pandas as pd
 
 
 class KMedioidsSubsequenceTree:
@@ -192,13 +192,19 @@ class KMedioidsSubsequenceTree:
         self.weights = np.array(weights_list)
 
     def _build_d_data_frame(self, just_leaves=False):
+        print('building d list')
         d_list = [node.d_vector for node in self.node_shortcuts]
+        print('DONE')
+        print('building d matrix')
         d_matrix = np.column_stack(d_list)
         d_norm = np.linalg.norm(d_matrix, axis=1)
         d_matrix = (d_matrix.T / d_norm).T
         d_matrix[d_matrix == np.inf] = 0
+        print('DONE')
+        print('building d dataframe')
         self.d_data_frame = pd.DataFrame(np.nan_to_num(d_matrix),
                                        index=self.original_time_series_ids)
+        print('DONE')
 
     def _add_subsequence(self, subsequence):
         self.root.add_db_subsequence(subsequence)

@@ -86,15 +86,12 @@ def add_paths_to_class_table(class_table, paths):
 
 def read_files(file_paths, part=None, n_parts=None):
     print('Getting chunk of data...')
-    len1 = len(file_paths)
     if part is not None:
         chunk_length = int(len(file_paths) // n_parts)
         if part == n_parts - 1:
             file_paths = file_paths[part*chunk_length:]
         else:
             file_paths = file_paths[part*chunk_length:(part+1)*chunk_length]
-    len2  = len(file_paths)
-    print('{} of {} time series'.format(len2, len1))
     for path in file_paths:
         yield read_file(path)
 

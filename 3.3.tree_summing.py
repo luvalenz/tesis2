@@ -43,6 +43,6 @@ print('DONE')
 
 print('Saving tree...')
 with open( input_tree_path + '.populated', 'wb') as f:
-    dill.dump(tree,  f)
+    dill.dump(tree,  f, protocol=4)
 print('DONE')
 

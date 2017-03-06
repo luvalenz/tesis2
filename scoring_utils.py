@@ -19,10 +19,11 @@ def ndcg(retrieved, relevant_label, n):
     idcg_score = dcg(rel_ideal)
     ndcg_score = dcg_score/idcg_score
     length = len(ndcg_score)
-    if n < length:
+    if n <= length:
         ndcg_score = ndcg_score[:n]
     else :
-        padding = length - n
+        padding = n - length
+        print(padding)
         ndcg_score = np.concatenate((ndcg_score, -1*np.ones(padding)))
     return ndcg_score
 

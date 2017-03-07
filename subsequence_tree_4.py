@@ -257,7 +257,6 @@ class Node:
             inverted_file = Counter()
             for child in self.children:
                 inverted_file += child.inverted_file
-                inverted_file += child.inverted_file
             self._inverted_file = inverted_file
         return self._inverted_file
 

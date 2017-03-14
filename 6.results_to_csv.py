@@ -24,7 +24,7 @@ class_table = time_series_utils.read_class_table(class_table_path)
 print('DONE')
 
 
-print('reading class table...')
+print('reading results...')
 with open(results_path, 'rb') as f:
     results = dill.load(f)
 print('DONE')

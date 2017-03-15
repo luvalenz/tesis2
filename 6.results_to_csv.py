@@ -35,7 +35,8 @@ ndcgs = []
 times = []
 
 print('Reordering results...')
-for result in results:
+for i, result in enumerate(results):
+    print(i)
     target_id = result.target
     target_class, ndcg = result.ndcg(class_table)
     target_ids.append(target_id)

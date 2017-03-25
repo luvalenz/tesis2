@@ -45,7 +45,7 @@ for i, result in enumerate(results):
     target_classes.append(target_class)
     ndcgs.append(ndcg)
     times.append(result.times)
-    ranking.append(result.ranking)[:20]
+    ranking.append(result.ranking[:20])
 print('DONE')
 
 ndcg_df = pd.DataFrame(ndcgs)

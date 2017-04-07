@@ -27,8 +27,9 @@ with open(query_sample_path, 'rb') as f:
     query_sample = dill.load(f)
 
 if tree.d_data_frame is not None:
-    tree.d_array = tree.d_data_frame.values
+    tree.d_matrix = tree.d_data_frame.values
     tree.d_index = tree.d_data_frame.index.values
+    tree.d_inv_index = {index:id_ for index, id_ in enumerate(tree.d_index)}
     tree.d_data_frame = None
 
 paths = (os.path.join(dataset_root, p) for p in query_sample)

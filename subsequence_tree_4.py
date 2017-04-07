@@ -3,6 +3,7 @@ import numpy as np
 from collections import Counter
 from distance_utils import time_series_twed
 import kmedoids
+import pandas as pd
 import time
 
 class KMedioidsSubsequenceTree:
@@ -23,7 +24,6 @@ class KMedioidsSubsequenceTree:
         self._original_time_series_ids = None
         self._query_vector = None
         self.n_nodes = 0
-        self.n_ts = 0
         self._weighted = weighted
         prototype_subsequences = np.array(prototype_subsequences_list)
         self._build_tree(distances, prototype_subsequences)
@@ -84,6 +84,10 @@ class KMedioidsSubsequenceTree:
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
 
+    @property
+    def _queried_time_series_indices(self):
+        return [self.d_inv_index[id_] for id_ in self._queried_time_series_ids]
+
 
     def prune(self):
         self._build_node_shorcuts(True)
@@ -125,12 +129,10 @@ class KMedioidsSubsequenceTree:
         not_zero_query_vector = self.query_vector[not_zero_node_ids]
         print("{}".format(time.time() - t))
         t = time.time()
-        not_zero_ts_ids = self._queried_time_series_ids
+        not_zero_ts_indices = self._queried_time_series_indices
         print("{}".format(time.time() - t))
         t = time.time()
-        #not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
-        not_zero_d_matrix = self.d_matrix[not_zero_ts_ids, not_zero_node_ids]
-        not_zero_d_index = self.d_index[not_zero_ts_ids]
+        not_zero_d_dataframe = self.d_matrix[not_zero_ts_indices, not_zero_node_ids]
         print("{}".format(time.time() - t))
         print('')
         if timer is not None:
@@ -138,7 +140,7 @@ class KMedioidsSubsequenceTree:
             timer.start()
         print("{}".format(time.time() - t))
         t = time.time()
-        a= not_zero_query_vector*not_zero_d_matrix
+        a= not_zero_query_vector*not_zero_d_dataframe.values
         print("{}".format(time.time() - t))
         t = time.time()
         score = -np.sum(a, axis=1)
@@ -149,7 +151,7 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         order = np.argsort(score)
-        result = not_zero_d_index[order]
+        result = not_zero_d_dataframe.index.values[order]
         if timer is not None:
             timer.stop()
         return result
@@ -195,7 +197,7 @@ class KMedioidsSubsequenceTree:
             print(ts)
             for subsequence in ts.run_sliding_window(self.time_window, self.time_step):
                 #print(subsequence)
-                self._add_subsequence(subsequence, i)
+                self._add_subsequence(subsequence)
             print("{0} time series added".format(i))
 
     def _build_node_shorcuts(self, just_leaves=False):
@@ -221,15 +223,15 @@ class KMedioidsSubsequenceTree:
         d_matrix[d_matrix == np.inf] = 0
         print('DONE')
         print('building d dataframe')
-        # self.d_data_frame = pd.DataFrame(np.nan_to_num(d_matrix),
-        #                                index=self.original_time_series_ids)
+        #self.d_data_frame = pd.DataFrame(np.nan_to_num(d_matrix),
+        #                               index=self.original_time_series_ids)
         self.d_matrix = np.nan_to_num(d_matrix)
         self.d_index = self.original_time_series_ids
-        self.d_data_frame = None
+        self.d_inv_index = {index:id_ for index, id_ in enumerate(self.d_index)}
         print('DONE')
 
-    def _add_subsequence(self, subsequence, ts_index):
-        self.root.add_db_subsequence(subsequence, ts_index)
+    def _add_subsequence(self, subsequence):
+        self.root.add_db_subsequence(subsequence)
 
     def calculate_inverted_files(self):
         return self.root.inverted_file
@@ -365,6 +367,7 @@ class Node:
             children.append(child)
         self.children = children
 
+
     def add_query_subsequence(self, subsequence):
         self.n_query_subsequences += 1
         if not self.is_leaf:
@@ -373,15 +376,15 @@ class Node:
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_query_subsequence(subsequence)
 
-    def add_db_subsequence(self, subsequence, ts_number):
+    def add_db_subsequence(self, subsequence):
         if self.is_leaf:
-            counter = Counter({ts_number: 1})
+            counter = Counter({subsequence.original_id: 1})
             self._inverted_file += counter
         else:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]
             nearest_child = self.children[np.argmin(distances)]
-            nearest_child.add_db_subsequence(subsequence, ts_number)
+            nearest_child.add_db_subsequence(subsequence)
 
     def generate_inverted_file(self):
         # original_time_series_id = (subsequence.original_id

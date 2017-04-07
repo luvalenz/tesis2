@@ -271,21 +271,21 @@ class Node:
 
     @property
     def n_original_time_series_in_node(self):
-        print('getting n_original_time_series_in_node')
+        # print('getting n_original_time_series_in_node')
         n = len(self.inverted_file)
-        print('DONE')
+        # print('DONE')
         return n
 
     @property
     def n_original_time_series_in_tree(self):
-        print('getting n_original_time_series_in_tree...')
+        # print('getting n_original_time_series_in_tree...')
         n = len(self.get_original_time_series_ids_in_tree())
-        print('DONE')
+        # print('DONE')
         return n
 
     @property
     def weight(self):
-        print('Calculating weight in node {}... '.format(self.id))
+        # print('Calculating weight in node {}... '.format(self.id))
         w = 0
         if self.n_original_time_series_in_node != 0:
             w = np.log(self.n_original_time_series_in_tree/
@@ -296,7 +296,7 @@ class Node:
         except AttributeError:
             print("Attribute Error caught")
             print("weight = {0}".format(w))
-        print('DONE')
+        # print('DONE')
         return w
 
     @property

@@ -4,7 +4,7 @@ from collections import Counter
 from distance_utils import time_series_twed
 import kmedoids
 import pandas as pd
-
+import time
 
 class KMedioidsSubsequenceTree:
 
@@ -118,10 +118,17 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
+        t = time.time()
         not_zero_node_ids = np.where(self.query_vector != 0)[0]
         not_zero_query_vector = self.query_vector[not_zero_node_ids]
         not_zero_ts_ids = self._queried_time_series_ids
-        not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
+        print('slicing time = {}'.format(time.time() - t))
+        t = time.time()
+        not_zero_d_dataframe = self.d_data_frame
+        print('copying time = {}'.format(time.time() - t))
+        t = time.time()
+        not_zero_d_dataframe = not_zero_d_dataframe.loc[not_zero_ts_ids, not_zero_node_ids]
+        print('pandas indexing time = {}'.format(time.time() - t))
         if timer is not None:
             timer.stop()
             timer.start()

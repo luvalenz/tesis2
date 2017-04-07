@@ -135,6 +135,7 @@ class KMedioidsSubsequenceTree:
         not_zero_d_matrix = self.d_matrix[not_zero_ts_indices, :][:, not_zero_node_ids]
         not_zero_ts_ids = self.d_index[not_zero_ts_indices]
         print("{}".format(time.time() - t))
+        t = time.time()
         print('')
         if timer is not None:
             timer.stop()

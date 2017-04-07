@@ -132,7 +132,10 @@ class KMedioidsSubsequenceTree:
         not_zero_ts_indices = self._queried_time_series_indices
         print("{}".format(time.time() - t))
         t = time.time()
-        not_zero_d_matrix = self.d_matrix[not_zero_ts_indices]
+        not_zero_d_matrix = self.d_matrix
+        print("\t{}".format(time.time() - t))
+        t = time.time()
+        not_zero_d_matrix = not_zero_d_matrix[not_zero_ts_indices]
         print("\t{}".format(time.time() - t))
         t = time.time()
         not_zero_d_matrix = not_zero_d_matrix[:, not_zero_node_ids]

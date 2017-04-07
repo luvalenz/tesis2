@@ -227,7 +227,7 @@ class KMedioidsSubsequenceTree:
         #                               index=self.original_time_series_ids)
         self.d_matrix = np.nan_to_num(d_matrix)
         self.d_index = self.original_time_series_ids
-        self.d_inv_index = {index:id_ for index, id_ in enumerate(self.d_index)}
+        self.d_inv_index = {id_: index for index, id_ in enumerate(self.d_index)}
         print('DONE')
 
     def _add_subsequence(self, subsequence):

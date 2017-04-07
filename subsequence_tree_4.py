@@ -127,9 +127,11 @@ class KMedioidsSubsequenceTree:
         not_zero_d_dataframe = self.d_data_frame
         print('copying time = {}'.format(time.time() - t))
         t = time.time()
-        not_zero_d_dataframe = not_zero_d_dataframe.loc[not_zero_ts_ids, not_zero_node_ids]
-        print('pandas indexing time = {}'.format(time.time() - t))
-        print('')
+        not_zero_d_dataframe = not_zero_d_dataframe.loc[not_zero_ts_ids, :]
+        print('pandas row indexing time = {}'.format(time.time() - t))
+        t = time.time()
+        not_zero_d_dataframe = not_zero_d_dataframe.loc[:, not_zero_node_ids]
+        print('pandas col indexing time = {}'.format(time.time() - t))
         print('')
         if timer is not None:
             timer.stop()

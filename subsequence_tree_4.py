@@ -129,6 +129,8 @@ class KMedioidsSubsequenceTree:
         t = time.time()
         not_zero_d_dataframe = not_zero_d_dataframe.loc[not_zero_ts_ids, not_zero_node_ids]
         print('pandas indexing time = {}'.format(time.time() - t))
+        print('')
+        print('')
         if timer is not None:
             timer.stop()
             timer.start()

@@ -278,9 +278,9 @@ class Node:
 
     @property
     def n_original_time_series_in_node(self):
-        print('getting n_original_time_series_in_node')
+        #print('getting n_original_time_series_in_node')
         n = len(self.inverted_file)
-        print('DONE')
+        #print('DONE')
         return n
 
     @property

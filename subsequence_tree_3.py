@@ -98,7 +98,7 @@ class BottomUpSubsequenceTree:
         t = time.time()
         not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         print("".format(time.time() - t))
-        t = time.time()
+        print('')
         if timer is not None:
             timer.stop()
             timer.start()

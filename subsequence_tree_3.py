@@ -5,6 +5,7 @@ from collections import Counter
 from distance_utils import time_series_twed
 import pandas as pd
 from scipy.spatial.distance import squareform
+import time
 
 
 class BottomUpSubsequenceTree:
@@ -85,10 +86,19 @@ class BottomUpSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
+        t = time.time()
         not_zero_node_ids = np.where(self.query_vector != 0)[0]
+        print("".format(time.time() - t))
+        t = time.time()
         not_zero_query_vector = self.query_vector[not_zero_node_ids]
+        print("".format(time.time() - t))
+        t = time.time()
         not_zero_ts_ids = self._queried_time_series_ids
+        print("".format(time.time() - t))
+        t = time.time()
         not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
+        print("".format(time.time() - t))
+        t = time.time()
         if timer is not None:
             timer.stop()
             timer.start()

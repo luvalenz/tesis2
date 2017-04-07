@@ -118,9 +118,8 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        qv = self.query_vector
         t = time.time()
-        not_zero_node_ids = np.where(qv != 0)[0]
+        not_zero_node_ids = np.where(self.query_vector != 0)[0]
         print("{}".format(time.time() - t))
         t = time.time()
         not_zero_query_vector = self.query_vector[not_zero_node_ids]

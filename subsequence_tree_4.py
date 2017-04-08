@@ -58,7 +58,7 @@ class KMedioidsSubsequenceTree:
         self._build_d_data_frame()
 
     def sliced_d(self, ts_indices, node_indices):
-        d_list = [self.node_shortcuts.sliced_d_vector(ts_indices)
+        d_list = [self.node_shortcuts[i].sliced_d_vector(ts_indices)
                   for i in node_indices]
         return np.column_stack(d_list)
 

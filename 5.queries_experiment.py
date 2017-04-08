@@ -27,6 +27,12 @@ with open(query_sample_path, 'rb') as f:
     query_sample = dill.load(f)
 
 
+for node in tree.node_shortcuts:
+    node.d_vector = None
+tree._build_d_data_frame()
+
+
+
 paths = (os.path.join(dataset_root, p) for p in query_sample)
 lcs = time_series_utils.read_files(paths)
 

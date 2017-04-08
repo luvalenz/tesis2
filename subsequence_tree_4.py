@@ -21,6 +21,8 @@ class KMedioidsSubsequenceTree:
         self.node_shortcuts = None
         self.weights = None
         self.d_data_frame = None
+        self.d_inv_index = None
+        self.d_index = None
         self._original_time_series_ids = None
         self._query_vector = None
         self.n_nodes = 0
@@ -55,12 +57,14 @@ class KMedioidsSubsequenceTree:
         self._build_weights_vector()
         self._build_d_data_frame()
 
-
+    def sliced_d(self, ts_indices, node_indices):
+        d_list = [self.node_shortcuts.sliced_d_vector(ts_indices)
+                  for i in node_indices]
+        return np.column_stack(d_list)
 
     @property
     def n_subsequences(self):
         return len(self.db_subsequences_dict)
-
 
     @property
     def original_time_series_ids(self):
@@ -84,11 +88,9 @@ class KMedioidsSubsequenceTree:
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
 
-
-    def prune(self):
-        self._build_node_shorcuts(True)
-        self._build_weights_vector()
-        self._build_d_data_frame()
+    @property
+    def _queried_time_series_indices(self):
+        return [self.d_inv_index[id_] for id_ in self._queried_time_series_ids]
 
     def _queried_time_series_ids_iterator(self):
         for node in self.node_shortcuts:
@@ -119,32 +121,24 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         t = time.time()
-        not_zero_node_ids = np.where(self.query_vector != 0)[0]
-        not_zero_query_vector = self.query_vector[not_zero_node_ids]
-        not_zero_ts_ids = self._queried_time_series_ids
-        print('slicing time = {}'.format(time.time() - t))
+        not_zero_node_indices = np.where(self.query_vector != 0)[0]
+        not_zero_query_vector = self.query_vector[not_zero_node_indices]
+        not_zero_ts_indices = self._queried_time_series_indices
+        print('indexing time = {}'.format(time.time() - t))
         t = time.time()
-        not_zero_d_dataframe = self.d_data_frame
-        print('copying time = {}'.format(time.time() - t))
-        t = time.time()
-        #not_zero_d_dataframe = not_zero_d_dataframe.loc[not_zero_ts_ids, :]
-        not_zero_d_dataframe = not_zero_d_dataframe.loc[:, not_zero_node_ids]
-        print('pandas row indexing time = {}'.format(time.time() - t))
-        t = time.time()
-        #not_zero_d_dataframe = not_zero_d_dataframe.loc[:, not_zero_node_ids]
-        not_zero_d_dataframe = not_zero_d_dataframe.loc[not_zero_ts_ids, :]
-        print('pandas col indexing time = {}'.format(time.time() - t))
-        print('')
+        not_zero_d_index = self.d_index[not_zero_ts_indices]
+        not_zero_d_matrix  = self.sliced_d(not_zero_ts_indices, not_zero_node_indices)
+        print('slicing and copying time = {}'.format(time.time() - t))
         if timer is not None:
             timer.stop()
             timer.start()
-        score = -np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        score = -np.sum(not_zero_query_vector*not_zero_d_matrix, axis=1)
         #score = 2-2*score
         if timer is not None:
             timer.stop()
             timer.start()
         order = np.argsort(score)
-        result = not_zero_d_dataframe.index.values[order]
+        result = not_zero_d_index[order]
         if timer is not None:
             timer.stop()
         return result
@@ -205,6 +199,8 @@ class KMedioidsSubsequenceTree:
         self.weights = np.array(weights_list)
 
     def _build_d_data_frame(self, just_leaves=False):
+        self.d_index = self.original_time_series_ids
+        self.d_inv_index = {id_ : index for index, id_ in enumerate(self.d_index)}
         print('{} nodes'.format(len(self.node_shortcuts)))
         print('building d list')
         d_list = [node.d_vector for node in self.node_shortcuts]
@@ -215,9 +211,10 @@ class KMedioidsSubsequenceTree:
         d_matrix = (d_matrix.T / d_norm).T
         d_matrix[d_matrix == np.inf] = 0
         print('DONE')
-        print('building d dataframe')
-        self.d_data_frame = pd.DataFrame(np.nan_to_num(d_matrix),
-                                       index=self.original_time_series_ids)
+        d_matrix = np.nan_to_num(d_matrix)
+        print('normalizing d vectors')
+        for d_vec, node in zip(d_matrix.T, self.node_shortcuts):
+            node.d_vector = d_vec
         print('DONE')
 
     def _add_subsequence(self, subsequence):
@@ -255,6 +252,7 @@ class Node:
         self.n_query_subsequences = 0
         self.children = None
         self._inverted_file = None
+        self._d_vector = None
         if level + 1 == max_level or distances.shape[0] < self.branching_factor:
             self.generate_inverted_file()
         else:
@@ -279,6 +277,10 @@ class Node:
         n = len(self.inverted_file)
         # print('DONE')
         return n
+
+    def sliced_d_vector(self, ts_indices):
+        return self.d_vector[ts_indices]
+
 
     @property
     def n_original_time_series_in_tree(self):
@@ -307,10 +309,8 @@ class Node:
     def m_vector(self):
         print('building m vector in node {}'.format(self.id))
         m = np.zeros(self.n_original_time_series_in_tree)
-        ids = self.get_original_time_series_ids_in_tree()
-        indices = {id_: index for index, id_ in enumerate(ids)}
         for key, value in self.inverted_file.items():
-            index = indices[key]
+            index = self.inv_[key]
             m[index] = value
         print('DONE')
         return m
@@ -323,7 +323,13 @@ class Node:
 
     @property
     def d_vector(self):
-        return self.weight*self.m_vector
+        if self._d_vector is None:
+            self._d_vector = self.weight*self.m_vector
+        return self._d_vector
+
+    @d_vector.setter
+    def d_vector(self, value):
+        self._d_vector = value
 
     def add_shortcut_to_dict(self, shortcut_dict):
         shortcut_dict[self._id] = self

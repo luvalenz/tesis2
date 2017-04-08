@@ -309,8 +309,9 @@ class Node:
     def m_vector(self):
         print('building m vector in node {}'.format(self.id))
         m = np.zeros(self.n_original_time_series_in_tree)
+        indices = {id_: index for index, id_ in enumerate(ids)}
         for key, value in self.inverted_file.items():
-            index = self.inv_[key]
+            index = indices[key]
             m[index] = value
         print('DONE')
         return m

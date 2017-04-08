@@ -199,7 +199,7 @@ class KMedioidsSubsequenceTree:
         self.weights = np.array(weights_list)
 
     def _build_d_data_frame(self, just_leaves=False):
-        self.d_index = self.original_time_series_ids
+        self.d_index = np.array(self.original_time_series_ids)
         self.d_inv_index = {id_ : index for index, id_ in enumerate(self.d_index)}
         print('{} nodes'.format(len(self.node_shortcuts)))
         print('building d list')

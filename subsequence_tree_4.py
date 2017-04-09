@@ -281,10 +281,10 @@ class Node:
     def sliced_d_vector(self, ts_indices):
         t = time.time()
         d = self.d_vector
-        print('getting d_vector = {}'.format(time.time() - t))
+        print('\tgetting d_vector = {}'.format(time.time() - t))
         t = time.time()
         result = d[ts_indices]
-        print('getting d_vector = {}'.format(time.time() - t))
+        print('\tgetting d_vector = {}'.format(time.time() - t))
         return result
 
 

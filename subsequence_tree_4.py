@@ -132,8 +132,8 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        order = np.argsort(score)
-        result = not_zero_d_dataframe.index.values[order]
+        score.sort()
+        result = score.index.values
         if timer is not None:
             timer.stop()
         return result

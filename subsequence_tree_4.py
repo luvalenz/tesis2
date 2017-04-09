@@ -276,7 +276,7 @@ class Node:
 
     @property
     def weight(self):
-        if self._weight is None or hasattr(self, '_weight'):
+        if not hasattr(self, '_weight') or self._weight is None:
             print('Calculating weight in node {}... '.format(self.id))
             w = 0
             if self.n_original_time_series_in_node != 0:
@@ -312,7 +312,7 @@ class Node:
 
     @property
     def d_vector(self):
-        if self._d_vector is None or not hasattr(self, '_d_vector'):
+        if not hasattr(self, '_d_vector') or self._d_vector is None:
             self._d_vector = self.weight*self.m_vector
         return self._d_vector
 

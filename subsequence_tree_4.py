@@ -334,6 +334,7 @@ class Node:
     def d_vector(self):
         if self._d_vector is None:
             self._d_vector = self.weight*self.m_vector
+            print('\t\tcreating d vector')
         return self._d_vector
 
     @d_vector.setter

@@ -118,22 +118,20 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-       # not_zero_node_ids = np.where(self.query_vector != 0)[0]
-        #not_zero_query_vector = self.query_vector[not_zero_node_ids]
+        not_zero_node_ids = np.where(self.query_vector != 0)[0]
+        not_zero_query_vector = self.query_vector[not_zero_node_ids]
         not_zero_ts_ids = self._queried_time_series_ids
-        self.d_data_frame *= self.query_vector
-
-       # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
+        not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()
             timer.start()
-        score = -self.d_data_frame.sum(axis=1).loc[not_zero_ts_ids]# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        score = -np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         if timer is not None:
             timer.stop()
             timer.start()
-        score.sort()
-        result = score.index.values
+        order = np.argsort(score)
+        result = not_zero_d_dataframe.index.values[order]
         if timer is not None:
             timer.stop()
         return result

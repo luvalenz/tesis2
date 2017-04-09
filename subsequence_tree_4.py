@@ -291,8 +291,8 @@ class Node:
                 print("Attribute Error caught")
                 print("weight = {0}".format(w))
             print('DONE')
-            self._w = w
-        return self._w
+            self._weight = w
+        return self._weight
 
     @property
     def m_vector(self):

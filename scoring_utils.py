@@ -44,3 +44,4 @@ class Timer:
         current = time.time()
         elapsed = current - self.current_start
         self.elapsed_times.append(elapsed)
+        print(self.elapsed_times)

@@ -61,12 +61,7 @@ class KMedioidsSubsequenceTree:
         t = time.time()
         d_list = [self.node_shortcuts[i].sliced_d_vector(ts_indices)
                   for i in node_indices]
-        print('\\t slicing d vectors {}'.format(time.time() - t))
-        t = time.time()
-        np.column_stack(d_list)
-        print('\\t stacking d vectors {}'.format(time.time() - t))
-        print('')
-        return
+        return np.column_stack(d_list)
 
     @property
     def n_subsequences(self):

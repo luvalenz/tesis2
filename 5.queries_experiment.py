@@ -26,6 +26,9 @@ with open(tree_path, 'rb') as f:
 with open(query_sample_path, 'rb') as f:
     query_sample = dill.load(f)
 
+for n in tree.node_shortcuts:
+    w = n.weight
+
 
 paths = (os.path.join(dataset_root, p) for p in query_sample)
 lcs = time_series_utils.read_files(paths)

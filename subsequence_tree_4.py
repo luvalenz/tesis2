@@ -276,19 +276,21 @@ class Node:
 
     @property
     def weight(self):
-        print('Calculating weight in node {}... '.format(self.id))
-        w = 0
-        if self.n_original_time_series_in_node != 0:
-            w = np.log(self.n_original_time_series_in_tree/
-                       self.n_original_time_series_in_node)
-        try:
-            if not self._weighted:
-                w = 1
-        except AttributeError:
-            print("Attribute Error caught")
-            print("weight = {0}".format(w))
-        print('DONE')
-        return w
+        if self._weight is None or hasattr(self, '_weight'):
+            print('Calculating weight in node {}... '.format(self.id))
+            w = 0
+            if self.n_original_time_series_in_node != 0:
+                w = np.log(self.n_original_time_series_in_tree/
+                           self.n_original_time_series_in_node)
+            try:
+                if not self._weighted:
+                    w = 1
+            except AttributeError:
+                print("Attribute Error caught")
+                print("weight = {0}".format(w))
+            print('DONE')
+            self._w = w
+        return self._w
 
     @property
     def m_vector(self):

@@ -284,7 +284,7 @@ class Node:
         print('\tgetting d_vector = {}'.format(time.time() - t))
         t = time.time()
         result = d[ts_indices]
-        print('\tgetting d_vector = {}'.format(time.time() - t))
+        print('\tslicing d_vector = {}'.format(time.time() - t))
         return result
 
 

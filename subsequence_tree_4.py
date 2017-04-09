@@ -279,7 +279,13 @@ class Node:
         return n
 
     def sliced_d_vector(self, ts_indices):
-        return self.d_vector[ts_indices]
+        t = time.time()
+        d = self.d_vector
+        print('getting d_vector = {}'.format(time.time() - t))
+        t = time.time()
+        result = d[ts_indices]
+        print('getting d_vector = {}'.format(time.time() - t))
+        return result
 
 
     @property

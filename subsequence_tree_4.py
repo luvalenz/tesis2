@@ -58,9 +58,15 @@ class KMedioidsSubsequenceTree:
         self._build_d_data_frame()
 
     def sliced_d(self, ts_indices, node_indices):
+        t = time.time()
         d_list = [self.node_shortcuts[i].sliced_d_vector(ts_indices)
                   for i in node_indices]
-        return np.column_stack(d_list)
+        print('\\t slicing d vectors {}'.format(time.time() - t))
+        t = time.time()
+        np.column_stack(d_list)
+        print('\\t stacking d vectors {}'.format(time.time() - t))
+        print('')
+        return
 
     @property
     def n_subsequences(self):
@@ -279,15 +285,7 @@ class Node:
         return n
 
     def sliced_d_vector(self, ts_indices):
-        t = time.time()
-        d = self.d_vector
-        print('\tgetting d_vector = {}'.format(time.time() - t))
-        t = time.time()
-        result = d[ts_indices]
-        print('\tslicing d_vector = {}'.format(time.time() - t))
-        print('')
-        return result
-
+        return self.d_vector[ts_indices]
 
     @property
     def n_original_time_series_in_tree(self):

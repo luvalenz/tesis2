@@ -310,7 +310,9 @@ class Node:
 
     @property
     def d_vector(self):
-        return self.weight*self.m_vector
+        if self._d_vector is None or not hasattr(self, '_d_vector'):
+            self._d_vector = self.weight*self.m_vector
+        return self._d_vector
 
     def add_shortcut_to_dict(self, shortcut_dict):
         shortcut_dict[self._id] = self

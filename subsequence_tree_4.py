@@ -123,7 +123,10 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         qd = self.reconstructed_qd
-
+        print('qd shape')
+        print(qd.shape)
+        print('qd index')
+        print(qd.index.values)
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()
@@ -134,9 +137,13 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         score.sort()
+        print('SCORE')
+        print(score)
+
         result = score.index.values
         if timer is not None:
             timer.stop()
+
         return result
 
     def get_db_subsequences_dict(self):

@@ -22,7 +22,7 @@ class KMedioidsSubsequenceTree:
         self.weights = None
         self.d_data_frame = None
         self._original_time_series_ids = None
-        self._query_vector = None
+        self.active_nodes = None
         self.n_nodes = 0
         self._weighted = weighted
         prototype_subsequences = np.array(prototype_subsequences_list)
@@ -33,7 +33,7 @@ class KMedioidsSubsequenceTree:
         self.weights = None
         self.d_data_frame = None
         self._original_time_series_ids = None
-        self._query_vector = None
+        self.active_nodes = None
         local_leaves = [node for node in self.node_shortcuts if node.is_leaf]
         for local_leaf in local_leaves:
             local_leaf.generate_inverted_file()
@@ -51,6 +51,7 @@ class KMedioidsSubsequenceTree:
         self.weights = None
         self.d_data_frame = None
         self._original_time_series_ids = None
+        self.active_nodes = None
         self._populate_tree(db_time_series)
         self._build_weights_vector()
         self._build_d_data_frame()
@@ -72,18 +73,20 @@ class KMedioidsSubsequenceTree:
     def n_original_time_series(self):
         return len(self.original_time_series_ids)
 
+    def normalize_query_vector(self):
+        q_vector = np.array([node.q for node in self.active_nodes])
+        q_norm = np.linalg.norm(q_vector)
+        for node in self.active_nodes:
+            node.q = node.q / q_norm
+
     @property
-    def query_vector(self):
-        if self._query_vector is None:
-            q_vector = np.array([node.q for node in self.node_shortcuts])
-            q_norm = np.linalg.norm(q_vector)
-            self._query_vector = q_vector / q_norm
-        return self._query_vector
+    def reconstructed_d(self):
+        d_vectors = {node.id: node.d_vector for node in self.active_nodes}
+        return pd.DataFrame(d_vectors).fillna(0)
 
     @property
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
-
 
     def prune(self):
         self._build_node_shorcuts(True)
@@ -108,30 +111,30 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         for node in self.node_shortcuts:
-            node.n_query_subsequences = 0
+            node.clear()
         if timer is not None:
             timer.stop()
             timer.start()
-        self._query_vector = None
+        self.active_nodes = []
         for subsequence in subsequences:
             self.root.add_query_subsequence(subsequence)
+        self.active_nodes = list(set(self.active_nodes))
         if timer is not None:
             timer.stop()
             timer.start()
-        not_zero_node_ids = np.where(self.query_vector != 0)[0]
-        not_zero_query_vector = self.query_vector[not_zero_node_ids]
-        not_zero_ts_ids = self._queried_time_series_ids
-        not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
+        d_data_frame = self.reconstructed_d
+
+       # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()
             timer.start()
-        score = -np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        score = - d_data_frame.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         if timer is not None:
             timer.stop()
             timer.start()
-        order = np.argsort(score)
-        result = not_zero_d_dataframe.index.values[order]
+        score.sort()
+        result = score.index.values
         if timer is not None:
             timer.stop()
         return result
@@ -163,7 +166,8 @@ class KMedioidsSubsequenceTree:
     def _build_tree(self, distances, prototypes):
         self.root = Node(0, self.max_level, prototypes, distances, None,
                          None, self.get_next_node_id(),
-                         self.get_original_time_series_ids(), self.branching_factor, weighted=self._weighted)
+                         self.get_original_time_series_ids(), self.branching_factor,
+                         self, weighted=self._weighted)
 
     def _populate_tree(self, db_time_series):
         print("populating tree")
@@ -197,14 +201,15 @@ class KMedioidsSubsequenceTree:
         d_list = [node.d_vector for node in self.node_shortcuts]
         print('DONE')
         print('building d matrix')
-        d_matrix = np.column_stack(d_list)
-        d_norm = np.linalg.norm(d_matrix, axis=1)
-        d_matrix = (d_matrix.T / d_norm).T
-        d_matrix[d_matrix == np.inf] = 0
+        d_data_frame = pd.concat(d_list, axis=1)
+        d_norm = np.linalg.norm(d_data_frame, axis=1)
+        d_data_frame = (d_data_frame.T / d_norm).T
+        d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
+        for i in d_data_frame.columns:
+            col = d_data_frame[i]
+            self.node_shortcuts[i].d_vector = col[col != 0]
         print('DONE')
         print('building d dataframe')
-        self.d_data_frame = pd.DataFrame(np.nan_to_num(d_matrix),
-                                       index=self.original_time_series_ids)
         print('DONE')
 
     def _add_subsequence(self, subsequence):
@@ -220,7 +225,8 @@ class Node:
 
     def __init__(self, level, max_level, prototypes, distances, center,
                  parent, next_node_id_getter, original_time_series_ids_getter,
-                 branching_factor, weighted=True):
+                 branching_factor, tree, weighted=True):
+        self.tree = tree
         self.id = self.__class__.next_id
         self.__class__.next_id += 1
         self.level = level
@@ -297,24 +303,38 @@ class Node:
         print('building m vector in node {}'.format(self.id))
         m = np.zeros(self.n_original_time_series_in_tree)
         ids = self.get_original_time_series_ids_in_tree()
-        indices = {id_: index for index, id_ in enumerate(ids)}
-        for key, value in self.inverted_file.items():
-            index = indices[key]
-            m[index] = value
         print('DONE')
-        return m
+        return pd.DataFrame(m, index=ids, columns=[self._id])
+
+    def clear(self):
+        self.n_query_subsequences = 0
+        self._q = 0
 
     @property
     def q(self):
         if self.n_query_subsequences is None:
             return None
-        return self.n_query_subsequences*self.weight
+        elif self._q is None:
+            self._q = self.n_query_subsequences*self.weight
+        return self._q
+
+    @q.setter
+    def q(self, value):
+        self._q = value
 
     @property
     def d_vector(self):
         if not hasattr(self, '_d_vector') or self._d_vector is None:
             self._d_vector = self.weight*self.m_vector
         return self._d_vector
+
+    @property
+    def qd_vector(self):
+        return self.q*self.d_vector
+
+    @d_vector.setter
+    def d_vector(self, value):
+        self._d_vector = value
 
     def add_shortcut_to_dict(self, shortcut_dict):
         shortcut_dict[self._id] = self
@@ -344,13 +364,14 @@ class Node:
                          child_distances, center,
                          self, next_node_id_getter,
                          self.get_original_time_series_ids_in_tree,
-                         self.branching_factor)
+                         self.branching_factor, self.tree)
             children.append(child)
         self.children = children
 
 
     def add_query_subsequence(self, subsequence):
         self.n_query_subsequences += 1
+        self.tree.active_nodes.append(self)
         if not self.is_leaf:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]

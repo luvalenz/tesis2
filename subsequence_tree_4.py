@@ -223,6 +223,7 @@ class KMedioidsSubsequenceTree:
             print('NODE {}'.format(i))
             print('\t old d vector {}'.format(self.node_shortcuts[i].d_vector))
             col = d_data_frame[i]
+            print('\t col = {}'.format(col))
             self.node_shortcuts[i].d_vector = col[col != 0]
             print('\t new d vector {}'.format(self.node_shortcuts[i].d_vector))
         print('DONE')

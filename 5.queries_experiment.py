@@ -30,6 +30,7 @@ tree.d_data_frame = None
 
 for n in tree.node_shortcuts:
     w = n.weight
+    n.tree = tree
 
 
 paths = (os.path.join(dataset_root, p) for p in query_sample)

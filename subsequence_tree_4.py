@@ -80,9 +80,9 @@ class KMedioidsSubsequenceTree:
             node.q = node.q / q_norm
 
     @property
-    def reconstructed_d(self):
-        d_vectors = {node.id: node.d_vector for node in self.active_nodes}
-        return pd.DataFrame(d_vectors).fillna(0)
+    def reconstructed_qd(self):
+        qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
+        return pd.DataFrame(qd_vectors).fillna(0)
 
     @property
     def _queried_time_series_ids(self):
@@ -122,13 +122,13 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        d_data_frame = self.reconstructed_d
+        qd = self.reconstructed_qd
 
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()
             timer.start()
-        score = - d_data_frame.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        score = - qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         if timer is not None:
             timer.stop()
@@ -304,7 +304,7 @@ class Node:
         m = np.zeros(self.n_original_time_series_in_tree)
         ids = self.get_original_time_series_ids_in_tree()
         print('DONE')
-        return pd.DataFrame(m, index=ids, columns=[self._id])
+        return pd.Series(m, index=ids)
 
     def clear(self):
         self.n_query_subsequences = 0

@@ -212,16 +212,19 @@ class KMedioidsSubsequenceTree:
     def _build_d_data_frame(self, just_leaves=False):
         print('{} nodes'.format(len(self.node_shortcuts)))
         print('building d list')
-        d_list = [node.d_vector for node in self.node_shortcuts]
+        d = {node.id: node.d_vector for node in self.node_shortcuts}
         print('DONE')
         print('building d matrix')
-        d_data_frame = pd.concat(d_list, axis=1)
+        d_data_frame = pd.DataFrame(d)
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         for i in d_data_frame.columns:
+            print('NODE {}'.format(i))
+            print('\t old d vector'.format(self.node_shortcuts[i].d_vector))
             col = d_data_frame[i]
             self.node_shortcuts[i].d_vector = col[col != 0]
+            print('\t new d vector'.format(self.node_shortcuts[i].d_vector))
         print('DONE')
         print('building d dataframe')
         print('DONE')

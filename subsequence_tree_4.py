@@ -81,7 +81,14 @@ class KMedioidsSubsequenceTree:
 
     @property
     def reconstructed_qd(self):
-        qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
+        print('RECONSTRUCTION OF QD')
+        qd_vectors = {}
+        for node in self.active_nodes:
+            print('\t id : {}'.format(node.id))
+            print('\t qd : {}'.format(node.qd_vector))
+            qd_vectors[node.id] = node.qd_vector
+        #qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
+
         return pd.DataFrame(qd_vectors).fillna(0)
 
     @property

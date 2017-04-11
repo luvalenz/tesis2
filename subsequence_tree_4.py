@@ -147,14 +147,13 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         score.sort_values(ascending=False)
+        print('id')
         print('SCORE')
         print(score)
-
-        result = score.index.values
+        sys.exit(0)
         if timer is not None:
             timer.stop()
-
-        return result
+        return rscore.index.values
 
     def get_db_subsequences_dict(self):
         def _get_db_subsequences_dict():
@@ -350,12 +349,7 @@ class Node:
 
     @property
     def qd_vector(self):
-        qd = self.q*self.d_vector
-        print('\t\t q = {}'.format(self.q))
-        print('\t\t d_vector = {}'.format(self.d_vector))
-        print('\t\t qd_vector = {}'.format(qd))
-        print('\n')
-        return qd
+        return self.q*self.d_vector
 
     @d_vector.setter
     def d_vector(self, value):

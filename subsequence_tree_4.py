@@ -84,12 +84,12 @@ class KMedioidsSubsequenceTree:
     @property
     def reconstructed_qd(self):
         print('RECONSTRUCTION OF QD')
-        qd_vectors = {}
-        for node in self.active_nodes:
-            print('\t id : {}'.format(node.id))
-            print('\t qd : {}'.format(node.qd_vector))
-            qd_vectors[node.id] = node.qd_vector
-        #qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
+        # qd_vectors = {}
+        # for node in self.active_nodes:
+        #     print('\t id : {}'.format(node.id))
+        #     print('\t qd : {}'.format(node.qd_vector))
+        #     qd_vectors[node.id] = node.qd_vector
+        qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
         return pd.DataFrame(qd_vectors).fillna(0)
 
     @property
@@ -141,14 +141,14 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        score = - qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         if timer is not None:
             timer.stop()
             timer.start()
-        score.sort()
-        #print('SCORE')
-        #print(score)
+        score.sort_values(ascending=False)
+        print('SCORE')
+        print(score)
 
         result = score.index.values
         if timer is not None:

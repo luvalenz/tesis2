@@ -333,7 +333,12 @@ class Node:
         if self.n_query_subsequences is None:
             return None
         elif self._q is None:
+            print('calculating q...')
             self._q = self.n_query_subsequences*self.weight
+        else:
+            print('q already calculated...')
+        print('\tweight = {}'.format(self.weight))
+        print('\tn_query_sub... = {}'.format(self.n_query_subsequences))
         return self._q
 
     @q.setter

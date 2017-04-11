@@ -5,6 +5,7 @@ from distance_utils import time_series_twed
 import kmedoids
 import pandas as pd
 import sys
+import time
 
 
 class KMedioidsSubsequenceTree:
@@ -338,6 +339,7 @@ class Node:
             return None
         elif self._q is None:
             print('calculating q...')
+            time.sleep(1)
             self._q = self.n_query_subsequences*self.weight
         else:
             print('q already calculated...')

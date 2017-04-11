@@ -353,7 +353,7 @@ class Node:
         qd = self.q*self.d_vector
         print('\t\t q = {}'.format(self.q))
         print('\t\t d_vector = {}'.format(self.d_vector))
-        print('\t\t qd_vector = {}'.format(self.qd))
+        print('\t\t qd_vector = {}'.format(qd))
         print('\n')
         return qd
 

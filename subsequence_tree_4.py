@@ -85,8 +85,9 @@ class KMedioidsSubsequenceTree:
     def reconstructed_qd(self):
         print('RECONSTRUCTION OF QD')
         qd = Counter()
+        print('active nodes: {}'.format(len(self.active_nodes)))
         for node in self.active_nodes:
-            qd = node.qd_vector.to_dict()
+            qd += node.qd_vector.to_dict()
         return qd
 
     @property
@@ -130,13 +131,14 @@ class KMedioidsSubsequenceTree:
             timer.start()
         print('normalizing query vector..')
         self.normalize_query_vector()
-        qd = self.reconstructed_qd
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()
             timer.start()
-        score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+        #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
+        qd = self.reconstructed_qd
+        score = pd.Series(qd)
         if timer is not None:
             timer.stop()
             timer.start()

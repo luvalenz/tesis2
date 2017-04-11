@@ -131,10 +131,6 @@ class KMedioidsSubsequenceTree:
         print('normalizing query vector..')
         self.normalize_query_vector()
         qd = self.reconstructed_qd
-        print('qd shape')
-        print(qd.shape)
-        print('qd index')
-        print(qd.index.values)
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()

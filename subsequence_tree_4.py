@@ -233,17 +233,21 @@ class KMedioidsSubsequenceTree:
             print('\t old d vector {}'.format(old_vector.iloc[:10]))
             print('\t old d vector shape {}'.format(old_vector.shape))
             print('\t old d vector zero counts {}'.format(len(old_vector[old_vector == 0])))
+            print('')
             col = d_data_frame[i].copy()
             col.sort_index()
             print('\t col vector {}'.format(col.iloc[:10]))
             print('\t col shape {}'.format(col.shape))
             print('\t col zero counts {}'.format(len(col[col == 0])))
+            print('')
             self.node_shortcuts[i].d_vector = col[col != 0]
             d_vector = self.node_shortcuts[i].d_vector.copy()
             d_vector.sort_index()
             print('\t new d vector {}'.format(d_vector.iloc[:10]))
             print('\t new d vector shape {}'.format(self.node_shortcuts[i].d_vector.shape))
+            print('')
             if len(old_vector[old_vector == 0]) > 0:
+                print('EXIT')
                 sys.exit(0)
         print('DONE')
 

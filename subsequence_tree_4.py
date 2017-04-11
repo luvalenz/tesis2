@@ -78,9 +78,9 @@ class KMedioidsSubsequenceTree:
         q_vector = np.array([node.q for node in self.active_nodes])
         q_norm = np.linalg.norm(q_vector)
         for node in self.active_nodes:
+            print('not normalized q {} = '.format(node.q))
             node.q = node.q / q_norm
-            print('normalized q')
-            print(node.q)
+            print('normalized q {} = '.format(node.q))
 
     @property
     def reconstructed_qd(self):

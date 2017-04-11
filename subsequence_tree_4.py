@@ -145,8 +145,8 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         score.sort()
-        print('SCORE')
-        print(score)
+        #print('SCORE')
+        #print(score)
 
         result = score.index.values
         if timer is not None:

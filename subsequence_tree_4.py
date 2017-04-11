@@ -112,6 +112,7 @@ class KMedioidsSubsequenceTree:
         return id_
 
     def make_query(self, time_series, timer=None):
+        self.query_ts = time_series
         if timer is not None:
             timer.start()
         subsequences = time_series.run_sliding_window(self.time_window, self.time_step)

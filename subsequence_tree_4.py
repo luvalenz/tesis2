@@ -86,7 +86,7 @@ class KMedioidsSubsequenceTree:
         qd_vectors = {}
         for node in self.active_nodes:
             print('\t id : {}'.format(node.id))
-            print('\t qd : {}'.format(node.qd_vector))
+          #  print('\t qd : {}'.format(node.qd_vector))
             qd_vectors[node.id] = node.qd_vector
         #qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
 
@@ -349,7 +349,7 @@ class Node:
     @property
     def qd_vector(self):
         print('\t\t q = {}'.format(self.q))
-        print('\t\t d_vector = {}'.format(self.d_vector))
+        #print('\t\t d_vector = {}'.format(self.d_vector))
         return self.q*self.d_vector
 
     @d_vector.setter

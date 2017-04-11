@@ -150,7 +150,7 @@ class KMedioidsSubsequenceTree:
         print(score.shape)
         print(score.index)
         print(score)
-        score.sort_values(ascending=False)
+        score = score.sort_values(0, ascending=False)
         print('ID = {}'.format(self.query_ts.id))
         print('SCORE')
         print(score.shape)
@@ -159,7 +159,7 @@ class KMedioidsSubsequenceTree:
         sys.exit(0)
         if timer is not None:
             timer.stop()
-        return rscore.index.values
+        return score.index.values
 
     def get_db_subsequences_dict(self):
         def _get_db_subsequences_dict():

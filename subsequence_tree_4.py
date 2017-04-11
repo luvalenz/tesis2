@@ -87,7 +87,12 @@ class KMedioidsSubsequenceTree:
         qd = Counter()
         print('active nodes: {}'.format(len(self.active_nodes)))
         for node in self.active_nodes:
-            qd += node.qd_vector.to_dict()
+            t = time.time()
+            d = node.qd_vector.to_dict()
+            print('to dict time = {}')
+            qd += d
+            print('add time = {}')
+            print('')
         return qd
 
     @property

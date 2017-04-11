@@ -79,6 +79,8 @@ class KMedioidsSubsequenceTree:
         q_norm = np.linalg.norm(q_vector)
         for node in self.active_nodes:
             node.q = node.q / q_norm
+            print('normalized q')
+            print(node.q)
 
     @property
     def reconstructed_qd(self):
@@ -130,6 +132,7 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
+        self.normalize_query_vector()
         qd = self.reconstructed_qd
         print('qd shape')
         print(qd.shape)
@@ -326,7 +329,7 @@ class Node:
 
     def clear(self):
         self.n_query_subsequences = 0
-        self._q = 0
+        self._q = None
 
     @property
     def q(self):
@@ -339,6 +342,7 @@ class Node:
             print('q already calculated...')
         print('\tweight = {}'.format(self.weight))
         print('\tn_query_sub... = {}'.format(self.n_query_subsequences))
+        print('\t_q = {}'.format(self._q))
         return self._q
 
     @q.setter

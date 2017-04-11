@@ -133,6 +133,7 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
+        print('normalizing query vector..')
         self.normalize_query_vector()
         sys.exit(0)
         qd = self.reconstructed_qd
@@ -338,14 +339,7 @@ class Node:
         if self.n_query_subsequences is None:
             return None
         elif self._q is None:
-            print('calculating q...')
-            time.sleep(1)
             self._q = self.n_query_subsequences*self.weight
-        else:
-            print('q already calculated...')
-        print('\tweight = {}'.format(self.weight))
-        print('\tn_query_sub... = {}'.format(self.n_query_subsequences))
-        print('\t_q = {}'.format(self._q))
         return self._q
 
     @q.setter

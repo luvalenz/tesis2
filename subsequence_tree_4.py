@@ -79,9 +79,7 @@ class KMedioidsSubsequenceTree:
         q_vector = np.array([node.q for node in self.active_nodes])
         q_norm = np.linalg.norm(q_vector)
         for node in self.active_nodes:
-            print('not normalized q {} = '.format(node.q))
             node.q = node.q / q_norm
-            print('normalized q {} = '.format(node.q))
 
     @property
     def reconstructed_qd(self):
@@ -89,10 +87,9 @@ class KMedioidsSubsequenceTree:
         qd_vectors = {}
         for node in self.active_nodes:
             print('\t id : {}'.format(node.id))
-          #  print('\t qd : {}'.format(node.qd_vector))
+            print('\t qd : {}'.format(node.qd_vector))
             qd_vectors[node.id] = node.qd_vector
         #qd_vectors = {node.id: node.qd_vector for node in self.active_nodes}
-
         return pd.DataFrame(qd_vectors).fillna(0)
 
     @property
@@ -135,7 +132,6 @@ class KMedioidsSubsequenceTree:
             timer.start()
         print('normalizing query vector..')
         self.normalize_query_vector()
-        sys.exit(0)
         qd = self.reconstructed_qd
         print('qd shape')
         print(qd.shape)

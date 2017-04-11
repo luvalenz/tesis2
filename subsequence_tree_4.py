@@ -350,9 +350,12 @@ class Node:
 
     @property
     def qd_vector(self):
+        qd = self.q*self.d_vector
         print('\t\t q = {}'.format(self.q))
-        #print('\t\t d_vector = {}'.format(self.d_vector))
-        return self.q*self.d_vector
+        print('\t\t d_vector = {}'.format(self.d_vector))
+        print('\t\t qd_vector = {}'.format(self.qd))
+        print('\n')
+        return self.qd
 
     @d_vector.setter
     def d_vector(self, value):

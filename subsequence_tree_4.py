@@ -246,7 +246,7 @@ class KMedioidsSubsequenceTree:
             print('\t new d vector {}'.format(d_vector.iloc[:10]))
             print('\t new d vector shape {}'.format(self.node_shortcuts[i].d_vector.shape))
             print('')
-            if len(old_vector[old_vector == 0]) > 0:
+            if len(old_vector[old_vector != 0]) > 0:
                 print('EXIT')
                 sys.exit(0)
         print('DONE')

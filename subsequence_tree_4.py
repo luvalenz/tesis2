@@ -225,30 +225,10 @@ class KMedioidsSubsequenceTree:
         print(d_norm)
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
-
         for i in d_data_frame.columns:
             print('NODE {}'.format(i))
-            old_vector = self.node_shortcuts[i].d_vector.copy()
-            old_vector.sort_index()
-            print('\t old d vector {}'.format(old_vector.iloc[:10]))
-            print('\t old d vector shape {}'.format(old_vector.shape))
-            print('\t old d vector zero counts {}'.format(len(old_vector[old_vector == 0])))
-            print('')
-            col = d_data_frame[i].copy()
-            col.sort_index()
-            print('\t col vector {}'.format(col.iloc[:10]))
-            print('\t col shape {}'.format(col.shape))
-            print('\t col zero counts {}'.format(len(col[col == 0])))
-            print('')
+            col = d_data_frame[i]
             self.node_shortcuts[i].d_vector = col[col != 0]
-            d_vector = self.node_shortcuts[i].d_vector.copy()
-            d_vector.sort_index()
-            print('\t new d vector {}'.format(d_vector.iloc[:10]))
-            print('\t new d vector shape {}'.format(self.node_shortcuts[i].d_vector.shape))
-            print('')
-            if len(old_vector[old_vector != 0]) > 0:
-                print('EXIT')
-                sys.exit(0)
         print('DONE')
 
 

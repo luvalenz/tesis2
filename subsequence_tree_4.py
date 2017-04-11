@@ -133,6 +133,7 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         self.normalize_query_vector()
+        sys.exit(0)
         qd = self.reconstructed_qd
         print('qd shape')
         print(qd.shape)

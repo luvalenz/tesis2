@@ -355,7 +355,7 @@ class Node:
         print('\t\t d_vector = {}'.format(self.d_vector))
         print('\t\t qd_vector = {}'.format(self.qd))
         print('\n')
-        return self.qd
+        return qd
 
     @d_vector.setter
     def d_vector(self, value):

@@ -4,6 +4,7 @@ from collections import Counter
 from distance_utils import time_series_twed
 import kmedoids
 import pandas as pd
+import sys
 
 
 class KMedioidsSubsequenceTree:
@@ -226,14 +227,21 @@ class KMedioidsSubsequenceTree:
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         for i in d_data_frame.columns:
             print('NODE {}'.format(i))
-            print('\t old d vector {}'.format(self.node_shortcuts[i].d_vector))
+            old_vector = self.node_shortcuts[i].d_vector
+            old_vector.sort_index()
+            print('\t old d vector {}'.format(old_vector.iloc[:10]))
+            print('\t old d vector shape {}'.format(self.node_shortcuts[i].d_vector.shape))
             col = d_data_frame[i]
-            print('\t col = {}'.format(col))
+            col.sort()
+            print('\t col {}'.format(col.iloc[:10]))
+            print('\t col shape {}'.format(col.d_vector.shape))
             self.node_shortcuts[i].d_vector = col[col != 0]
-            print('\t new d vector {}'.format(self.node_shortcuts[i].d_vector))
+            d_vector = self.node_shortcuts[i].d_vector
+            d_vector.sort()
+            print('\t new d vector {}'.format(d_vector.iloc[:10]))
+            print('\t new d vector shape {}'.format(self.node_shortcuts[i].d_vector.shape))
         print('DONE')
-        print('building d dataframe')
-        print('DONE')
+
 
     def _add_subsequence(self, subsequence):
         self.root.add_db_subsequence(subsequence)

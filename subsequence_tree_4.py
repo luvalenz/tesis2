@@ -146,9 +146,15 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
+        print('PRE-SORT SCORE')
+        print(score.shape)
+        print(score.index)
+        print(score)
         score.sort_values(ascending=False)
-        print('id')
+        print('ID = {}'.format(self.query_ts.id))
         print('SCORE')
+        print(score.shape)
+        print(score.index)
         print(score)
         sys.exit(0)
         if timer is not None:

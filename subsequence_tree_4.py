@@ -234,7 +234,7 @@ class KMedioidsSubsequenceTree:
             col = d_data_frame[i].copy()
             col.sort_index()
             print('\t col {}'.format(col.iloc[:10]))
-            print('\t col shape {}'.format(col.d_vector.shape))
+            print('\t col shape {}'.format(col.shape))
             self.node_shortcuts[i].d_vector = col[col != 0]
             d_vector = self.node_shortcuts[i].d_vector.copy()
             d_vector.sort_index()

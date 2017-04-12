@@ -391,6 +391,15 @@ class Node:
         #self.n_query_subsequences += 1
         #self.tree.active_nodes.append(self)
         self.tree.score.add(self.weight*self.d_vector, fill_value=0)
+        print('d_vector')
+        print(self.d_vector)
+        print('weight')
+        print(self.weight)
+        print('d_vector')
+        print(self.weight*self.d_vector)
+        print('tree score')
+        print(self.tree.score)
+        print('')
         if not self.is_leaf:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]

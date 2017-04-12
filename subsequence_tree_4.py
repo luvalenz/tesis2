@@ -83,14 +83,14 @@ class KMedioidsSubsequenceTree:
 
     @property
     def reconstructed_qd(self):
-        print('RECONSTRUCTION OF QD')
+        #print('RECONSTRUCTION OF QD')
         qd = pd.Series()
-        print('active nodes: {}'.format(len(self.active_nodes)))
+        #print('active nodes: {}'.format(len(self.active_nodes)))
         for node in self.active_nodes:
             t = time.time()
             qd = qd.add(node.q*node.d_vector, fill_value=0)
-            print('add time = {}'.format(time.time() - t))
-            print('')
+            #print('add time = {}'.format(time.time() - t))
+            #print('')
         return qd
 
     @property

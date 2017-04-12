@@ -84,7 +84,7 @@ class KMedioidsSubsequenceTree:
     @property
     def reconstructed_qd(self):
         #print('RECONSTRUCTION OF QD')
-        qd = pd.Series()
+        #qd = pd.Series()
         #print('active nodes: {}'.format(len(self.active_nodes)))
         # for node in self.active_nodes:
         #     t = time.time()
@@ -212,6 +212,7 @@ class KMedioidsSubsequenceTree:
         print('{} nodes'.format(len(self.node_shortcuts)))
         print('building d list')
         d = {node.id: node.d_vector for node in self.node_shortcuts}
+        sys.exit(0)
         print('DONE')
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
@@ -342,7 +343,9 @@ class Node:
 
     @property
     def qd(self):
-        return self.q*self.d_vector
+        qd = self.q*self.d_vector
+        print('node {}'.format(self.id))
+        return qd
 
     @property
     def d_vector(self):

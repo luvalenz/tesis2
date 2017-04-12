@@ -119,7 +119,7 @@ class KMedioidsSubsequenceTree:
         self.query_ts = time_series
         if timer is not None:
             timer.start()
-        self.reconstructed_qd = pd.Series()
+        self.score = pd.Series()
         subsequences = time_series.run_sliding_window(self.time_window, self.time_step)
         if timer is not None:
             timer.stop()
@@ -142,16 +142,11 @@ class KMedioidsSubsequenceTree:
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
-
-        score = pd.Series(qd)
-        if timer is not None:
-            timer.stop()
-            timer.start()
         print('PRE-SORT SCORE')
-        print(score.shape)
-        print(score.index)
-        print(score)
-        score = score.sort_values(0, ascending=False)
+        print(self.score.shape)
+        print(self.score.index)
+        print(self.score)
+        score = self.score.sort_values(0, ascending=False)
         print('ID = {}'.format(self.query_ts.id))
         print('SCORE')
         print(score.shape)

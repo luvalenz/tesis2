@@ -222,8 +222,11 @@ class KMedioidsSubsequenceTree:
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')
         print(d_norm)
+        print('building dataframe')
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
+        print('DONE')
+        print('normalizing vectors')
         for i in d_data_frame.columns:
             col = d_data_frame[i]
             self.node_shortcuts[i].d_vector = col#[col != 0]

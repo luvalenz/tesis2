@@ -81,20 +81,17 @@ class KMedioidsSubsequenceTree:
         for node in self.active_nodes:
             node.q = node.q / q_norm
 
-    # @property
-    # def reconstructed_qd(self):
-    #     print('RECONSTRUCTION OF QD')
-    #     qd = Counter()
-    #     print('active nodes: {}'.format(len(self.active_nodes)))
-    #     for node in self.active_nodes:
-    #         t = time.time()
-    #         d = node.qd_vector.to_dict()
-    #         print('to dict time = {}'.format(time.time() - t))
-    #         t = time.time()
-    #         qd += d
-    #         print('add time = {}'.format(time.time() - t))
-    #         print('')
-    #     return qd
+    @property
+    def reconstructed_qd(self):
+        print('RECONSTRUCTION OF QD')
+        qd = pd.Series()
+        print('active nodes: {}'.format(len(self.active_nodes)))
+        for node in self.active_nodes:
+            t = time.time()
+            qd = qd.add(node.q_vector, fill_value=0)
+            print('add time = {}'.format(time.time() - t))
+            print('')
+        return qd
 
     @property
     def _queried_time_series_ids(self):
@@ -137,15 +134,16 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
+        score = self.reconstructed_qd
         if timer is not None:
             timer.stop()
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         print('PRE-SORT SCORE')
-        print(self.score.shape)
-        print(self.score.index)
-        print(self.score)
+        print(score.shape)
+        print(score.index)
+        print(score)
         score = self.score.sort_values(0, ascending=False)
         print('ID = {}'.format(self.query_ts.id))
         print('SCORE')
@@ -388,9 +386,9 @@ class Node:
 
 
     def add_query_subsequence(self, subsequence):
-        #self.n_query_subsequences += 1
-        #self.tree.active_nodes.append(self)
-        self.tree.score = self.tree.score.add(self.weight*self.d_vector, fill_value=0)
+        self.n_query_subsequences += 1
+        self.tree.active_nodes.append(self)
+        # self.tree.score = self.tree.score.add(self.weight*self.d_vector, fill_value=0)
         if not self.is_leaf:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]

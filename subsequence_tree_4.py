@@ -83,22 +83,21 @@ class KMedioidsSubsequenceTree:
 
     @property
     def reconstructed_qd(self):
-        #print('RECONSTRUCTION OF QD')
-        #qd = pd.Series()
-        #print('active nodes: {}'.format(len(self.active_nodes)))
-        # for node in self.active_nodes:
-        #     t = time.time()
-        #     qd = qd.add(node.q*node.d_vector, fill_value=0)
-        #     #print('add time = {}'.format(time.time() - t))
-        #     #print('')
-        #     qd = pd
-        t = time.time()
-        qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
-        print('concat time = {}'.format(time.time() - t))
-        print('qd')
-        print(qd.shape)
-        qd = qd.sum(axis=1)
-        print('sum time = {}'.format(time.time() - t))
+        # print('RECONSTRUCTION OF QD')
+        qd = pd.Series()
+        # print('active nodes: {}'.format(len(self.active_nodes)))
+        for node in self.active_nodes:
+            t = time.time()
+            qd = qd.add(node.q*node.d_vector, fill_value=0)
+            print('add time = {}'.format(time.time() - t))
+            print('')
+        # t = time.time()
+        # qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
+        # print('concat time = {}'.format(time.time() - t))
+        # print('qd')
+        # print(qd.shape)
+        # qd = qd.sum(axis=1)
+        # print('sum time = {}'.format(time.time() - t))
         return qd
     @property
     def _queried_time_series_ids(self):

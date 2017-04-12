@@ -34,8 +34,8 @@ for n in tree.node_shortcuts:
 tree._build_d_data_frame()
 
 
-# with open(tree_path, 'wb') as f:
-#     dill.dump(tree, f)
+with open(tree_path, 'wb') as f:
+    dill.dump(tree, f)
 
 
 paths = (os.path.join(dataset_root, p) for p in query_sample)

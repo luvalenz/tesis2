@@ -26,12 +26,12 @@ with open(tree_path, 'rb') as f:
 with open(query_sample_path, 'rb') as f:
     query_sample = dill.load(f)
 
-tree.d_data_frame = None
-
-for n in tree.node_shortcuts:
-    n.tree = tree
-
-tree._build_d_data_frame()
+# tree.d_data_frame = None
+#
+# for n in tree.node_shortcuts:
+#     n.tree = tree
+#
+# tree._build_d_data_frame()
 
 
 # with open(tree_path, 'wb') as f:

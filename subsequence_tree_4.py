@@ -226,7 +226,7 @@ class KMedioidsSubsequenceTree:
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         for i in d_data_frame.columns:
             col = d_data_frame[i]
-            self.node_shortcuts[i].d_vector = col[col != 0]
+            self.node_shortcuts[i].d_vector = col#[col != 0]
         print('DONE')
 
 

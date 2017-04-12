@@ -93,6 +93,7 @@ class KMedioidsSubsequenceTree:
         #     #print('')
         #     qd = pd
         qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
+        print('qd')
         print(qd)
         print(qd.shape)
         return qd.sum(axis=1)
@@ -216,9 +217,6 @@ class KMedioidsSubsequenceTree:
         print('DONE')
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
-        print('d_dataframe')
-        print(d_data_frame)
-        print(d.shape)
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')

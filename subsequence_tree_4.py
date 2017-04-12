@@ -390,7 +390,7 @@ class Node:
     def add_query_subsequence(self, subsequence):
         #self.n_query_subsequences += 1
         #self.tree.active_nodes.append(self)
-        self.tree.score.add(self.weight*self.d_vector, fill_value=0)
+        self.tree.score = self.tree.add(self.weight*self.d_vector, fill_value=0)
         print('d_vector')
         print(self.d_vector)
         print('weight')

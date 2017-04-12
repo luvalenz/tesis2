@@ -81,20 +81,20 @@ class KMedioidsSubsequenceTree:
         for node in self.active_nodes:
             node.q = node.q / q_norm
 
-    @property
-    def reconstructed_qd(self):
-        print('RECONSTRUCTION OF QD')
-        qd = Counter()
-        print('active nodes: {}'.format(len(self.active_nodes)))
-        for node in self.active_nodes:
-            t = time.time()
-            d = node.qd_vector.to_dict()
-            print('to dict time = {}'.format(time.time() - t))
-            t = time.time()
-            qd += d
-            print('add time = {}'.format(time.time() - t))
-            print('')
-        return qd
+    # @property
+    # def reconstructed_qd(self):
+    #     print('RECONSTRUCTION OF QD')
+    #     qd = Counter()
+    #     print('active nodes: {}'.format(len(self.active_nodes)))
+    #     for node in self.active_nodes:
+    #         t = time.time()
+    #         d = node.qd_vector.to_dict()
+    #         print('to dict time = {}'.format(time.time() - t))
+    #         t = time.time()
+    #         qd += d
+    #         print('add time = {}'.format(time.time() - t))
+    #         print('')
+    #     return qd
 
     @property
     def _queried_time_series_ids(self):
@@ -119,6 +119,7 @@ class KMedioidsSubsequenceTree:
         self.query_ts = time_series
         if timer is not None:
             timer.start()
+        self.reconstructed_qd = pd.Series()
         subsequences = time_series.run_sliding_window(self.time_window, self.time_step)
         if timer is not None:
             timer.stop()
@@ -135,15 +136,13 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
-        print('normalizing query vector..')
-        self.normalize_query_vector()
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         if timer is not None:
             timer.stop()
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
-        qd = self.reconstructed_qd
+
         score = pd.Series(qd)
         if timer is not None:
             timer.stop()
@@ -355,9 +354,6 @@ class Node:
             self._d_vector = self.weight*self.m_vector
         return self._d_vector
 
-    @property
-    def qd_vector(self):
-        return self.q*self.d_vector
 
     @d_vector.setter
     def d_vector(self, value):
@@ -397,8 +393,9 @@ class Node:
 
 
     def add_query_subsequence(self, subsequence):
-        self.n_query_subsequences += 1
-        self.tree.active_nodes.append(self)
+        #self.n_query_subsequences += 1
+        #self.tree.active_nodes.append(self)
+        self.tree.add(self.weight*self.d_vector, fill_value=0)
         if not self.is_leaf:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]

@@ -395,7 +395,7 @@ class Node:
     def add_query_subsequence(self, subsequence):
         #self.n_query_subsequences += 1
         #self.tree.active_nodes.append(self)
-        self.tree.add(self.weight*self.d_vector, fill_value=0)
+        self.tree.reconstructed_qd.add(self.weight*self.d_vector, fill_value=0)
         if not self.is_leaf:
             distances = [time_series_twed(subsequence, node.center)
                         for node in self.children]

@@ -94,6 +94,7 @@ class KMedioidsSubsequenceTree:
         #     qd = pd
         qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
         print(qd)
+        print(qd.shape)
         return qd.sum(axis=1)
 
     @property
@@ -218,7 +219,6 @@ class KMedioidsSubsequenceTree:
         print('d_dataframe')
         print(d_data_frame)
         print(d.shape)
-        sys.exit()
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')
@@ -321,9 +321,9 @@ class Node:
     @property
     def m_vector(self):
         m_vector = pd.Series(self.inverted_file)
-        print('\t\t\t m_vector = {}'.format(m_vector))
+        #print('\t\t\t m_vector = {}'.format(m_vector))
         m_vector = m_vector[m_vector > 1]
-        print('\t\t\t new m_vector = {}'.format(m_vector))
+        #print('\t\t\t new m_vector = {}'.format(m_vector))
         return m_vector
 
     def clear(self):

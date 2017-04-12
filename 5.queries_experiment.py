@@ -31,7 +31,7 @@ with open(query_sample_path, 'rb') as f:
 # for n in tree.node_shortcuts:
 #     n.tree = tree
 #
-# tree._build_d_data_frame()
+tree._build_d_data_frame()
 
 
 # with open(tree_path, 'wb') as f:

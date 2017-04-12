@@ -147,7 +147,7 @@ class KMedioidsSubsequenceTree:
         print(score.shape)
         print(score.index)
         print(score)
-        score = self.score.sort_values(0, ascending=False)
+        score = score.sort_values(0, ascending=False)
         print('ID = {}'.format(self.query_ts.id))
         print('SCORE')
         print(score.shape)
@@ -326,6 +326,7 @@ class Node:
     def m_vector(self):
         m_vector = pd.Series(self.inverted_file)
         print('\t\t\t m_vector = {}'.format(m_vector))
+        m_vector = m_vector[m_vector[0] > 1]
         return m_vector
 
     def clear(self):

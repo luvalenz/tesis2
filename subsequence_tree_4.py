@@ -92,7 +92,7 @@ class KMedioidsSubsequenceTree:
         #     #print('add time = {}'.format(time.time() - t))
         #     #print('')
         #     qd = pd
-        qd = pd.concat([node.qd for node in self.active_nodes])
+        qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
         print(qd)
         return qd.sum(axis=1)
 

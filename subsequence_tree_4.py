@@ -93,6 +93,7 @@ class KMedioidsSubsequenceTree:
         #     #print('')
         #     qd = pd
         qd = pd.concat([node.qd for node in self.active_nodes])
+        print(qd)
         return qd.sum(axis=1)
 
     @property

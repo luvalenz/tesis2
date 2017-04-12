@@ -143,15 +143,9 @@ class KMedioidsSubsequenceTree:
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
-        print('PRE-SORT SCORE')
-        print(score.shape)
-        print(score.index)
-        print(score)
         score = score.sort_values(0, ascending=False)
         print('ID = {}'.format(self.query_ts.id))
         print('SCORE')
-        print(score.shape)
-        print(score.index)
         print(score)
         sys.exit(0)
         if timer is not None:
@@ -327,6 +321,7 @@ class Node:
         m_vector = pd.Series(self.inverted_file)
         print('\t\t\t m_vector = {}'.format(m_vector))
         m_vector = m_vector[m_vector[0] > 1]
+        print('\t\t\t new m_vector = {}'.format(m_vector))
         return m_vector
 
     def clear(self):

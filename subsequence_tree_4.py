@@ -89,9 +89,10 @@ class KMedioidsSubsequenceTree:
         for node in self.active_nodes:
             t = time.time()
             d = node.qd_vector.to_dict()
-            print('to dict time = {}')
+            print('to dict time = {}'.format(time.time() - t))
+            t = time.time()
             qd += d
-            print('add time = {}')
+            print('add time = {}'.format(time.time() - t))
             print('')
         return qd
 

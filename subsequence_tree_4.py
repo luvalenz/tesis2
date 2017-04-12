@@ -92,12 +92,14 @@ class KMedioidsSubsequenceTree:
         #     #print('add time = {}'.format(time.time() - t))
         #     #print('')
         #     qd = pd
+        t = time.time()
         qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
+        print('concat time = {}'.format(time.time() - t))
         print('qd')
-        print(qd)
         print(qd.shape)
-        return qd.sum(axis=1)
-
+        qd = qd.sum(axis=1)
+        print('sum time = {}'.format(time.time() - t))
+        return qd
     @property
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
@@ -224,7 +226,6 @@ class KMedioidsSubsequenceTree:
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         for i in d_data_frame.columns:
-            print('NODE {}'.format(i))
             col = d_data_frame[i]
             self.node_shortcuts[i].d_vector = col[col != 0]
         print('DONE')

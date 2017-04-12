@@ -212,6 +212,7 @@ class KMedioidsSubsequenceTree:
         print('{} nodes'.format(len(self.node_shortcuts)))
         print('building d list')
         d = {node.id: node.d_vector for node in self.node_shortcuts}
+        sys.exit(0)
         print('DONE')
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)

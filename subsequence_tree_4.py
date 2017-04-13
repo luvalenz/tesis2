@@ -213,6 +213,8 @@ class KMedioidsSubsequenceTree:
 
     def _build_d_data_frame(self, just_leaves=False):
         print('{} nodes'.format(len(self.node_shortcuts)))
+        for n in self.node_shortcuts:
+            n.tree = self
         print('building d list')
         d = {node.id: node.d_vector for node in self.node_shortcuts}
         print('DONE')

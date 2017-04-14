@@ -88,6 +88,8 @@ class KMedioidsSubsequenceTree:
         qd = self.active_nodes[0].qd.copy()
         # print('active nodes: {}'.format(len(self.active_nodes)))
         for node in self.active_nodes[1:]:
+            print(type(qd))
+            print(qd.shape)
             t = time.time()
             qd += node.qd
             print('add time = {}'.format(time.time() - t))

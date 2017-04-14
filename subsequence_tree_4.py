@@ -87,8 +87,9 @@ class KMedioidsSubsequenceTree:
         # print('RECONSTRUCTION OF QD')
         #qd = self.active_nodes[0].qd.copy()
         active_ids = [node.id for node in self.active_nodes]
+        q_vector = csc_matrix([node.q for node in self.active_nodes])
         # print('active nodes: {}'.format(len(self.active_nodes)))
-        active = self.d_matrix[:, active_ids]
+        active = self.d_matrix[:, active_ids].multiply(q_vector)
         score = np.sum(active, axis=1)
         # for node in self.active_nodes[1:]:
         #     print(type(qd))
@@ -231,7 +232,6 @@ class KMedioidsSubsequenceTree:
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         self.d_index = d_data_frame.index.values
         self.d_matrix = csc_matrix(d_data_frame.values)
-        self.d_index = d_data_frame.index.values
         print('DONE')
         print('normalizing vectors')
         for i in d_data_frame.columns:

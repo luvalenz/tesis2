@@ -148,7 +148,7 @@ class KMedioidsSubsequenceTree:
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
-        rows, cols = score.non_zero()
+        rows, cols = score.nonzero()
         score = score[rows, cols]
         ids = self.d_index[cols]
         order = np.argsort(score)

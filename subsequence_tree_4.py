@@ -2,7 +2,7 @@ import numpy as np
 #import pydotplus as pydot
 from collections import Counter
 from distance_utils import time_series_twed
-from scipy.sparse import csr_matrix
+from scipy.sparse import csr_matrix, csc_matrix
 import kmedoids
 import pandas as pd
 import sys
@@ -226,18 +226,21 @@ class KMedioidsSubsequenceTree:
         print('DONE')
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
-        self.d_index = d_data_frame.index.values
+        print(d_data_frame.columns)
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')
         print(d_norm)
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
+        self.d_index = d_data_frame.index.values
+        self.d_matrix = csc_matrix(d_data_frame.values)
+        self.d_index = d_data_frame.index.values
         print('DONE')
         print('normalizing vectors')
         for i in d_data_frame.columns:
             col = d_data_frame[i]
-            self.node_shortcuts[i].d_vector = col#None#col#[col != 0]
+            self.node_shortcuts[i].d_vector = None#col#[col != 0]
         print('DONE')
 
     def _add_subsequence(self, subsequence):

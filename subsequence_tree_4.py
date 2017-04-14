@@ -227,6 +227,17 @@ class KMedioidsSubsequenceTree:
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
         print(d_data_frame.columns)
+        for i, j in enumerate(d_data_frame.columns):
+            if i != j:
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print('ERROOOOOOOOOOOOOOOOOOOOOR')
+                print(i)
+                print(j)
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')

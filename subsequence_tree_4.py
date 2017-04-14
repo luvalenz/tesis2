@@ -151,7 +151,10 @@ class KMedioidsSubsequenceTree:
         #score = 2-2*score
         rows, cols = score.nonzero()
         score = np.asarray(score[rows, cols]).flatten()
+        print(self.d_index)
+        print(cols)
         ids = self.d_index[cols]
+        print(ids)
         order = np.argsort(score)[::-1]
         print(self.query_ts.id)
         print(ids[order])

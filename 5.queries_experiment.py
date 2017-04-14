@@ -31,7 +31,7 @@ tree.d_data_frame = None
 for n in tree.node_shortcuts:
     n._d_vector = None
 
-tree._build_d_data_frame()
+#tree._build_d_data_frame()
 
 
 # with open(tree_path, 'wb') as f:

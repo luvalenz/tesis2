@@ -235,7 +235,7 @@ class KMedioidsSubsequenceTree:
         print('normalizing vectors')
         for i in d_data_frame.columns:
             col = d_data_frame[i]
-            self.node_shortcuts[i].d_vector = col#[col != 0]
+            self.node_shortcuts[i].d_vector = None#col#[col != 0]
         print('DONE')
 
     def _add_subsequence(self, subsequence):

@@ -85,23 +85,19 @@ class KMedioidsSubsequenceTree:
     @property
     def reconstructed_qd(self):
         # print('RECONSTRUCTION OF QD')
-        qd = self.active_nodes[0].qd.copy()
+        #qd = self.active_nodes[0].qd.copy()
+        active_ids = [node.id for node in self.active_nodes]
         # print('active nodes: {}'.format(len(self.active_nodes)))
-        for node in self.active_nodes[1:]:
-            print(type(qd))
-            print(qd.shape)
-            t = time.time()
-            qd += node.qd
-            print('add time = {}'.format(time.time() - t))
-            print('')
-        # t = time.time()
-        # qd = pd.concat([node.qd for node in self.active_nodes], axis=1).fillna(0)
-        # print('concat time = {}'.format(time.time() - t))
-        # print('qd')
-        # print(qd.shape)
-        # qd = qd.sum(axis=1)
-        # print('sum time = {}'.format(time.time() - t))
-        return qd
+        active = self.d_matrix[:, active_ids]
+        score = np.sum(active, axis=1)
+        # for node in self.active_nodes[1:]:
+        #     print(type(qd))
+        #     print(qd.shape)
+        #     t = time.time()
+        #     qd += node.qd
+        #     print('add time = {}'.format(time.time() - t))
+        #     print('')
+        return score
 
     @property
     def _queried_time_series_ids(self):
@@ -227,21 +223,6 @@ class KMedioidsSubsequenceTree:
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
         print(d_data_frame.columns)
-        todobioen=True
-        for i, j in enumerate(d_data_frame.columns):
-            if i != j:
-                todobioen = False
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print('ERROOOOOOOOOOOOOOOOOOOOOR')
-                print(i)
-                print(j)
-        if todobioen:
-            print('TODO BIEN!')
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')

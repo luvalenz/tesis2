@@ -89,6 +89,8 @@ class KMedioidsSubsequenceTree:
         active_ids = [node.id for node in self.active_nodes]
         q_vector = csc_matrix([node.q for node in self.active_nodes])
         # print('active nodes: {}'.format(len(self.active_nodes)))
+        print(q_vector.shape)
+        print(self.d_matrix[:, active_ids])
         active = self.d_matrix[:, active_ids].multiply(q_vector)
         score = np.sum(active, axis=1)
         # for node in self.active_nodes[1:]:

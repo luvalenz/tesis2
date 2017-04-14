@@ -149,15 +149,15 @@ class KMedioidsSubsequenceTree:
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         rows, cols = score.nonzero()
-        score = score[rows, cols]
+        score = score[rows, cols].flatten()
         ids = self.d_index[cols]
-        order = np.argsort(score)
+        order = np.argsort(score)[::-1]
         print(self.query_ts.id)
         print(ids[order])
         sys.exit(0)
         if timer is not None:
             timer.stop()
-        return ids[order]
+        return ids[order].flatte
 
     def get_db_subsequences_dict(self):
         def _get_db_subsequences_dict():

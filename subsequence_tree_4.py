@@ -2,6 +2,7 @@ import numpy as np
 #import pydotplus as pydot
 from collections import Counter
 from distance_utils import time_series_twed
+from scipy.sparse import csr_matrix
 import kmedoids
 import pandas as pd
 import sys
@@ -84,11 +85,11 @@ class KMedioidsSubsequenceTree:
     @property
     def reconstructed_qd(self):
         # print('RECONSTRUCTION OF QD')
-        qd = pd.Series()
+        qd = self.active_nodes[0].qd.copy()
         # print('active nodes: {}'.format(len(self.active_nodes)))
-        for node in self.active_nodes:
+        for node in self.active_nodes[1:]:
             t = time.time()
-            qd = qd.add(node.q*node.d_vector, fill_value=0)
+            qd += node.qd
             print('add time = {}'.format(time.time() - t))
             print('')
         # t = time.time()
@@ -99,6 +100,7 @@ class KMedioidsSubsequenceTree:
         # qd = qd.sum(axis=1)
         # print('sum time = {}'.format(time.time() - t))
         return qd
+
     @property
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
@@ -146,14 +148,16 @@ class KMedioidsSubsequenceTree:
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
-        score = score.sort_values(0, ascending=False)
-        print('ID = {}'.format(self.query_ts.id))
-        print('SCORE')
-        print(score)
+        rows, cols = score.non_zero()
+        score = score[rows, cols]
+        ids = self.d_index[cols]
+        order = np.argsort(score)
+        print(self.query_ts.id)
+        print(ids[order])
         sys.exit(0)
         if timer is not None:
             timer.stop()
-        return score.index.values
+        return ids[order]
 
     def get_db_subsequences_dict(self):
         def _get_db_subsequences_dict():
@@ -220,11 +224,11 @@ class KMedioidsSubsequenceTree:
         print('DONE')
         print('building d matrix')
         d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
+        self.d_index = self.d_data_frame.index.values
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')
         print(d_norm)
-        print('building dataframe')
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         print('DONE')
@@ -233,7 +237,6 @@ class KMedioidsSubsequenceTree:
             col = d_data_frame[i]
             self.node_shortcuts[i].d_vector = col#[col != 0]
         print('DONE')
-
 
     def _add_subsequence(self, subsequence):
         self.root.add_db_subsequence(subsequence)
@@ -347,9 +350,7 @@ class Node:
 
     @property
     def qd(self):
-        qd = self.q*self.d_vector
-        print('node {}'.format(self.id))
-        return qd
+        return self.q*self.d_vector
 
     @property
     def d_vector(self):
@@ -360,7 +361,7 @@ class Node:
 
     @d_vector.setter
     def d_vector(self, value):
-        self._d_vector = value
+        self._d_vector = csr_matrix(value)
 
     def add_shortcut_to_dict(self, shortcut_dict):
         shortcut_dict[self._id] = self

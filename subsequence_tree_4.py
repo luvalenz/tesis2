@@ -85,24 +85,9 @@ class KMedioidsSubsequenceTree:
     @property
     def score(self):
         active_ids = [node.id for node in self.active_nodes]
-
-        t = time.time()
-        q_vector = csc_matrix([node.q for node in self.active_nodes])
-        print('q vector time = {}'.format(time.time() - t))
-        t = time.time()
-        active = self.d_matrix[:, active_ids]
-        print('slicing time = {}'.format(time.time() - t))
-        t = time.time()
-        #active = csr_matrix(active)
-        print('transforming time = {}'.format(time.time() - t))
-        t = time.time()
-        active = active.multiply(q_vector)
-        print('multiply time= {}'.format(time.time() - t))
-        t = time.time()
-        score = np.sum(active, axis=1)
-        print('sum time= {}'.format(time.time() - t))
-        print('')
-
+        q_vector = csr_matrix([node.q for node in self.active_nodes])
+        score = self.d_matrix[:, active_ids].multiply(q_vector)
+        score = np.sum(score, axis=1)
         return score
 
     @property

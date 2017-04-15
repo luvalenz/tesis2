@@ -87,7 +87,7 @@ class KMedioidsSubsequenceTree:
         active_ids = [node.id for node in self.active_nodes]
 
         t = time.time()
-        q_vector = csc_matrix([node.q for node in self.active_nodes])
+        q_vector = csr_matrix([node.q for node in self.active_nodes])
         print('q vector time = {}'.format(time.time() - t))
         t = time.time()
         active = self.d_matrix[:, active_ids]
@@ -231,7 +231,7 @@ class KMedioidsSubsequenceTree:
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         self.d_index = d_data_frame.index.values
-        self.d_matrix = csc_matrix(d_data_frame.values)
+        self.d_matrix = csr_matrix(d_data_frame.values)
         print('DONE')
         print('normalizing vectors')
         print('DONE')

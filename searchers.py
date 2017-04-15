@@ -43,5 +43,7 @@ class SubseuquenceSearcher:
         print(time_series.id)
         print(ranking)
         times = timer.elapsed_times
+        print(times)
+        print('')
         return QueryResult(time_series.id, ranking, times)
 

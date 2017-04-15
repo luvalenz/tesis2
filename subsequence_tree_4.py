@@ -115,7 +115,6 @@ class KMedioidsSubsequenceTree:
         self.query_ts = time_series
         if timer is not None:
             timer.start()
-        self.score = pd.Series()
         subsequences = time_series.run_sliding_window(self.time_window, self.time_step)
         if timer is not None:
             timer.stop()

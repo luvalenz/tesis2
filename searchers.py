@@ -40,6 +40,8 @@ class SubseuquenceSearcher:
     def query(self, time_series):
         timer = Timer()
         ranking = self.st.make_query(time_series, timer).tolist()
+        print(time_series.id)
+        print(ranking)
         times = timer.elapsed_times
         return QueryResult(time_series.id, ranking, times)
 

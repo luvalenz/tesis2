@@ -87,7 +87,7 @@ class KMedioidsSubsequenceTree:
         active_ids = [node.id for node in self.active_nodes]
 
         t = time.time()
-        q_vector = csr_matrix([node.q for node in self.active_nodes])
+        q_vector = csc_matrix([node.q for node in self.active_nodes])
         print('q vector time = {}'.format(time.time() - t))
         t = time.time()
         active = self.d_matrix[:, active_ids]

@@ -93,7 +93,7 @@ class KMedioidsSubsequenceTree:
         active = self.d_matrix[:, active_ids]
         print('slicing time = {}'.format(time.time() - t))
         t = time.time()
-        active = csr_matrix(active)
+        #active = csr_matrix(active)
         print('transforming time = {}'.format(time.time() - t))
         t = time.time()
         active = active.multiply(q_vector)

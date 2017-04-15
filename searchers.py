@@ -41,7 +41,7 @@ class SubseuquenceSearcher:
         timer = Timer()
         ranking = self.st.make_query(time_series, timer).tolist()
         print(time_series.id)
-        print(ranking)
+        print(ranking[:5])
         times = timer.elapsed_times
         print(times)
         print('')

@@ -83,21 +83,13 @@ class KMedioidsSubsequenceTree:
             node.q = node.q / q_norm
 
     @property
-    def reconstructed_qd(self):
-        # print('RECONSTRUCTION OF QD')
-        #qd = self.active_nodes[0].qd.copy()
+    def score(self):
         active_ids = [node.id for node in self.active_nodes]
         q_vector = csr_matrix([node.q for node in self.active_nodes])
         # print('active nodes: {}'.format(len(self.active_nodes)))
         active = csr_matrix(self.d_matrix[:, active_ids]).multiply(q_vector)
         score = np.sum(active, axis=1)
-        # for node in self.active_nodes[1:]:
-        #     print(type(qd))
-        #     print(qd.shape)
-        #     t = time.time()
-        #     qd += node.qd
-        #     print('add time = {}'.format(time.time() - t))
-        #     print('')
+
         return score
 
     @property
@@ -141,7 +133,7 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
-        score = self.reconstructed_qd
+        score = self.score
         if timer is not None:
             timer.stop()
             timer.start()
@@ -149,14 +141,10 @@ class KMedioidsSubsequenceTree:
         #score = 2-2*score
         rows, cols = score.nonzero()
         score = np.asarray(score[rows, cols]).flatten()
-        print(self.d_index)
-        print(cols)
         ids = self.d_index[rows]
-        print(ids)
         order = np.argsort(score)[::-1]
         print(self.query_ts.id)
         print(ids[order])
-        sys.exit(0)
         if timer is not None:
             timer.stop()
         return ids[order]
@@ -326,7 +314,7 @@ class Node:
                 print("weight = {0}".format(w))
             print('DONE')
             self._weight = w
-        return self._weight
+        return self._weightd_
 
     @property
     def m_vector(self):
@@ -342,30 +330,11 @@ class Node:
 
     @property
     def q(self):
-        if self.n_query_subsequences is None:
-            return None
-        elif self._q is None:
-            self._q = self.n_query_subsequences*self.weight
-        return self._q
-
-    @q.setter
-    def q(self, value):
-        self._q = value
-
-    @property
-    def qd(self):
-        return self.q*self.d_vector
+        return self.n_query_subsequences*self.weight
 
     @property
     def d_vector(self):
-        if not hasattr(self, '_d_vector') or self._d_vector is None:
-            self._d_vector = self.weight*self.m_vector
-        return self._d_vector
-
-
-    @d_vector.setter
-    def d_vector(self, value):
-        self._d_vector = csr_matrix(value)
+        return self.weight*self.m_vector
 
     def add_shortcut_to_dict(self, shortcut_dict):
         shortcut_dict[self._id] = self

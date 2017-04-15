@@ -314,7 +314,7 @@ class Node:
                 print("weight = {0}".format(w))
             print('DONE')
             self._weight = w
-        return self._weightd_
+        return self._weight
 
     @property
     def m_vector(self):

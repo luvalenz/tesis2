@@ -332,7 +332,7 @@ class Node:
     def m_vector(self):
         m_vector = pd.Series(self.inverted_file)
         #print('\t\t\t m_vector = {}'.format(m_vector))
-        m_vector = m_vector[m_vector > 1]
+        #m_vector = m_vector[m_vector > 1]
         #print('\t\t\t new m_vector = {}'.format(m_vector))
         return m_vector
 

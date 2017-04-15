@@ -48,7 +48,7 @@ class KMedioidsSubsequenceTree:
                 print(tree_leaf.id)
                 local_leaf.add_to_inverted_file(tree_leaf.inverted_file)
         self._build_weights_vector()
-        self._build_d_data_frame()
+        self._build_d_matrix()
 
     def populate(self, db_time_series):
         self.weights = None
@@ -57,7 +57,7 @@ class KMedioidsSubsequenceTree:
         self.active_nodes = None
         self._populate_tree(db_time_series)
         self._build_weights_vector()
-        self._build_d_data_frame()
+        self._build_d_data_matrix()
 
 
 
@@ -99,7 +99,7 @@ class KMedioidsSubsequenceTree:
     def prune(self):
         self._build_node_shorcuts(True)
         self._build_weights_vector()
-        self._build_d_data_frame()
+        self._build_d_data_matrix()
 
     def _queried_time_series_ids_iterator(self):
         for node in self.node_shortcuts:
@@ -205,7 +205,7 @@ class KMedioidsSubsequenceTree:
         weights_list = [node.weight for node in self.node_shortcuts]
         self.weights = np.array(weights_list)
 
-    def _build_d_data_frame(self, just_leaves=False):
+    def _build_d_data_matrix(self, just_leaves=False):
         print('{} nodes'.format(len(self.node_shortcuts)))
         for n in self.node_shortcuts:
             n.tree = self
@@ -225,9 +225,6 @@ class KMedioidsSubsequenceTree:
         self.d_matrix = csc_matrix(d_data_frame.values)
         print('DONE')
         print('normalizing vectors')
-        for i in d_data_frame.columns:
-            col = d_data_frame[i]
-            self.node_shortcuts[i].d_vector = None#col#[col != 0]
         print('DONE')
 
     def _add_subsequence(self, subsequence):

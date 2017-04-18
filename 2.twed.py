@@ -32,14 +32,21 @@ output_filename = 'twed_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
                                                       time_window, time_step)
 output_path = os.path.join(output_dir, output_filename)
 
+print('Loading data...')
 with open(input_path, 'rb') as f:
     subsequences = pickle.load(f)
+print('DONE')
+
+print('Calculating distances...')
 
 distances = [time_series_twed(i, j) for i, j in itertools.combinations(subsequences, 2)]
+print('DONE')
 distance_matrix = squareform(distances)
 ids = [sub.id for sub in subsequences]
 
 output = {'ids': ids, 'distances': distance_matrix}
 
+print('Writing output...')
 with open(output_path, 'wb') as f:
     pickle.dump(output, f, protocol=4)
+print('DONE')

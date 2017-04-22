@@ -85,7 +85,7 @@ class KMedioidsSubsequenceTree:
     @property
     def score(self):
        # active_ids = [node.id for node in self.active_nodes]
-        q_vector = csc_matrix((len(self.node_shortcuts), 1))
+        q_vector = csr_matrix((len(self.node_shortcuts), 1))
         for node in self.active_nodes:
             q_vector[node.id, :] = node.q
         print(self.active_ts_indices)
@@ -128,7 +128,7 @@ class KMedioidsSubsequenceTree:
             self.root.add_query_subsequence(subsequence)
         self.active_nodes = list(set(self.active_nodes))
 
-        self.active_ts_indices = {self.d_inv_index[id_] for id_ in self.active_time_series}
+        self.active_ts_indices = [self.d_inv_index[id_] for id_ in self.active_time_series]
         if timer is not None:
             timer.stop()
             timer.start()

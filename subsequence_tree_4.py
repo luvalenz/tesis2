@@ -126,8 +126,17 @@ class KMedioidsSubsequenceTree:
         self.active_time_series = set()
         for subsequence in subsequences:
             self.root.add_query_subsequence(subsequence)
+        if timer is not None:
+            timer.stop()
+            timer.start()
         self.active_nodes = list(set(self.active_nodes))
+        if timer is not None:
+            timer.stop()
+            timer.start()
         self.active_time_series = np.array(list(self.active_time_series))
+        if timer is not None:
+            timer.stop()
+            timer.start()
         self.active_ts_indices = [self.d_inv_index[id_] for id_ in self.active_time_series]
         if timer is not None:
             timer.stop()

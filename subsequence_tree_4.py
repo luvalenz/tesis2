@@ -88,9 +88,8 @@ class KMedioidsSubsequenceTree:
         q_vector = csc_matrix((len(self.node_shortcuts), 1))
         for node in self.active_nodes:
             q_vector[node.id, :] = node.q
+        print(self.active_ts_indices)
         return self.d_matrix[self.active_ts_indices, :]*q_vector
-        return score
-
     @property
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))

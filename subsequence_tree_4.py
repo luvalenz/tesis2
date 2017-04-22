@@ -84,9 +84,11 @@ class KMedioidsSubsequenceTree:
 
     @property
     def score(self):
-        active_ids = [node.id for node in self.active_nodes]
-        q_vector = csr_matrix([node.q for node in self.active_nodes]).T
-        return self.d_matrix[:, active_ids]*q_vector
+       # active_ids = [node.id for node in self.active_nodes]
+        q_vector = csc_matrix((len(self.node_shortcuts), 1))
+        for node in self.active_nodes:
+            q_vector[node.id, :] = node.q
+        return self.d_matrix[self.active_time_series, :]*q_vector
         return score
 
     @property
@@ -122,9 +124,12 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         self.active_nodes = []
+        self.active_time_series = set()
         for subsequence in subsequences:
             self.root.add_query_subsequence(subsequence)
         self.active_nodes = list(set(self.active_nodes))
+
+        self.active_ts_indices = {self.d_inv_index[id_] for id_ in self.active_time_series}
         if timer is not None:
             timer.stop()
             timer.start()
@@ -135,9 +140,12 @@ class KMedioidsSubsequenceTree:
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
-        rows, cols = score.nonzero()
-        score = score[rows].toarray().flatten()
-        ids = self.d_index[rows]
+
+
+        #rows, cols = score.nonzero()
+        #score = score[rows].toarray().flatten()
+
+        ids = self.active_time_series#self.d_index[rows]
         order = np.argsort(score)[::-1]
         if timer is not None:
             timer.stop()
@@ -215,7 +223,8 @@ class KMedioidsSubsequenceTree:
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         self.d_index = d_data_frame.index.values
-        self.d_matrix = csc_matrix(d_data_frame.values)
+        self.d_matrix = csr_matrix(d_data_frame.values)
+        self.d_inv_index = {id_: index for index, id_ in enumerate(self.d_index)}
         print('DONE')
         print('normalizing vectors')
         print('DONE')
@@ -368,6 +377,8 @@ class Node:
                         for node in self.children]
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_query_subsequence(subsequence)
+        else:
+            self.tree.active_time_series = self.tree.active_time_series.union(self.inverted_file.keys())
 
     def add_db_subsequence(self, subsequence):
         if self.is_leaf:

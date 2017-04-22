@@ -85,9 +85,8 @@ class KMedioidsSubsequenceTree:
     @property
     def score(self):
         active_ids = [node.id for node in self.active_nodes]
-        q_vector = csr_matrix([node.q for node in self.active_nodes])
-        score = self.d_matrix[:, active_ids].multiply(q_vector)
-        score = np.sum(score, axis=1)
+        q_vector = csr_matrix([node.q for node in self.active_nodes]).T
+        return self.d_matrix[:, active_ids]*q_vector
         return score
 
     @property
@@ -137,7 +136,7 @@ class KMedioidsSubsequenceTree:
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
         #score = 2-2*score
         rows, cols = score.nonzero()
-        score = np.asarray(score[rows, cols]).flatten()
+        score = score[rows, cols].toarray().flatten()
         ids = self.d_index[rows]
         order = np.argsort(score)[::-1]
         if timer is not None:

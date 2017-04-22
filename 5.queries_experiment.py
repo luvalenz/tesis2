@@ -23,6 +23,8 @@ dataset_root = args.dataset_root
 with open(tree_path, 'rb') as f:
     tree = dill.load(f)
 
+tree._build_d_matrix()
+
 with open(query_sample_path, 'rb') as f:
     query_sample = dill.load(f)
 

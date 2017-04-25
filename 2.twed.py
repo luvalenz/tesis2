@@ -38,7 +38,6 @@ with open(input_path, 'rb') as f:
 print('DONE')
 
 print('Calculating distances...')
-
 distances = [time_series_twed(i, j) for i, j in itertools.combinations(subsequences, 2)]
 print('DONE')
 distance_matrix = squareform(distances)

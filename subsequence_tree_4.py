@@ -85,10 +85,21 @@ class KMedioidsSubsequenceTree:
     @property
     def score(self):
         # active_ids = [node.id for node in self.active_nodes]
+        t = time.time()
         q_vector = csr_matrix((len(self.node_shortcuts), 1))
+        print('elasped = {}'.format(time.time() - t))
+        t = time.time()
         for node in self.active_nodes:
             q_vector[node.id, :] = node.q
-        return self.d_matrix[self.active_ts_indices, :]*q_vector
+        print('elasped = {}'.format(time.time() - t))
+        t = time.time()
+        d = self.d_matrix[self.active_ts_indices, :]
+        print('elasped = {}'.format(time.time() - t))
+        t = time.time()
+        r = d*q_vector
+        print('elasped = {}'.format(time.time() - t))
+        t = time.time()
+        return r
     @property
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))

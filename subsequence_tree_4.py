@@ -88,9 +88,6 @@ class KMedioidsSubsequenceTree:
         q_vector = csr_matrix((len(self.node_shortcuts), 1))
         for node in self.active_nodes:
             q_vector[node.id, :] = node.q
-        print(q_vector.shape)
-        print(self.d_matrix[self.active_ts_indices, :].shape)
-        print((self.d_matrix[self.active_ts_indices, :]*q_vector).shape)
         return self.d_matrix[self.active_ts_indices, :]*q_vector
     @property
     def _queried_time_series_ids(self):
@@ -147,6 +144,7 @@ class KMedioidsSubsequenceTree:
             timer.start()
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         score = self.score
+        print(score.shape)
         if timer is not None:
             timer.stop()
             timer.start()
@@ -154,7 +152,9 @@ class KMedioidsSubsequenceTree:
         #score = 2-2*score
 
 
-        #rows, cols = score.nonzero()
+        rows, cols = score.nonzero()
+        print(rows.shape)
+        print(cols.shape)
         #score = score[rows].toarray().flatten()
 
         ids = self.active_time_series#self.d_index[rows]

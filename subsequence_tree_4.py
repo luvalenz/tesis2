@@ -89,8 +89,8 @@ class KMedioidsSubsequenceTree:
         for node in self.active_nodes:
             q_vector[node.id, :] = node.q
         print(q_vector.shape)
-        print(self.d_matrix[self.active_ts_indices, :])
-        print(self.d_matrix[self.active_ts_indices, :]*q_vector)
+        print(self.d_matrix[self.active_ts_indices, :].shape)
+        print((self.d_matrix[self.active_ts_indices, :]*q_vector).shape)
         return self.d_matrix[self.active_ts_indices, :]*q_vector
     @property
     def _queried_time_series_ids(self):

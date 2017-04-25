@@ -385,8 +385,8 @@ class Node:
                         for node in self.children]
             nearest_child = self.children[np.argmin(distances)]
             nearest_child.add_query_subsequence(subsequence)
-       # else:
-       #     self.tree.active_time_series = self.tree.active_time_series.union(self.inverted_file.keys())
+        else:
+            self.tree.active_time_series += list(self.inverted_file.keys())
 
     def add_db_subsequence(self, subsequence):
         if self.is_leaf:

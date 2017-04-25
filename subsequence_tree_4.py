@@ -143,8 +143,6 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
-        score = self.score
-        print(score.shape)
         if timer is not None:
             timer.stop()
             timer.start()
@@ -156,7 +154,7 @@ class KMedioidsSubsequenceTree:
         #score = score[rows].toarray().flatten()
 
         ids = self.active_time_series#self.d_index[rows]
-        order = np.argsort(score.toarray().flatten())[::-1]
+        order = np.argsort(self.score.toarray().flatten())[::-1]
         if timer is not None:
             timer.stop()
         return ids[order]

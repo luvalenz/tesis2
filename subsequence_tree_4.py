@@ -122,7 +122,7 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         self.active_nodes = []
-        self.active_time_series = set()
+        self.active_time_series = []
         for subsequence in subsequences:
             self.root.add_query_subsequence(subsequence)
         if timer is not None:

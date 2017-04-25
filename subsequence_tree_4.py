@@ -129,11 +129,7 @@ class KMedioidsSubsequenceTree:
             timer.stop()
             timer.start()
         self.active_nodes = list(set(self.active_nodes))
-        if timer is not None:
-            timer.stop()
-            timer.start()
-        self.active_time_series = np.array(list(self.active_time_series))
-        print(self.active_time_series)
+        self.active_time_series = np.array(list(set(self.active_time_series)))
         if timer is not None:
             timer.stop()
             timer.start()

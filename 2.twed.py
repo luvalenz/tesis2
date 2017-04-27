@@ -39,7 +39,13 @@ print('DONE')
 
 print('Calculating distances...')
 
-distances = [time_series_twed(i, j) for i, j in itertools.combinations(subsequences, 2)]
+distances = []
+
+for i, j in itertools.combinations(subsequences, 2):
+    print('Calculating distanced between {} and {}'.format(i, j))
+    distances.append(time_series_twed(i, j))
+
+
 print('DONE')
 distance_matrix = squareform(distances)
 ids = [sub.id for sub in subsequences]

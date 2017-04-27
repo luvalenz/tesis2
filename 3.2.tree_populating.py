@@ -37,7 +37,15 @@ if input_paths_file != '':
         lightcurves_paths = f.readlines()
     print('DONE')
     print('Reading dataset...')
-    lightcurves_paths = [os.path.join(dataset_root, p[:-1]) for p in lightcurves_paths if os.path.exists(p[:-1])]
+    #lightcurves_paths = [os.path.join(dataset_root, p[:-1]) for p in lightcurves_paths if os.path.exists(p[:-1])]
+    lightcurves_paths = []
+    for p in lightcurves_paths:
+        print(p)
+        if os.path.exists(p[:-1]):
+            print('exists')
+            lightcurves_paths.append(p[:-1])
+        else:
+            print('doesn\'t exist')
     print('DONE')
 elif class_table_path  != '':
     print('Reading dataset...')

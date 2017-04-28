@@ -38,15 +38,16 @@ if input_paths_file != '':
     print('DONE')
     print('Reading dataset...')
     #lightcurves_paths = [os.path.join(dataset_root, p[:-1]) for p in lightcurves_paths if os.path.exists(p[:-1])]
-    lightcurves_paths = []
+    lightcurves_paths2 = []
     for p in lightcurves_paths:
         print(p)
         if os.path.exists(p[:-1]):
             print('exists')
-            lightcurves_paths.append(p[:-1])
+            lightcurves_paths2.append(p[:-1])
         else:
             print('doesn\'t exist')
     print('DONE')
+    lightcurves_paths = lightcurves_paths2
 elif class_table_path  != '':
     print('Reading dataset...')
     class_table = time_series_utils.read_class_table(class_table_path)

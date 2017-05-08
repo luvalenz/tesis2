@@ -9,7 +9,7 @@ from scipy.misc import comb
 
 def chunks(length, n_chunks, chunk):
     """Yield successive n-sized chunks from l."""
-    chunk_size = length // n_chunks
+    chunk_size = int(length // n_chunks)
     i = chunk*chunk_size
     j = i + chunk_size
     if chunk == n_chunks - 1:

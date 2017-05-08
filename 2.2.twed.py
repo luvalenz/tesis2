@@ -1,0 +1,70 @@
+import argparse
+import sys
+import os
+from distance_utils import time_series_twed
+from scipy.spatial.distance import squareform
+import itertools
+import pickle
+
+def chunks(l, n_chunks):
+    """Yield successive n-sized chunks from l."""
+    length = len(l)
+    n = length // n_chunks
+    for counter, i in enumerate(range(0, length, n)):
+        j = i + n
+        if counter == n_chunks - 1:
+            j = length
+        yield l[i:j]
+        if j == length:
+            break
+
+
+parser = argparse.ArgumentParser(
+    description='Calculate distances of subsequences')
+parser.add_argument('--input_dir', required=True, type=str)
+parser.add_argument('--output_dir', required=True, type=str)
+parser.add_argument('--dataset', required=True, type=str)
+parser.add_argument('--n_samples', required=True, type=int)
+parser.add_argument('--time_window', type=int, default=250)
+parser.add_argument('--time_step', type=int, default=10)
+
+args = parser.parse_args(sys.argv[1:])
+
+input_dir = args.input_dir
+output_dir = args.output_dir
+dataset = args.dataset
+n_samples = args.n_samples
+time_window = args.time_window
+time_step = args.time_step
+
+input_filename = 'sample_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
+                                                      time_window, time_step)
+input_path = os.path.join(input_dir, input_filename)
+output_filename = 'twed_{0}_{1}_{2}_{3}.pkl'.format(dataset, n_samples,
+                                                      time_window, time_step)
+output_path = os.path.join(output_dir, output_filename)
+
+print('Loading data...')
+with open(input_path, 'rb') as f:
+    subsequences = pickle.load(f)
+print('DONE')
+
+print('Calculating distances...')
+
+distances = []
+
+for i, j in itertools.combinations(subsequences, 2):
+    print('Calculating distanced between {} and {}'.format(i, j))
+    distances.append(time_series_twed(i, j))
+
+
+print('DONE')
+distance_matrix = squareform(distances)
+ids = [sub.id for sub in subsequences]
+
+output = {'ids': ids, 'distances': distance_matrix}
+
+print('Writing output...')
+with open(output_path, 'wb') as f:
+    pickle.dump(output, f, protocol=4)
+print('DONE')

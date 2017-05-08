@@ -56,6 +56,8 @@ print('DONE')
 n_samples = len(subsequences)
 n_dist = comb(n_samples, 2)
 begin, end = chunks(n_dist, n_parts, part)
+print(begin)
+print(end)
 
 print('Calculating distances...')
 

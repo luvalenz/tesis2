@@ -66,14 +66,7 @@ for i, j in itertools.islice(itertools.combinations(subsequences, 2), begin, end
     print('Calculating distanced between {} and {}'.format(i, j))
     distances.append(time_series_twed(i, j))
 
-
-print('DONE')
-distance_matrix = squareform(distances)
-ids = [sub.id for sub in subsequences]
-
-output = {'ids': ids, 'distances': distance_matrix}
-
 print('Writing output...')
 with open(output_path, 'wb') as f:
-    pickle.dump(output, f, protocol=4)
+    pickle.dump(distances, f, protocol=4)
 print('DONE')

@@ -13,7 +13,7 @@ def chunks(length, n_chunks, chunk):
     i = chunk*chunk_size
     j = i + chunk_size
     if chunk == n_chunks - 1:
-        j = length
+        j = int(length)
     return i, j
 
 

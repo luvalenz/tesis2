@@ -93,7 +93,8 @@ def read_files(file_paths, part=None, n_parts=None):
         else:
             file_paths = file_paths[part*chunk_length:(part+1)*chunk_length]
     for path in file_paths:
-        print(path)
+        if path.endswith('\n'):
+            path = path[:-1]
         if os.path.exists(path):
             print('exists')
             yield read_file(path)

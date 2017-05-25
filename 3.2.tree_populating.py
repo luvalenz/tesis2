@@ -35,7 +35,6 @@ if input_paths_file != '':
     print('Reading file paths')
     with open(input_paths_file, 'r') as f:
         lightcurves_paths = f.readlines()
-        lightcurves_paths = (p[:-1] for p in lightcurves_paths)
     print('DONE')
 
 elif class_table_path  != '':

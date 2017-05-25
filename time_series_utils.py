@@ -96,7 +96,6 @@ def read_files(file_paths, part=None, n_parts=None):
         if path.endswith('\n'):
             path = path[:-1]
         if os.path.exists(path):
-            print('exists')
             yield read_file(path)
         else:
             print('doesn\'t exist')

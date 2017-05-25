@@ -43,13 +43,9 @@ elif class_table_path  != '':
     lightcurves_paths = [os.path.join(dataset_root, p) for p in lightcurves_paths]
 
 print('Reading dataset...')
-print(lightcurves_paths)
 dataset = time_series_utils.read_files(lightcurves_paths, part, n_parts)
-print(dataset)
 print('DONE')
 
-for lc in dataset:
-    print(lc)
 
 
 with open(tree_path, 'rb') as f:

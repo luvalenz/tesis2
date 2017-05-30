@@ -62,7 +62,7 @@ def complexity_coeff(lc_a, times_a, lc_b, times_b):
 
 
 def time_series_twed(ts1, ts2, lam=0.5, nu=1e-5):
-    #print('Calculating twed between {0} and {1}'.format(ts1, ts2))
+    #tprint('Calculating twed between {0} and {1}'.format(ts1, ts2))
     time1 = ts1.time
     magnitude1 = ts1.magnitude
     time2 = ts2.time

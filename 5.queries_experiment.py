@@ -3,7 +3,7 @@ import sys
 import os
 import dill
 import time_series_utils
-from searchers import SubseuquenceSearcher
+from searchers import SubsequenceSearcher
 
 
 parser = argparse.ArgumentParser(
@@ -20,8 +20,11 @@ query_sample_path = args.query_sample_path
 output_dir = args.output_dir
 dataset_root = args.dataset_root
 
+
+print('Loading tree...')
 with open(tree_path, 'rb') as f:
     tree = dill.load(f)
+print('DONE')
 
 tree._build_d_matrix()
 
@@ -34,7 +37,7 @@ lcs = time_series_utils.read_files(paths)
 
 results = []
 for lc in lcs:
-    searcher = SubseuquenceSearcher(tree)
+    searcher = SubsequenceSearcher(tree)
     query_result = searcher.query(lc)
     results.append(query_result)
 

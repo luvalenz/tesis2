@@ -30,7 +30,7 @@ class QueryResult:
         return len(self.preprocessed_ranking)
 
 
-class SubseuquenceSearcher:
+class SubsequenceSearcher:
 
     data_type = 'float64'
 

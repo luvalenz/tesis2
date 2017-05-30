@@ -18,7 +18,6 @@ def get_partial_trees(input_tree_path, n_parts):
             partial_tree = dill.load(f)
         yield partial_tree
 
-
 parser = argparse.ArgumentParser(
     description='Build subsequence tree')
 

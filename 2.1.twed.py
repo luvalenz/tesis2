@@ -65,7 +65,8 @@ distances = []
 for i, j in itertools.islice(itertools.combinations(range(n_samples), 2), begin, end):
     p, q = subsequences[i], subsequences[j]
     print('Calculating distanced between {} and {}'.format(p, q))
-    distances.append(time_series_twed(p, q))
+    #distances.append(time_series_twed(p, q))
+    print(time_series_twed(p, q))
 
 print('Writing output...')
 with open(output_path, 'wb') as f:

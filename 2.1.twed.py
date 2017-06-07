@@ -3,6 +3,7 @@ import sys
 import os
 import pickle
 from scipy.misc import comb
+import itertools
 import time
 
 def chunks(length, n_chunks, chunk):

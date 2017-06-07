@@ -1,6 +1,9 @@
 import argparse
 import sys
 import os
+
+from nose.ext.dtcompat import _OutputRedirectingPdb
+
 from distance_utils import time_series_twed
 from scipy.spatial.distance import squareform
 import itertools
@@ -71,6 +74,7 @@ t = time.time()
 #     t = time.time()
 
 print('Writing output...')
+print(output_path)
 with open(output_path, 'wb') as f:
     pickle.dump(distances, f, protocol=4)
 print('DONE')

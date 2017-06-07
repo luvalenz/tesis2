@@ -61,11 +61,11 @@ print('Calculating distances...')
 
 distances = []
 t = time.time()
-# for i, j in itertools.islice(itertools.combinations(subsequences, 2), begin, end):
-#     print('Calculating distance between {} and {}'.format(i, j))
-#     distances.append(time_series_twed(i, j))
-#     print('elapsed = {}'.format(time.time() - t))
-#     t = time.time()
+for i, j in itertools.islice(itertools.combinations(subsequences, 2), begin, end):
+    print('Calculating distance between {} and {}'.format(i, j))
+    distances.append(time_series_twed(i, j))
+    print('elapsed = {}'.format(time.time() - t))
+    t = time.time()
 
 print('Writing output...')
 print(output_path)

@@ -4,6 +4,7 @@ import os
 import pickle
 from scipy.misc import comb
 import itertools
+from distance_utils import time_series_twed
 import time
 
 def chunks(length, n_chunks, chunk):

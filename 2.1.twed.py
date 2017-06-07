@@ -1,12 +1,6 @@
 import argparse
 import sys
 import os
-
-from nose.ext.dtcompat import _OutputRedirectingPdb
-
-from distance_utils import time_series_twed
-from scipy.spatial.distance import squareform
-import itertools
 import pickle
 from scipy.misc import comb
 import time

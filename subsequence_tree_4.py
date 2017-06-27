@@ -5,9 +5,13 @@ from distance_utils import time_series_twed
 from scipy.sparse import csr_matrix, csc_matrix
 import kmedoids
 import pandas as pd
+<<<<<<< HEAD
 import sys
 import time
 
+=======
+import time
+>>>>>>> b44aa46e690ae9afb28666a4504399b5c07d7945
 
 class KMedioidsSubsequenceTree:
 
@@ -93,6 +97,14 @@ class KMedioidsSubsequenceTree:
     def _queried_time_series_ids(self):
         return list(set().union(*self._queried_time_series_ids_iterator()))
 
+<<<<<<< HEAD
+=======
+    @property
+    def _queried_time_series_indices(self):
+        return [self.d_inv_index[id_] for id_ in self._queried_time_series_ids]
+
+
+>>>>>>> b44aa46e690ae9afb28666a4504399b5c07d7945
     def prune(self):
         self._build_node_shorcuts(True)
         self._build_weights_vector()
@@ -128,12 +140,49 @@ class KMedioidsSubsequenceTree:
         if timer is not None:
             timer.stop()
             timer.start()
+<<<<<<< HEAD
        # not_zero_d_dataframe = self.d_data_frame.loc[not_zero_ts_ids, not_zero_node_ids]
         score = self.score
         if timer is not None:
             timer.stop()
             timer.start()
         #score = qd.sum(axis=1)# -df.sum-np.sum(not_zero_query_vector*not_zero_d_dataframe.values, axis=1)
+=======
+        t = time.time()
+        not_zero_node_ids = np.where(self.query_vector != 0)[0]
+        print("{}".format(time.time() - t))
+        t = time.time()
+        not_zero_query_vector = self.query_vector[not_zero_node_ids]
+        print("{}".format(time.time() - t))
+        t = time.time()
+        not_zero_ts_indices = self._queried_time_series_indices
+        print("{}".format(time.time() - t))
+        t = time.time()
+        not_zero_d_matrix = self.d_matrix
+        print("\t{}".format(time.time() - t))
+        t = time.time()
+        not_zero_d_matrix = not_zero_d_matrix[not_zero_ts_indices]
+        print("\t{}".format(time.time() - t))
+        t = time.time()
+        not_zero_d_matrix = not_zero_d_matrix[:, not_zero_node_ids]
+        print("\t{}".format(time.time() - t))
+        t = time.time()
+        not_zero_ts_ids = self.d_index[not_zero_ts_indices]
+        print("\t{}".format(time.time() - t))
+        t = time.time()
+        print('')
+        if timer is not None:
+            timer.stop()
+            timer.start()
+        print("{}".format(time.time() - t))
+        t = time.time()
+        a= not_zero_query_vector*not_zero_d_matrix
+        print("{}".format(time.time() - t))
+        t = time.time()
+        score = -np.sum(a, axis=1)
+        print("{}".format(time.time() - t))
+        print('')
+>>>>>>> b44aa46e690ae9afb28666a4504399b5c07d7945
         #score = 2-2*score
         rows, cols = score.nonzero()
         score = score[rows].toarray().flatten()
@@ -141,7 +190,16 @@ class KMedioidsSubsequenceTree:
         order = np.argsort(score)[::-1]
         if timer is not None:
             timer.stop()
+<<<<<<< HEAD
         return ids[order]
+=======
+            timer.start()
+        order = np.argsort(score)
+        result = not_zero_ts_ids[order]
+        if timer is not None:
+            timer.stop()
+        return result
+>>>>>>> b44aa46e690ae9afb28666a4504399b5c07d7945
 
     def get_db_subsequences_dict(self):
         def _get_db_subsequences_dict():
@@ -217,7 +275,16 @@ class KMedioidsSubsequenceTree:
         self.d_index = d_data_frame.index.values
         self.d_matrix = csc_matrix(d_data_frame.values)
         print('DONE')
+<<<<<<< HEAD
         print('normalizing vectors')
+=======
+        print('building d dataframe')
+        #self.d_data_frame = pd.DataFrame(np.nan_to_num(d_matrix),
+        #                               index=self.original_time_series_ids)
+        self.d_matrix = np.nan_to_num(d_matrix)
+        self.d_index = self.original_time_series_ids
+        self.d_inv_index = {id_: index for index, id_ in enumerate(self.d_index)}
+>>>>>>> b44aa46e690ae9afb28666a4504399b5c07d7945
         print('DONE')
 
     def _add_subsequence(self, subsequence):
@@ -276,20 +343,21 @@ class Node:
 
     @property
     def n_original_time_series_in_node(self):
-        print('getting n_original_time_series_in_node')
+        #print('getting n_original_time_series_in_node')
         n = len(self.inverted_file)
-        print('DONE')
+        #print('DONE')
         return n
 
     @property
     def n_original_time_series_in_tree(self):
-        print('getting n_original_time_series_in_tree...')
+       # print('getting n_original_time_series_in_tree...')
         n = len(self.get_original_time_series_ids_in_tree())
-        print('DONE')
+        #print('DONE')
         return n
 
     @property
     def weight(self):
+<<<<<<< HEAD
         if not hasattr(self, '_weight') or self._weight is None:
             print('Calculating weight in node {}... '.format(self.id))
             w = 0
@@ -305,6 +373,21 @@ class Node:
             print('DONE')
             self._weight = w
         return self._weight
+=======
+       # print('Calculating weight in node {}... '.format(self.id))
+        w = 0
+        if self.n_original_time_series_in_node != 0:
+            w = np.log(self.n_original_time_series_in_tree/
+                       self.n_original_time_series_in_node)
+        try:
+            if not self._weighted:
+                w = 1
+        except AttributeError:
+            print("Attribute Error caught")
+            print("weight = {0}".format(w))
+       # print('DONE')
+        return w
+>>>>>>> b44aa46e690ae9afb28666a4504399b5c07d7945
 
     @property
     def m_vector(self):

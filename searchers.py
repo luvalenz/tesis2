@@ -1,4 +1,4 @@
-from scoring_utils import Timer, ndcg
+from scoring_utils import Timer, ndcg, map
 from scipy import stats
 import numpy as np
 
@@ -22,6 +22,11 @@ class QueryResult:
         target_class = class_table.loc[self.target, 'class']
         ranking_classes = class_table.loc[self.preprocessed_ranking[:length]]['class'].values
         return target_class, ndcg(ranking_classes, target_class, length)
+
+    def map(self, class_table):
+        target_class = class_table.loc[self.target, 'class']
+        ranking_classes = class_table.loc[self.preprocessed_ranking]['class'].values
+        return target_class, ndcg(ranking_classes, target_class)
 
     def kendall_tau(self, other_query_result):
         return stats.kendalltau(self.preprocessed_ranking, other_query_result.ranking)

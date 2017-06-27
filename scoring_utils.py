@@ -12,6 +12,14 @@ def dcg(relevance):
     return np.cumsum(term)
 
 
+def map(retrieved, relevant_label):
+    relevants = relevance(retrieved, relevant_label)
+    total_relevants = np.sum(relevants)
+    cumulative_relevants = np.cumsum(relevants)
+    precision = cumulative_relevants/np.arange(1, len(cumulative_relevants) + 1)
+    return np.sum(precision*relevants/total_relevants)
+
+
 def ndcg(retrieved, relevant_label, n):
     rel_true = relevance(retrieved, relevant_label)
     rel_ideal = np.sort(rel_true)[::-1]

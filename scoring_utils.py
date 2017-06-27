@@ -14,7 +14,7 @@ def dcg(relevance):
 
 def ndcg(retrieved, relevant_label, n):
     rel_true = relevance(retrieved, relevant_label)
-    rel_ideal = np.ones_like(retrieved).astype(bool)
+    rel_ideal = np.sort(rel_true)[::-1]
     dcg_score = dcg(rel_true)
     idcg_score = dcg(rel_ideal)
     ndcg_score = dcg_score/idcg_score

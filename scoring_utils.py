@@ -24,7 +24,7 @@ def precision(retrieved, relevant_label, n):
     relevants = relevance(retrieved, relevant_label)
     cumulative_relevants = np.cumsum(relevants)
     precision_score = cumulative_relevants/np.arange(1, len(cumulative_relevants) + 1)
-    length = len(precision)
+    length = len(precision_score)
     if n <= length:
         map_score = precision_score[:n]
     else :

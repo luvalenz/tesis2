@@ -12,12 +12,20 @@ def dcg(relevance):
     return np.cumsum(term)
 
 
-def map(retrieved, relevant_label):
+def map(retrieved, relevant_label, n):
     relevants = relevance(retrieved, relevant_label)
     total_relevants = np.sum(relevants)
     cumulative_relevants = np.cumsum(relevants)
     precision = cumulative_relevants/np.arange(1, len(cumulative_relevants) + 1)
-    return np.sum(precision*relevants/total_relevants)
+    map_score = np.cumsum(precision*relevants)/total_relevants
+    length = len(map_score)
+    if n <= length:
+        map_score = map_score[:n]
+    else :
+        padding = n - length
+        print(padding)
+        map_score = np.concatenate((map_score, -1*np.ones(padding)))
+    return map_score
 
 
 def ndcg(retrieved, relevant_label, n):

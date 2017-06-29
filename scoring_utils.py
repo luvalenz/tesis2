@@ -14,10 +14,9 @@ def dcg(relevance):
 
 def map(retrieved, relevant_label, n):
     relevants = relevance(retrieved, relevant_label)
-    total_relevants = np.sum(relevants)
     cumulative_relevants = np.cumsum(relevants)
     precision = cumulative_relevants/np.arange(1, len(cumulative_relevants) + 1)
-    map_score = np.cumsum(precision*relevants)/total_relevants
+    map_score = np.cumsum(precision*relevants)/cumulative_relevants
     length = len(map_score)
     if n <= length:
         map_score = map_score[:n]

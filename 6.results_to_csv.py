@@ -32,7 +32,7 @@ print('DONE')
 target_ids = []
 target_classes = []
 ndcgs = []
-maps = []
+#maps = []
 precisions = []
 times = []
 classes = []
@@ -44,11 +44,11 @@ for i, result in enumerate(results):
     print(i)
     target_id = result.target
     target_class, ndcg = result.ndcg(class_table)
-    target_class, map = result.map(class_table)
+    # target_class, map = result.map(class_table)
     target_class, precision = result.precision(class_table)
     target_ids.append(target_id)
     target_classes.append(target_class)
-    maps.append(map)
+    # maps.append(map)
     precisions.append(precision)
     ndcgs.append(ndcg)
     times.append(result.times)
@@ -58,7 +58,7 @@ print('DONE')
 ndcg_df = pd.DataFrame(ndcgs)
 times_df = pd.DataFrame(times)
 ranking_df = pd.DataFrame(ranking)
-map_df = pd.DataFrame(maps)
+# map_df = pd.DataFrame(maps)
 precision_df = pd.DataFrame(precisions)
 
 ndcg_df['id'] = target_ids
@@ -70,8 +70,8 @@ times_df['class'] = target_classes
 ranking_df['id'] = target_ids
 ranking_df['class'] = target_classes
 
-map_df['id'] = target_ids
-map_df['class'] = target_classes
+# map_df['id'] = target_ids
+# map_df['class'] = target_classes
 
 precision_df['id'] = target_ids
 precision_df['class'] = target_classes
@@ -82,20 +82,20 @@ results_basename = os.path.splitext(os.path.basename(results_path))[0]
 ndcg_basename = 'ndcg__{0}.csv'.format(results_basename)
 times_basename = 'times__{0}.csv'.format(results_basename)
 ranking_basename = 'ranking__{0}.csv'.format(results_basename)
-map_basename = 'map__{0}.csv'.format(results_basename)
+# map_basename = 'map__{0}.csv'.format(results_basename)
 precision_basename = 'precision__{0}.csv'.format(results_basename)
 
 ndcg_output_path = os.path.join(output_dir, ndcg_basename)
 times_output_path = os.path.join(output_dir, times_basename)
 ranking_output_path = os.path.join(output_dir, ranking_basename)
-map_output_path = os.path.join(output_dir, map_basename)
+# map_output_path = os.path.join(output_dir, map_basename)
 precision_output_path = os.path.join(output_dir, precision_basename)
 
 print('Writing files...')
 ndcg_df.to_csv(ndcg_output_path)
 times_df.to_csv(times_output_path)
 ranking_df.to_csv(ranking_output_path)
-map_df.to_csv(map_output_path)
+# map_df.to_csv(map_output_path)
 precision_df.to_csv(precision_output_path)
 print('DONE')
 

@@ -43,6 +43,7 @@ parser.add_argument('--paths_list_path', default='',  type=str)
 parser.add_argument('--n_queries', required=True, type=int)
 parser.add_argument('--output_dir', required=True, type=str)
 parser.add_argument('--name', required=True, type=str)
+parser.add_argument('--dataset', required=True, type=str)
 
 args = parser.parse_args(sys.argv[1:])
 
@@ -52,6 +53,7 @@ paths_list_path = args.paths_list_path
 n_queries= args.n_queries
 output_dir = args.output_dir
 name = args.name
+dataset = args.dataset
 
 
 if class_table_path == '':
@@ -66,6 +68,8 @@ else:
 
 basename = 'querysample_{0}_{1}_{2}.dill'.format(name, sample_type, n_queries)
 output_path = os.path.join(output_dir, basename)
+
+print(paths)
 
 with open(output_path, 'wb') as f:
     dill.dump(paths, f, protocol=2)
@@ -111,4 +115,4 @@ def ids_to_paths(path, dataset):
 paths = ['vt_data/macho/querysample_macho_labeled_100.pkl', 'vt_data/macho2/querysample_macho2_labeled_500.pkl', 'vt_data/kepler/querysample_kepler_labeled_500.pkl', 'vt_data/ogle/querysample_ogle_labeled_100.pkl']
 
 for p in paths:
-    ids_to_paths(paths)
+    ids_to_paths(paths, dataset)

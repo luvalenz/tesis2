@@ -196,8 +196,10 @@ class KMedioidsSubsequenceTree:
         self.node_shortcuts = shortcut_list
 
     def _build_weights_vector(self):
-        weights_list = [node.weight for node in self.node_shortcuts[::-1]]
-        self.weights = np.array(weights_list)
+        #weights_list = [node.weight for node in self.node_shortcuts[::-1]]
+        #self.weights = np.array(weights_list)
+        for node in self.node_shortcuts[::-1]:
+            yield node._id, node.weight
 
     def _build_d_matrix(self, just_leaves=False):
         print('{} nodes'.format(len(self.node_shortcuts)))

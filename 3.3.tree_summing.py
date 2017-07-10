@@ -31,18 +31,26 @@ input_tree_path = args.input_tree_path
 n_parts = args.n_parts
 
 
-with open(input_tree_path, 'rb') as f:
+# with open(input_tree_path, 'rb') as f:
+#     tree = dill.load(f)
+#
+# partial_trees = get_partial_trees(input_tree_path, n_parts)
+
+#tree.populate_from_tree_sum(partial_trees)
+
+with open(input_tree_path +  + '.part1of256', 'rb') as f:
     tree = dill.load(f)
 
-partial_trees = get_partial_trees(input_tree_path, n_parts)
+with open(input_tree_path + '.weights', 'w') as f:
+    for id, weight in tree._build_weights_vector():
+        f.write('{},{}\n'.format(id, weight))
 
-tree.populate_from_tree_sum(partial_trees)
 
 
 print('DONE')
-
-print('Saving tree...')
-with open( input_tree_path + '.populated1', 'wb') as f:
-    dill.dump(tree,  f, protocol=4)
-print('DONE')
-
+#
+# print('Saving tree...')
+# with open( input_tree_path + '.populated1', 'wb') as f:
+#     dill.dump(tree,  f, protocol=4)
+# print('DONE')
+#

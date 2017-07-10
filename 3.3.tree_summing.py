@@ -38,7 +38,7 @@ n_parts = args.n_parts
 
 #tree.populate_from_tree_sum(partial_trees)
 
-with open(input_tree_path +  + '.part1of256', 'rb') as f:
+with open(input_tree_path + '.part1of256', 'rb') as f:
     tree = dill.load(f)
 
 with open(input_tree_path + '.weights', 'w') as f:

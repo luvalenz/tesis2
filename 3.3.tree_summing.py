@@ -38,7 +38,7 @@ n_parts = args.n_parts
 
 #tree.populate_from_tree_sum(partial_trees)
 
-with open(input_tree_path + '.populated1', 'rb') as f:
+with open(input_tree_path + '.part1of256', 'rb') as f:
     tree = dill.load(f)
 
 
@@ -52,8 +52,8 @@ print(tree.n_original_time_series)
 
 print('DONE')
 
-print('Saving tree...')
-with open( input_tree_path + '.populated2', 'wb') as f:
-    dill.dump(tree,  f, protocol=4)
-print('DONE')
+# print('Saving tree...')
+# with open( input_tree_path + 'part1of256.populated2', 'wb') as f:
+#     dill.dump(tree,  f, protocol=4)
+# print('DONE')
 

@@ -82,8 +82,8 @@ class KMedioidsSubsequenceTree:
     def n_original_time_series(self):
         if self._n_original_time_series is None:
             self._n_original_time_series = len(self.original_time_series_ids)
-            print("n original time series = {}".format(self._original_time_series_ids))
-        return len(self.original_time_series_ids)
+            print("n original time series = {}".format(self._n_original_time_series))
+        return self._n_original_time_series
 
     def normalize_query_vector(self):
         q_vector = np.array([node.q for node in self.active_nodes])

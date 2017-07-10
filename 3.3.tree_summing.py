@@ -41,16 +41,19 @@ n_parts = args.n_parts
 with open(input_tree_path + '.populated1', 'rb') as f:
     tree = dill.load(f)
 
-with open(input_tree_path + '.weights', 'w') as f:
-    for id, weight in tree._build_weights_vector():
-        f.write('{},{}\n'.format(id, weight))
+
+tree._n_original_time_series = None
+print(tree.n_original_time_series)
+# with open(input_tree_path + '.weights', 'w') as f:
+#     for id, weight in tree._build_weights_vector():
+#         f.write('{},{}\n'.format(id, weight))
 
 
 
 print('DONE')
-#
-# print('Saving tree...')
-# with open( input_tree_path + '.populated1', 'wb') as f:
-#     dill.dump(tree,  f, protocol=4)
-# print('DONE')
-#
+
+print('Saving tree...')
+with open( input_tree_path + '.populated2', 'wb') as f:
+    dill.dump(tree,  f, protocol=4)
+print('DONE')
+

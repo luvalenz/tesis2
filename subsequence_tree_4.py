@@ -69,11 +69,20 @@ class KMedioidsSubsequenceTree:
     @property
     def original_time_series_ids(self):
         if self._original_time_series_ids is None:
-            self._original_time_series_ids = list(self.root.inverted_file)
+            inverted_file = Counter()
+            for node in self.node_shortcuts:
+                print(node._id)
+                if node.is_leaf:
+                    inverted_file += node.inverted_file
+            #self._original_time_series_ids = list(self.root.inverted_file)
+            self._original_time_series_ids = list(inverted_file)
         return self._original_time_series_ids
 
     @property
     def n_original_time_series(self):
+        if self._n_original_time_series is None:
+            self._n_original_time_series = len(self.original_time_series_ids)
+            print("n original time series = {}".format(self._original_time_series_ids))
         return len(self.original_time_series_ids)
 
     def normalize_query_vector(self):
@@ -269,12 +278,21 @@ class Node:
 
     @property
     def inverted_file(self):
-        if self._inverted_file is None:
+        if self.is_leaf:
+            return self._inverted_file
+        else:
             inverted_file = Counter()
             for child in self.children:
                 inverted_file += child.inverted_file
-            self._inverted_file = inverted_file
-        return self._inverted_file
+            return inverted_file
+
+
+        # if self._inverted_file is None:
+        #     inverted_file = Counter()
+        #     for child in self.children:
+        #         inverted_file += child.inverted_file
+        #     self._inverted_file = inverted_file
+        # return self._inverted_file
 
     @property
     def n_original_time_series_in_node(self):
@@ -326,6 +344,8 @@ class Node:
 
     @property
     def d_vector(self):
+        if self.weight == 0:
+            return pd.Series()
         return self.weight*self.m_vector
 
     def add_shortcut_to_dict(self, shortcut_dict):

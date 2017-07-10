@@ -52,8 +52,8 @@ print(tree.n_original_time_series)
 
 print('DONE')
 
-# print('Saving tree...')
-# with open( input_tree_path + 'part1of256.populated2', 'wb') as f:
-#     dill.dump(tree,  f, protocol=4)
-# print('DONE')
+print('Saving tree...')
+with open( input_tree_path + 'populated2', 'wb') as f:
+    dill.dump(tree,  f, protocol=4)
+print('DONE')
 

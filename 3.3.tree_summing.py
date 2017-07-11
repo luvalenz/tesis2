@@ -38,22 +38,18 @@ n_parts = args.n_parts
 
 #tree.populate_from_tree_sum(partial_trees)
 
-with open(input_tree_path + '.populated1', 'rb') as f:
+with open(input_tree_path + '.populated2', 'rb') as f:
     tree = dill.load(f)
 
 
-tree._n_original_time_series = 19426651
-print(tree.n_original_time_series)
-# with open(input_tree_path + '.weights', 'w') as f:
-#     for id, weight in tree._build_weights_vector():
-#         f.write('{},{}\n'.format(id, weight))
-
-
+with open(input_tree_path + '.weights', 'w') as f:
+    for id, weight in tree._build_weights_vector():
+        f.write('{},{}\n'.format(id, weight))
 
 print('DONE')
 
-print('Saving tree...')
-with open( input_tree_path + '.populated2', 'wb') as f:
-    dill.dump(tree,  f, protocol=4)
-print('DONE')
+# print('Saving tree...')
+# with open( input_tree_path + '.populated2', 'wb') as f:
+#     dill.dump(tree,  f, protocol=4)
+# print('DONE')
 

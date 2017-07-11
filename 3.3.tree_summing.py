@@ -42,7 +42,7 @@ with open(input_tree_path + '.populated1', 'rb') as f:
     tree = dill.load(f)
 
 
-tree._n_original_time_series = None
+tree._n_original_time_series = 19426651
 print(tree.n_original_time_series)
 # with open(input_tree_path + '.weights', 'w') as f:
 #     for id, weight in tree._build_weights_vector():
@@ -53,7 +53,7 @@ print(tree.n_original_time_series)
 print('DONE')
 
 print('Saving tree...')
-with open( input_tree_path + 'populated2', 'wb') as f:
+with open( input_tree_path + '.populated2', 'wb') as f:
     dill.dump(tree,  f, protocol=4)
 print('DONE')
 

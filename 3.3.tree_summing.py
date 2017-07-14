@@ -8,6 +8,7 @@ from subsequence_tree_3 import BottomUpSubsequenceTree as Tree3
 from subsequence_tree_4 import KMedioidsSubsequenceTree
 import pickle
 import dill
+import pandas as pd
 
 
 def get_partial_trees(input_tree_path, n_parts):
@@ -42,9 +43,15 @@ with open(input_tree_path + '.populated2', 'rb') as f:
     tree = dill.load(f)
 
 
-with open(input_tree_path + '.weights', 'w') as f:
-    for id, weight in tree._build_weights_vector():
-        f.write('{},{}\n'.format(id, weight))
+weights = pd.read_csv(input_tree_path + '.weights', index_col=0, header=None)[1]
+
+for node in tree.node_shortcuts:
+    node._weight = weights[node._id]
+
+
+with open(input_tree_path + '.populated3', 'rb') as f:
+    tree = dill.load(f)
+
 
 print('DONE')
 

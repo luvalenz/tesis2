@@ -49,8 +49,8 @@ for node in tree.node_shortcuts:
     node._weight = weights[node._id]
 
 
-with open(input_tree_path + '.populated3', 'rb') as f:
-    tree = dill.load(f)
+with open(input_tree_path + '.populated3', 'wb') as f:
+    dill.dump(tree,  f, protocol=4)
 
 
 print('DONE')

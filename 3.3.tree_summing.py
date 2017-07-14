@@ -47,6 +47,7 @@ weights = pd.read_csv(input_tree_path + '.weights', index_col=0, header=None)[1]
 
 for node in tree.node_shortcuts:
     node._weight = weights[node._id]
+    print("node {} : {}".format(node._id, node._weight))
 
 
 with open(input_tree_path + '.populated3', 'wb') as f:

@@ -39,18 +39,12 @@ n_parts = args.n_parts
 
 #tree.populate_from_tree_sum(partial_trees)
 
-with open(input_tree_path + '.populated2', 'rb') as f:
+with open(input_tree_path + '.populated3', 'rb') as f:
     tree = dill.load(f)
 
+tree._build_d_matrix()
 
-weights = pd.read_csv(input_tree_path + '.weights', index_col=0, header=None)[1]
-
-for node in tree.node_shortcuts:
-    node._weight = weights[node._id]
-    print("node {} : {}".format(node._id, node._weight))
-
-
-with open(input_tree_path + '.populated3', 'wb') as f:
+with open(input_tree_path + '.populated4', 'wb') as f:
     dill.dump(tree,  f, protocol=4)
 
 

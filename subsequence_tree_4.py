@@ -218,7 +218,7 @@ class KMedioidsSubsequenceTree:
         d = {node.id: node.d_vector for node in self.node_shortcuts}
         print('DONE')
         print('building d matrix')
-        d_data_frame = pd.DataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
+        d_data_frame = pd.SparseDataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
         print('dataframe shape {}'.format(d_data_frame.shape))
         d_norm = np.linalg.norm(d_data_frame, axis=1)
         print('d_norm')
@@ -226,7 +226,8 @@ class KMedioidsSubsequenceTree:
         d_data_frame = (d_data_frame.T / d_norm).T
         d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
         self.d_index = d_data_frame.index.values
-        self.d_matrix = csc_matrix(d_data_frame.values)
+        #self.d_matrix = csc_matrix(d_data_frame.values)
+        self.d_matrix = d_data_frame.to_coo().tocsc()
         print('DONE')
         print('normalizing vectors')
         print('DONE')

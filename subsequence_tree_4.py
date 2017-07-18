@@ -2,7 +2,9 @@ import numpy as np
 #import pydotplus as pydot
 from collections import Counter
 from distance_utils import time_series_twed
-from scipy.sparse import csr_matrix, csc_matrix
+from scipy import sparse
+from scipy.sparse import linalg as sparse_linalg
+
 import kmedoids
 import pandas as pd
 import sys
@@ -94,7 +96,7 @@ class KMedioidsSubsequenceTree:
     @property
     def score(self):
         active_ids = [node.id for node in self.active_nodes]
-        q_vector = csr_matrix([node.q for node in self.active_nodes]).T
+        q_vector = sparse.csr_matrix([node.q for node in self.active_nodes]).T
         return self.d_matrix[:, active_ids]*q_vector
         return score
 
@@ -220,16 +222,26 @@ class KMedioidsSubsequenceTree:
         print('building d matrix')
         d_data_frame = pd.SparseDataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
         print('dataframe shape {}'.format(d_data_frame.shape))
-        d_norm = np.linalg.norm(d_data_frame, axis=1)
-        print('d_norm')
-        print(d_norm)
-        d_data_frame = (d_data_frame.T / d_norm).T
-        d_data_frame = d_data_frame.replace([np.inf, -np.inf], np.nan).fillna(0)
-        self.d_index = d_data_frame.index.values
-        #self.d_matrix = csc_matrix(d_data_frame.values)
-        self.d_matrix = d_data_frame.to_coo().tocsc()
-        print('DONE')
-        print('normalizing vectors')
+
+        matrix = d_data_frame.to_coo().tocsc()
+        index = d_data_frame.index.values
+        print('matrix shape {}'.format(matrix.shape))
+
+        norm = sparse.csc_matrix(sparse_linalg.norm(matrix, axis=1))
+        print('norm shape = {}'.format(norm.shape))
+
+        matrix = (matrix.T / norm).T
+        matrix = matrix.T.multiply(norm.power(-1)).T
+        print('normalized matrix shape {}'.format(matrix.shape))
+
+        matrix[matrix == np.inf] = 0
+        matrix[matrix == -np.inf] = 0
+        matrix.data = np.nan_to_num(matrix.data)
+
+        matrix.eliminate_zeros()
+
+        self.d_matrix = matrix
+        self.d_index = index
         print('DONE')
 
     def _add_subsequence(self, subsequence):

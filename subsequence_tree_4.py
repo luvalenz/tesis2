@@ -230,7 +230,6 @@ class KMedioidsSubsequenceTree:
         norm = sparse.csc_matrix(sparse_linalg.norm(matrix, axis=1))
         print('norm shape = {}'.format(norm.shape))
 
-        matrix = (matrix.T / norm).T
         matrix = matrix.T.multiply(norm.power(-1)).T
         print('normalized matrix shape {}'.format(matrix.shape))
 

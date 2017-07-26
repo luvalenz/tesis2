@@ -219,6 +219,9 @@ class KMedioidsSubsequenceTree:
         print('building d list')
         self.d_list = {node.id: node.d_vector for node in self.node_shortcuts}
         print('DONE')
+        d = self.d_list
+        self.d_list = d
+        # self.d_list = None
         # print('building d matrix')
         # d_data_frame = pd.SparseDataFrame(d).replace([np.inf, -np.inf], np.nan).fillna(0)
         # print('dataframe shape {}'.format(d_data_frame.shape))

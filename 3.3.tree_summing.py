@@ -39,12 +39,12 @@ n_parts = args.n_parts
 
 #tree.populate_from_tree_sum(partial_trees)
 
-with open(input_tree_path + '.populated3', 'rb') as f:
+with open(input_tree_path + '.populated4', 'rb') as f:
     tree = dill.load(f)
 
 tree._build_d_matrix()
 
-with open(input_tree_path + '.populated4', 'wb') as f:
+with open(input_tree_path + '.populated5', 'wb') as f:
     dill.dump(tree,  f, protocol=4)
 
 

@@ -7,7 +7,7 @@ class QueryResult:
 
     def __init__(self, target, ranking, times):
         self.target = target
-        self.ranking = ranking
+        self.ranking = ranking[:20]
         self.times = times
         
     @property

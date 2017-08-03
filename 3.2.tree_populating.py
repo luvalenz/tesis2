@@ -47,7 +47,6 @@ dataset = time_series_utils.read_files(lightcurves_paths, part, n_parts)
 print('DONE')
 
 
-
 with open(tree_path, 'rb') as f:
     tree = dill.load(f)
 
